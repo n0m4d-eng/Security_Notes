@@ -47,7 +47,7 @@ Active Directory (AD) is a directory service for Windows enterprise environments
 - Look for what services these hosts are running, and identify the web servers and ==Domain Controller==
 
 
-## 3. Identify Users
+## Identify Users
 - We will need to find a way to establish a foothold in the domain by either ==obtaining clear text credentials== or an ==NTLM password hash for a user, a SYSTEM shell on a domain-joined host, or a shell in the context of a domain user account.==
 
 #### Kerbrute Internal AD Username Enumeration
