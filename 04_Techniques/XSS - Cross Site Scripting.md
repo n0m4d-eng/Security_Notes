@@ -38,31 +38,27 @@ Either of these two vulnerability variants can manifest as client- (browser) or 
 # Identifying XSS Vulnerabilities
 
 ## Detection Methodology:
-```
-   - Input Vector Mapping:
+  - Input Vector Mapping:
      * URL parameters (?search=test)
      * Form fields (comments, profile fields)
      * HTTP headers (User-Agent, Referer)
      * DOM sinks (document.write, innerHTML)
 
    - Probe Payloads:
-     * Basic: <script>alert(1)</script>
-     * SVG: <svg onload=alert(1)>
-     * MathML: <math><maction actiontype="statusline#alert(1)">
-```
+     * Basic: `<script>alert(1)</script>`
+     * SVG: `<svg onload=alert(1)>`
+     * MathML: `<math><maction actiontype="statusline#alert(1)">`
 
 
 ## Context Analysis:
-```
-   - HTML Context:
-     <div>USER_INPUT</div> → </div><script>alert(1)</script>
+- HTML Context:
+     `<div>USER_INPUT</div> → </div><script>alert(1)</script>
    
-   - Attribute Context:
-     <input value="USER_INPUT"> → " onmouseover="alert(1)
+- Attribute Context:
+     `<input value="USER_INPUT"> → " onmouseover="alert(1)`
    
-   - JavaScript Context:
-     <script>var name = 'USER_INPUT';</script> → ';alert(1);//
-```
+- JavaScript Context:
+     `<script>var name = 'USER_INPUT';</script> → ';alert(1);//`
 
 
 ## Tools:
