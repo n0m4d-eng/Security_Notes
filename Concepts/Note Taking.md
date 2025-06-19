@@ -1,4 +1,7 @@
+# Note Taking
+
 ![](https://static.offsec.com/media/lms/content_tags/Course-PEN-200.png)
+
 ## 5.1.1. Penetration Testing Deliverables
 
 A penetration test or [red team exercise](https://www.aon.com/cyber-solutions/thinking/penetration-testing-or-red-teaming/) is difficult to script in advance. This is because the tester cannot consistently anticipate exactly what kind of machines or networks the client will want to be tested.

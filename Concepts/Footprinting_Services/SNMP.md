@@ -1,6 +1,5 @@
 ---
 tags:
-
 - cpts
 - cybersecurity
 - info gathering
@@ -63,7 +62,7 @@ braa <community string>@<IP>:.1.3.6.*
 
 - Registry: [Object Identifiers Registry](https://www.alvestrand.no/objectid/)
 
-## SNMP v1
+## SNMP V1
 
 - SNMP Version 1 (SNMPv1)
 
@@ -73,13 +72,13 @@ braa <community string>@<IP>:.1.3.6.*
 
 - Doesn't support encryption.
 
-## SNMP v2
+## SNMP V2
 
 - Existed in different versions. The one that exists today is called `v2c` where "c" means "community"
 
 - The "community string" that provides security is only transmitted in **plain text**, meaning there's not inbuilt encryption
 
-## SNMP v3
+## SNMP V3
 
 - Increased security with features such as authentication using un/pw
 
@@ -111,7 +110,7 @@ cat /etc/snmp/snmpd.conf | grep -v "#" | sed -r '/^\s*$/d'`
 | `rwcommunity <community string> <IPv4 address>`  | Provides access to the full OID tree regardless of where the requests were sent from. |
 | `rwcommunity6 <community string> <IPv6 address>` | Same access as with `rwcommunity` with the difference of using IPv6.                  |
 
-## 
+##
 
 ## Footprinting
 

@@ -1,13 +1,3 @@
-```yaml
-tags:
-
-- cpts
-
-- cybersecurity
-
-- info gathering
-  
-  ```
   
   ```
 

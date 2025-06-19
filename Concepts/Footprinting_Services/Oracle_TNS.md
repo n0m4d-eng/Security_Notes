@@ -1,6 +1,5 @@
 ---
 tags:
-
 - cpts
 - cybersecurity
 - info gathering
@@ -124,7 +123,7 @@ curl -X GET http://{target ip}/testing.txt
 
 ## Footprinting
 
-### Oracle-Tools-setup.sh for ODAT (Oracle Database Attacking Tool)
+### Oracle-Tools-setup.sh For ODAT (Oracle Database Attacking Tool)
 
 Bash script to download packages needed for enumerating the TNS listener
 
@@ -179,7 +178,7 @@ sudo nmap -p1521 -sV {target ip} --open
   sudo nmap -p1521 -sV 10.129.204.235 --open --script oracle-sid-brute
   ```
 
-### Connect to database using SQL Plus
+### Connect to Database Using SQL Plus
 
 Take the credentials that are. returned once nmap/odat/hydra finishes the scan
 

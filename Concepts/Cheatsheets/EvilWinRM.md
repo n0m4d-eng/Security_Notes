@@ -17,7 +17,7 @@ $ ruby evil-winrm.rb -i 10.10.10.172 -u user -p password
 > download remote_filename (destination_filename)
 ```
 
-## Listing services and loading modules and scripts
+## Listing Services and Loading Modules and Scripts
 
 ```bash
 # List all services showing if there your account has permissions over each one
@@ -32,7 +32,7 @@ $ ruby evil-winrm.rb -i 10.10.10.172 -u user -p password
 > menu
 ```
 
-## Using advanced commands
+## Using Advanced Commands
 
 ```bash
 # Invoke-Binary

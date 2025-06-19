@@ -5,18 +5,17 @@ tags:
   - vulnerability_assessment
 ---
 
+# Nessus
 
 ```table-of-contents
 ```
 
-
-
 ### What is Nessus?
+
 Nessus is a widely-used vulnerability scanner developed by Tenable, designed to identify security weaknesses, misconfigurations, and compliance violations across networks, systems, and applications. It employs a plugin-based architecture to perform comprehensive security assessments and is trusted by enterprises for its accuracy and depth of detection.
 
-
-
 ### Key Capabilities of Nessus
+
 1. **Vulnerability Detection**:
    - Identifies CVEs, zero-days, and unpatched software.
    - Checks for common misconfigurations (open ports, weak protocols).
@@ -32,9 +31,8 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
 6. **Integration**:
    - APIs for SIEMs (Splunk, ELK) and ticketing systems (Jira).
 
-
-
 ### Installing Nessus
+
 1. Download Nessus package from Tenable's website (Professional or Essentials tier).
 2. Install using platform-specific methods:
    - Windows: Run `.msi` installer as admin.
@@ -43,9 +41,8 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
 4. Complete setup via `https://localhost:8834`.
 5. Activate with a license key and create an admin account.
 
-
-
 ### Nessus Components
+
 - **Scanner**: Core engine executing vulnerability checks.
 - **Web Interface**: Browser-based GUI (port 8834) for scan management.
 - **Plugins**: Modular checks (updated daily; e.g., CVE-2024-1234 detection).
@@ -53,9 +50,8 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
 - **Scans**: Configurable jobs (targets, schedules, thresholds).
 - **Reports**: Exportable results with risk prioritization.
 
-
-
 ### Performing a Vulnerability Scan
+
 1. Create a new scan (`Scans` > `New Scan`).
 2. Select a policy (e.g., "Basic Network Scan").
 3. Configure:
@@ -66,9 +62,8 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
    - Performance throttling (to avoid overload).
 5. Launch (`Save` > `Launch`).
 
-
-
 ### Analyzing the Results
+
 1. Review the dashboard:
    - Severity breakdown (Critical/High/Medium/Low).
    - Affected hosts count.
@@ -79,9 +74,8 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
    - By severity (≥High) or plugin type (e.g., "Windows").
 4. Export (`Export` > `PDF` for stakeholders).
 
-
-
 ### Performing an Authenticated Vulnerability Scan
+
 1. Use "Credentialed Patch Audit" policy.
 2. Provide credentials:
    - Windows: Domain admin or local admin.
@@ -91,9 +85,8 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
    - Accurate patch detection (e.g., missing KB501234).
    - Registry/service misconfigurations.
 
-
-
 ### Working with Nessus Plugins
+
 1. **Types / Templates**:
    - Discovery (e.g., SNMP detection).
    - Vulnerability (e.g., Log4j checks).

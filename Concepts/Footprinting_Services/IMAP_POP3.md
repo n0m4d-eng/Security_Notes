@@ -52,11 +52,11 @@ sudo nmap {ip address} --script=banner -sV -p{port}
 
 - IMAP is **text based** using ACSII format. Operates on port `143` 
 
-- SSL/TLS is used to encrypt IMAP transmissions. 
+- SSL/TLS is used to encrypt IMAP transmissions.
 
 ## Default Config
 
-### IMAP commands
+### IMAP Commands
 
 | **Command**                     | **Description**                                                                                               |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------------- |

@@ -25,7 +25,7 @@ sudo umount ./target-NFS
 
 # Concepts
 
-## Basic info
+## Basic Info
 
 - Network File System
 

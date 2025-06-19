@@ -1,12 +1,11 @@
 ---
 tags:
-
 - cpts
 - cybersecurity
 - info gathering
 ---
 
-# 
+#
 
 # Cheat Sheet
 

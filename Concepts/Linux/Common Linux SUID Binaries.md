@@ -20,6 +20,7 @@
 15. **`traceroute`** (some implementations) – Network diagnostic tool.
 
 # Code
+
 ## Find SUID Binaries
 
 ```bash
@@ -29,7 +30,7 @@ find / -perm -4000 -type f -exec ls -ld {} \\; 2>/dev/null
 - `perm -4000` → Matches SUID files.
 - `2>/dev/null` → Suppresses permission-denied errors.
 
-## Check for uncommon Binaries
+## Check for Uncommon Binaries
 
 ```bash
 !/bin/bash

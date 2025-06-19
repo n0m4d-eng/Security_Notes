@@ -83,7 +83,7 @@ rlogin {target ip} -l {username we get from rhosts file}
 
 ## Default Configuration
 
-Config for the OpenSSH server is located in the `sshd_config` file. 
+Config for the OpenSSH server is located in the `sshd_config` file.
 
 ```shell
 cat /etc/ssh/sshd_config  | grep -v "#" | sed -r '/^\s*$/d'
@@ -112,8 +112,6 @@ cat /etc/ssh/sshd_config  | grep -v "#" | sed -r '/^\s*$/d'
   ./ssh-audit.py {target ip}
   ```
 
-
-
 ### Rsync
 
 - Tool for locally and remotely copying files.
@@ -140,8 +138,6 @@ Probe for accessible shares using Netcat
 nc -nv {target ip} 873
 ```
 
-
-
 ### R-Services
 
 - Suite of services hosted to enable remote access or issue commands between **Unix hosts over TCP/IP**
@@ -156,9 +152,7 @@ nc -nv {target ip} 873
 
 - **Only accessible through a suite of programs called r-commands**
 
-
-
-#### R-Commands suite
+#### R-Commands Suite
 
 - rcp (`remote copy`)
 - rexec (`remote execution`)
@@ -168,9 +162,7 @@ nc -nv {target ip} 873
 - ruptime
 - rwho (`remote who`)
 
-
-
-#### Most common R-Commands
+#### Most Common R-Commands
 
 | **Command** | **Service Daemon** | **Port** | **Transport Protocol** | **Description**                                                                                                                                                                                                                                                            |
 | ----------- | ------------------ | -------- | ---------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -179,21 +171,15 @@ nc -nv {target ip} 873
 | `rexec`     | `rexecd`           | 512      | TCP                    | Enables a user to run shell commands on a remote machine. Requires authentication through the use of a `username` and `password` through an unencrypted network socket. Authentication is overridden by the trusted entries in the `/etc/hosts.equiv` and `.rhosts` files. |
 | `rlogin`    | `rlogind`          | 513      | TCP                    | Enables a user to log in to a remote host over the network. It works similarly to `telnet` but can only connect to Unix-like hosts. Authentication is overridden by the trusted entries in the `/etc/hosts.equiv` and `.rhosts` files.                                     |
 
-
-
 #### Hosts.equiv File
 
 - The /etc/hosts.equiv file contains a list of trusted hosts and is used to grant access to other systems on the network.
 
 - When users on one of these hosts try to access the system, they are **granted access with no futher authentication**
 
-
-
 ```shell
 cat /etc/hosts.equiv
 ```
-
-
 
 ### Footprinting with Nmap
 
@@ -201,9 +187,7 @@ cat /etc/hosts.equiv
 sudo nmap -sV -p512-514 {tareget ip}
 ```
 
-
-
-### Checking out Rhosts file
+### Checking out Rhosts File
 
 ```shell
 zombear@htb[/htb]$ cat .rhosts
@@ -213,17 +197,13 @@ htb-student     10.0.17.5
 +               +
 ```
 
-
-
-### Loggin in using Rlogin
+### Loggin in Using Rlogin
 
 ```shell
 rlogin {target ip} -l {username we get from rhosts file}
 ```
 
-
-
-### List authenticated users using Rwho
+### List Authenticated Users Using Rwho
 
 ```shell
 zombear@htb[/htb]$ rwho
@@ -234,19 +214,13 @@ htb-student     workstn01:tty1  Dec  2 19:57  2:25
 
 **the rwho daemon periodically broadcasts information about logged-on users, so it might be beneficial to watch the network traffic.**
 
-
-
-### List authenticated users using Rusers
+### List Authenticated Users Using Rusers
 
 ```shell
 zombear@htb[/htb]$ rusers -al 10.0.17.5
 
 htb-student     10.0.17.5:console          Dec 2 19:57     2:25
 ```
-
-
-
-
 
 # References
 
