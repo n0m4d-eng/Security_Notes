@@ -24,7 +24,6 @@ Active Directory (AD) is a directory service for Windows enterprise environments
 | `Key Services`                  | Kerberos, NetBIOS, LDAP, DNS                                                                                                    |
 | `Vulnerable Hosts and Services` | Anything that can be a quick win. ( a.k.a an easy host to exploit and gain a foothold)                                          |
 
-
 ## Identifying Hosts
 
 ### 1. Listen to Network Traffic
@@ -39,23 +38,20 @@ Active Directory (AD) is a directory service for Windows enterprise environments
 - net miner
 ```
 
-
 ### 2. Nmap Enumeration
 
 - Enumerate the hosts further. 
 - Look for what services these hosts are running, and identify the web servers and ==Domain Controller==
 
-
 ## Identify Users
 
 - We will need to find a way to establish a foothold in the domain by either ==obtaining clear text credentials== or an ==NTLM password hash for a user, a SYSTEM shell on a domain-joined host, or a shell in the context of a domain user account.==
 
-#### Kerbrute Internal AD Username Enumeration
+### Kerbrute Internal AD Username Enumeration
 
 - Stealthy option for domain account enumeration.
 - It takes advantage of the fact that Kerberos pre-authentication failures often will not trigger logs or alerts.
 - Use in conjunction with `jsmith.txt` or `jsmith2.txt` from `insidetrust`
-
 
 ### 4. Identify Potential Vulnerabilities
 

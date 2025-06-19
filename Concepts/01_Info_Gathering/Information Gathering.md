@@ -5,16 +5,15 @@ tags:
   - InformationGathering
 ---
 
-
 ```table-of-contents
 ```
 
-
-
 # Passive
+
 Passive Information Gathering, also known as [_Open-source Intelligence_](https://osintframework.com/) (OSINT), is the process of collecting openly-available information about a target, generally without any direct interaction with that target, in order to keep our footprint low.
 
 ## Resources for Manual OSINT
+
 - Google Dorks
 	- [DorkSearch - Speed up your Google Dorking](https://dorksearch.com/)
 	- [Google dork cheatsheet](https://gist.github.com/sundowndev/283efaddbcf896ab405488330d1bbc06)
@@ -28,8 +27,8 @@ Passive Information Gathering, also known as [_Open-source Intelligence_](https:
 	- [Security Headers](https://securityheaders.com/)
 	- [SSL Server Test (Powered by Qualys SSL Labs)](https://www.ssllabs.com/ssltest/)
 
-
 ## LLM Powered OSINT
+
 Using LLMs to perform OSINT
 
 ```c
@@ -82,9 +81,8 @@ Using LLMs to perform OSINT
 - Verify LLM outputs (they can hallucinate or provide outdated info).
 ```
 
-
-
 # Active
+
 Direct interaction with the target hosts/services.
 
 - DNS Enum
@@ -92,9 +90,10 @@ Direct interaction with the target hosts/services.
 - SMB Enumeration
 - SMPT Enumeration
 - SNMP Enumeration
-[Footprinting](Footprinting.md)
+[Footprinting](../02_Footprinting_Services/Footprinting.md)
 
 ## LLM for Active OSINT
+
 ```
 Using public data from MegacorpOne's website and any information that can be inferred about its organizational structure, products, or services, generate a comprehensive list of potential subdomain names.
 	•	Incorporate common patterns used for subdomains, such as:

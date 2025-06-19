@@ -1,8 +1,6 @@
 ---
 ---
 
-# DNS
-
 # Cheat Sheet
 
 ```

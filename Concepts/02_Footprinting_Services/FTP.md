@@ -1,13 +1,8 @@
-# FTP
-
 ---
-
 tags:
-
-- cpts
-- cybersecurity
-- info gathering
-
+  - Footprinting
+  - Enumeration
+  - FTP
 ---
 
 # Cheat Sheet
