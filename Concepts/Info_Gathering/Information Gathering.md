@@ -90,7 +90,7 @@ Direct interaction with the target hosts/services.
 - SMB Enumeration
 - SMPT Enumeration
 - SNMP Enumeration
-[Footprinting](../02_Footprinting_Services/Footprinting.md)
+[Footprinting](../Footprinting_Services/Footprinting.md)
 
 ## LLM for Active OSINT
 
