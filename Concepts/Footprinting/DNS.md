@@ -1,5 +1,4 @@
 ---
-
 ---
 
 # DNS
@@ -56,7 +55,7 @@ dnsenum --dnsserver 10.129.14.128 --enum -p 0 -s 0 -o subdomains.txt -f /opt/use
 | `PTR`          | The PTR record works the other way around (reverse lookup). It converts IP addresses into valid domain names.                                                                                                                                     |
 | `SOA`          | Provides information about the corresponding DNS zone and email address of the administrative contact.                                                                                                                                            |
 
-- SOA record is located in domain's zone file. Specifies who is responsible for the operation fo the domain and how the DNS information for the domain is managed. 
+- SOA record is located in domain's zone file. Specifies who is responsible for the operation fo the domain and how the DNS information for the domain is managed.
 
 ## Default Config
 

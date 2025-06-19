@@ -1,21 +1,20 @@
 ## SUMMARY
+
 - Automates network attacks against Windows/Active Directory
 - Supports multiple protocols (SMB/WinRM/MSSQL/SSH/LDAP)
 - Enables credential attacks and lateral movement
 - Provides extensive post-exploitation capabilities
 - Integrates with BloodHound, Metasploit, and other tools
 
-
-
 ## Primary Use Cases:
+
 ✅ Penetration Testing
 ✅ Red Team Operations
 ✅ Active Directory Auditing
 ✅ Network Security Assessments
 
-
-
 ## Cheatsheet
+
 ```bash
 ## INSTALLATION & SETUP
 # Install on Kali
