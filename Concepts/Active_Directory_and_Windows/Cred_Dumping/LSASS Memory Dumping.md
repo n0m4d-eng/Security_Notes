@@ -1,6 +1,8 @@
 ---
 date: 
 tags:
+  - ActiveDirectory
+  - LSASS
 ---
 
 ```table-of-contents
