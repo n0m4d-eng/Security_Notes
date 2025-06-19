@@ -1,7 +1,9 @@
 ---
 date: 
 tags: 
-OS:
+OS: 
+Time Started: 
+Time Ended:
 ---
 
 
