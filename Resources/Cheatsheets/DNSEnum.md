@@ -1,6 +1,3 @@
-  
-  ```
-
 # Cheat Sheet
 
 ```shell

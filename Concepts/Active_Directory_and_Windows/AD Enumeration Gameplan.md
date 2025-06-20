@@ -27,7 +27,7 @@ tags:
 - Ensuring you are taking actions against the appropriate scope when working remotely
 - Looking for any information that is publicly accessible that can affect the outcome of your test, such as leaked credentials
 
-## What are we looking for?
+## What Are We Looking For?
 
 | **Data Point** | **Description**                                                   |
 | -------------- | ----------------------------------------------------------------- |
@@ -37,7 +37,7 @@ tags:
 | `Data Disclosures` | For data disclosures we will be looking for publicly accessible files ( .pdf, .ppt, .docx, .xlsx, etc. ) for any information that helps shed light on the target. For example, any published files that contain `intranet` site listings, user metadata, shares, or other critical software or hardware in the environment (credentials pushed to a public GitHub repo, the internal AD username format in the metadata of a PDF, for example.) |
 | `Breach Data` | Any publicly released usernames, passwords, or other critical information that can help an attacker gain a foothold. |
 
-## Where are we looking?
+## Where Are We Looking?
 
 | **Resource** | **Examples** |
 | --- | --- |
