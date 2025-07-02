@@ -1,9 +1,8 @@
 ---
 date: 
-tags:
-  - ActiveDirectory
-  - Windows
 ---
+
+#Concept/ActiveDirectory
 
 ```table-of-contents
 ```

@@ -1,11 +1,9 @@
 ---
 date: 2025-06-08
-tags:
-  - ActiveDirectory
-  - Guide
-  - Cheatsheet
 Source: https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/ad-enumeration
 ---
+
+#Concept/ActiveDirectory
 
 ```table-of-contents
 ```
