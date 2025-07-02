@@ -2,7 +2,7 @@
 OS: Windows
 date: 02-07-2025
 Time Started: 12:23
-Time Ended:
+Time Ended: 16:00
 ---
 
 #CTF/HTB/Windows/Easy
