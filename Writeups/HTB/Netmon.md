@@ -120,4 +120,3 @@ evil-winrm -i 10.10.10.152 -u pentest -p P3nT3st!
 ![](../../Assets/User_flag%201.png)
 
 ![](../../Assets/root_flag%201.png)
-adsa
