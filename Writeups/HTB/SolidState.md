@@ -1,8 +1,8 @@
 ---
-OS: 
-date: "01-07-2025"
-Time Started: "00:36"
-Time Ended: 
+OS: Linux
+date: 01-07-2025
+Time Started: 00:36
+Time Ended: 3:30
 ---
 
 #CTF/HTB/Linux/Medium
