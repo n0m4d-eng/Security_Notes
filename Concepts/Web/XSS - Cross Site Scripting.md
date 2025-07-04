@@ -1,13 +1,8 @@
 ---
-date: 
-tags:
-  - Technique
-  - Cheatsheet
-  - w
+date:
 ---
 
-```table-of-contents
-```
+#Web/XSS
 
 # What
 
@@ -71,7 +66,7 @@ Either of these two vulnerability variants can manifest as client- (browser) or 
 
 ### URL Based
 
-```
+```bash
 https://vuln-site.com/search?q=<script>alert(document.domain)</script>
 ```
 
@@ -105,7 +100,7 @@ JavaScript functions/properties that unsafely handle user input.
  </script>
 ```
 
-```
+```bash
 ## Delivery system for payload which is in the input url parameter
 https://site.com#input=<img src=1 onerror=alert(1)>
 
