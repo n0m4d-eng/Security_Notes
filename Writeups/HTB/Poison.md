@@ -1,19 +1,8 @@
----
-<<<<<<< HEAD
-OS: 
-date: "02-07-2025"
-Time Started: "21:27"
-Time Ended: 
----
-
 #CTF/HTB/Linux/Easy
-=======
 Started: 04-07-25 | 09:27
 Ended: 05-07-25 | 11:54
----
 
 #CTF/HTB/Linux/Medium
->>>>>>> 9f83d390545a788f7a6198597a3e9b10ee838099
 
 # Given
 
@@ -27,22 +16,6 @@ Poison is a fairly easy machine which focuses mainly on log poisoning and port f
 
 ## Enumeration
 
-<<<<<<< HEAD
-# Findings
-
-Anything interesting inside?
-
-# Creds
-
-Creds for privesc/lateral movement
-
-# Flags
-
-- User:
-- Root:
-
-# Proof
-=======
 - Checked for open ports first using Rustscan.
 
 ![](Assets/Pasted%20image%2020250704094124.png)
@@ -168,4 +141,3 @@ root: 716d04b188419cf2bb99d891272361f5
 ![](Assets/Pasted%20image%2020250704161905.png)
 
 ![](Assets/Pasted%20image%2020250705115230.png)
->>>>>>> 9f83d390545a788f7a6198597a3e9b10ee838099
