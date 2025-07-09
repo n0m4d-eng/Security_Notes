@@ -5,9 +5,6 @@ Source: https://viperone.gitbook.io/pentest-everything/everything/everything-act
 
 #Concept/ActiveDirectory
 
-```table-of-contents
-```
-
 # Flowchart
 
 ```mermaid
