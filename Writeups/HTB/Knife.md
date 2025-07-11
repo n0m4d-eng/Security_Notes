@@ -26,6 +26,7 @@ I started looking at port 80. It seemed to be a Linux based web server running `
 There weren't any creds left behind in the source code, nor were there any working links. I started looking at the tech stack before going ahead with any sort of directory busting.
 
 ![](Assets/Pasted%20image%2020250711095943.png)
+
 Aside from the version of Apache and what type of server this was, I got the technology the site was based on and version:
 
 - PHP 8.1.0-dev
@@ -35,11 +36,13 @@ Aside from the version of Apache and what type of server this was, I got the tec
 I ran this through `searchsploit` and got a hit on a Remote Code Execution vulnerability.
 
 ![](Assets/Pasted%20image%2020250711100152.png)
+
 ** Check out the details of the vulnerability on [exploitdb](https://www.exploit-db.com/exploits/49933)
 
 ## Foothold
 
 Reading through the python script, it seemed use an additional request header called `User Agentt` to inject commands to the web server.
+
 ![](Assets/Pasted%20image%2020250711113836.png)
 
 ![](Assets/Pasted%20image%2020250711102856.png)
