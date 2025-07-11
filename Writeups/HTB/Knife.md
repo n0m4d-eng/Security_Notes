@@ -3,7 +3,7 @@ Started: 11-07-25 | 09:04
 Ended: 11-07-25 | 11:22
 ---
 
-#CTF/HTB/Linux/Medium
+#CTF/HTB/Linux/Easy
 
 # Given
 
