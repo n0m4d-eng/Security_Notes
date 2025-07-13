@@ -4,5 +4,5 @@ A collection of field notes I'll be taking as I go deeper down the cybersecurity
 
 # Links
 
-[Concepts](./Concepts/)
+- [Concepts](Concepts/SUMMARY.md)
 
