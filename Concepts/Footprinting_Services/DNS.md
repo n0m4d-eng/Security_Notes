@@ -3,7 +3,7 @@
 
 # Cheat Sheet
 
-```
+```bash
 # Dig ns query
 dig ns inlanefreight.htb @10.129.14.128
 

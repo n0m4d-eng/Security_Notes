@@ -1,10 +1,8 @@
----
-date: 
-tags:
----
 
-```table-of-contents
-```
+
+
+
+
 
 **GitHub:** [https://github.com/samratashok/nishang/raw/master/Gather/Invoke-Mimikatz.ps1](https://github.com/samratashok/nishang/raw/master/Gather/Invoke-Mimikatz.ps1)
 

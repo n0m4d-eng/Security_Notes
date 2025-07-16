@@ -1,8 +1,8 @@
-## given info
+## Given Info
 
 10.10.11.143
 
-## steps
+## Steps
 
 1. nmap
 2. check out the site on port 80, ad its just a basic landig page for centOS
@@ -22,7 +22,7 @@
 16. switch to the new user, and run `sudo -l` to check privs
 17. run `sudo su -` to change to root
 
-## findings
+## Findings
 
 1. open ports: ssh/22, http/80, https/443
 2. found x-backend-server = office.paper
@@ -33,7 +33,7 @@
 7. linpeas finds a vuln cve-2021-3560
 8. found root.txt
 
-## creds
+## Creds
 
 1. 
 
@@ -48,7 +48,7 @@ export PORT=8000
 export BIND_ADDRESS=127.0.0.1
 <!=====End of file ../hubot/.env=====>
 
-## flags
+## Flags
 
 1. user.txt - 59de8cb5bb39183a65cc3529690a0d4d
 2. root.txt - 7cf63d1c0f71aa564d96a5f75161e91b

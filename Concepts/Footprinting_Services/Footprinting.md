@@ -1,12 +1,4 @@
----
-date: 2025-06-08
-tags:
-  - Concept
-  - Footprinting
----
 
-```table-of-contents
-```
 
 # Cheat Sheet
 

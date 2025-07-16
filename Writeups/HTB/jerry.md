@@ -1,8 +1,8 @@
-## given
+## Given
 
 ip: 10.10.10.95
 
-## steps
+## Steps
 
 1. nmap
 2. tried default creds for apache tomcat server
@@ -12,17 +12,17 @@ ip: 10.10.10.95
 6. access the war file via the url to get the shell
 7. its a windows system, so dig around.
 
-## findings
+## Findings
 
 1. apache tomcat manager default creds
 
-## creds
+## Creds
 
 1. tomcat manager default creds
     - tomcat
     - s3cret
 
-## flags
+## Flags
 
 user.txt
 7004dbcef0f854e0fb401875f26ebd00

@@ -1,14 +1,5 @@
----
-date: 2025-06-09
-tags:
-  - HTB
-  - CFT_Box
-OS: Linux
----
 
 
-```table-of-contents
-```
 
 
 
@@ -72,7 +63,7 @@ $ stty rows <num> columns <cols>
 
 ## Privilege Escalation part 2
 
-### Enumerating the Server 
+### Enumerating the Server
 - Tried using the following on the system, and there weren't much avenues to priv esc"
 	- `sudo -l`
 	- `find / -type f -perm -4000 -o -perm -6000 2>/dev/null`
@@ -110,7 +101,7 @@ $ stty rows <num> columns <cols>
 - website contact link also has domain name of box, which is `sea.htb`
 - most files were off limits, except for:
 
-```
+```bash
 200      GET        1l        1w        6c http://sea.htb/themes/bike/version
 200      GET       21l      168w     1067c http://sea.htb/themes/bike/LICENSE
 200      GET        1l        9w       66c http://sea.htb/themes/bike/summary

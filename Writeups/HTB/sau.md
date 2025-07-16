@@ -1,8 +1,8 @@
-## given info
+## Given Info
 
 ip: 10.10.11.224
 
-## steps
+## Steps
 
 1. nmap
 2. http service is open on port 55555
@@ -14,15 +14,15 @@ ip: 10.10.11.224
 8. use `sudo -l` to check permissions, and you can use /systemctl without a password
 9. Run that, and from within, try to execute commands with `!`
 
-## findings
+## Findings
 
 1. open ports
     - tcp/20 ssh
     - txp/55555 http - golang net/http server
 
-## creds
+## Creds
 
-## flags
+## Flags
 
 1. user.txt: 9201bc2620edaf7636db7890fe471292
 2. root.txt: 3aa9a311eb834996b386c0af77f46843

@@ -9,8 +9,8 @@ tags:
   - HTB
 ---
 
-```table-of-contents
-```
+
+
 
 # Given
 

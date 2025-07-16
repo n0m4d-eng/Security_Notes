@@ -1,10 +1,4 @@
----
-date: "20-06-2025"
-tags:
----
 
-```table-of-contents
-```
 
 # What it is
 

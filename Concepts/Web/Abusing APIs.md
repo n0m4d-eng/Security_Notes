@@ -1,13 +1,4 @@
----
-date: 
-tags:
-  - Cheatsheet
-  - Technique
-  - Web
----
 
-```table-of-contents
-```
 
 # VULNERABILITY TYPES & EXPLOITATION
 

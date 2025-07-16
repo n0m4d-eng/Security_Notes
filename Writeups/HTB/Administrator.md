@@ -1,6 +1,6 @@
 ---
-Started: "{{DD-MM-YY}} | 14:28"
-Ended: "{{DD-MM-YY}} |"
+Started: 
+Ended:
 ---
 
 #CTF/HTB/Windows/Medium

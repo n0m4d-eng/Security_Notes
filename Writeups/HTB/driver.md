@@ -1,21 +1,10 @@
----
-date: 2025-06-10
-tags:
-  - CTF_Box
-  - HTB
-OS: Windows
-Time Started: 3:40pm
-Time Ended: 9.28pm
----
 
 
-```table-of-contents
-```
 
 
 
 # Given
-```
+```bash
 Driver is an easy Windows machine that focuses on printer exploitation. Enumeration of the machine reveals that a web server is listening on port 80, along with SMB on port 445 and WinRM on port 5985. Navigation to the website reveals that it&amp;amp;amp;#039;s protected using basic HTTP authentication. While trying common credentials the `admin:admin` credential is accepted and we are able to visit the webpage. The webpage provides a feature to upload printer firmwares on an SMB share for a remote team to test and verify. Uploading a Shell Command File that contains a command to fetch a remote file from our local machine, leads to the NTLM hash of the user `tony` relayed back to us. Cracking the captured hash to retrieve a plaintext password we are able login as `tony`, using WinRM. Then, switching over to a meterpreter session it is discovered that the machine is vulnerable to a local privilege exploit that abuses a specific printer driver that is present on the remote machine. Using the exploit we can get a session as `NT AUTHORITY\SYSTEM`.
 ```
 
@@ -41,7 +30,7 @@ How did I solve it
 - Website creds: `admin:admin`
 - User creds from someone accessing the share:
 
-```
+```bash
 
 TONY::DRIVER:5a42fba6465e871c:577360343d389e60e26eb8a49dcb2c18:0101000000000000eb7df98226dadb01b429baed022872a900000000020000000000000000000000:liltony
 
@@ -56,7 +45,7 @@ TONY::DRIVER:5a42fba6465e871c:577360343d389e60e26eb8a49dcb2c18:0101000000000000e
 
 
 # Proof
-```
+```bash
 Starting Nmap 7.95 ( https://nmap.org ) at 2025-06-10 15:45 +08
 Stats: 0:01:42 elapsed; 0 hosts completed (1 up), 1 undergoing SYN Stealth Scan
 SYN Stealth Scan Timing: About 94.79% done; ETC: 15:47 (0:00:06 remaining)

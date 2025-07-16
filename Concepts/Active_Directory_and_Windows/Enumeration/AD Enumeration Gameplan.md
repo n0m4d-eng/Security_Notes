@@ -1,6 +1,5 @@
----
-date: 
----
+
+
 
 #Concept/ActiveDirectory
 

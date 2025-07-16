@@ -59,7 +59,7 @@ Figure 2: XSS Testing Issue
 
 While making these requests, we keep a record of our actions, as shown below.
 
-```
+```bash
 Testing for Cross-Site Scripting
 
 Testing Target: 192.168.1.52
@@ -120,7 +120,7 @@ Figure 3: CherryTree
 
 The final tool we'll consider is the [_Obsidian_](https://obsidian.md/) markdown editor, which contains all the features that we need for note-taking. We can install Obsidian as a s[nap application](https://snapcraft.io/) or in its [Flatpak](https://flatpak.org/) application form. It also comes as an [AppImage](https://appimage.org/), meaning that all we need to do is copy it into our system, mark it as executable, and run it.
 
-```
+```bash
 kali@kali:~$ wget <https://github.com/obsidianmd/obsidian-releases/releases/download/v0.14.2/Obsidian-0.14.2.AppImage>
 ....
 2022-03-31 15:38:53 (1.28 MB/s) - 'Obsidian-0.14.2.AppImage' saved [113102744/113102744]
@@ -295,7 +295,7 @@ Third, we should refer to the Rules of Engagement and reference the referee repo
 
 Finally, we can include supporting infrastructure and accounts. Using the example of a web application, if we were given user accounts by the client, include them here along with the IP addresses that the attacks came from (i.e. our testing machines). We should also note any accounts that we created so the client can confirm they have been removed. The following is an example of this high-level structure:
 
-```
+```bash
 Executive Summary:
 
 - Scope: <https://kali.org/login.php>
@@ -321,7 +321,7 @@ The Executive Summary can generally be broken down as follows:
 
 First, we include a few sentences describing the engagement:
 
-```
+```bash
 - "The Client hired OffSec to conduct a penetration test of
 their kali.org web application in October of 2025. The test was conducted
 from a remote IP between the hours of 9 AM and 5 PM, with no users
@@ -333,7 +333,7 @@ provided by the Client."
 
 Next, we add several sentences that talk about some effective hardening we observed:
 
-```
+```bash
 - "The application had many forms of hardening in place. First, OffSec was unable to upload malicious files due to the strong filtering
 in place. OffSec was also unable to brute force user accounts
 because of the robust lockout policy in place. Finally, the strong
@@ -348,7 +348,7 @@ Notice the language here. We do not say something like "It was _impossible_ to u
 
 Next, we introduce a discussion of the vulnerabilities discovered:
 
-```
+```bash
 - "However, there were still areas of concern within the application.
 OffSec was able to inject arbitrary JavaScript into the browser of
 an unwitting victim that would then be run in the context of that
@@ -368,7 +368,7 @@ Several paragraphs of this type may be required, depending on the number and kin
 
 Finally, the Executive Summary should conclude with an engagement wrap-up:
 
-```
+```bash
 "These vulnerabilities and their remediations are described in more
 detail below. Should any questions arise, OffSec is happy
 to provide further advice and remediation help."
@@ -412,7 +412,7 @@ This section should group findings into common areas. For example, all weak acco
 
 An example of a technical summary for Patch Management is as follows:
 
-```
+```bash
 4. Patch Management
 
 Windows and Ubuntu operating systems that are not up to date were

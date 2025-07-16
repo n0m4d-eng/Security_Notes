@@ -9,7 +9,7 @@ tags:
 
 # Cheat Sheet
 
-```
+```bash
 # Commands over UDP port 161
 # Traps over UDP port 162
 

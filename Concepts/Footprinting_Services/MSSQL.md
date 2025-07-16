@@ -9,7 +9,7 @@ tags:
 
 # Cheat Sheet
 
-```
+```bash
 # Locate sql client
 locate mssqlclient
 

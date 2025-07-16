@@ -1,7 +1,7 @@
 #Concept/Linux
 
-```table-of-contents
-```
+
+
 
 # Default Linux Binaries
 

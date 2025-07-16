@@ -14,7 +14,7 @@ tags:
 
 # Cheat Sheet
 
-```
+```bash
 # Default ports
 POP3 default `ports 110, 995`
 IMAP default `ports 143, 993`

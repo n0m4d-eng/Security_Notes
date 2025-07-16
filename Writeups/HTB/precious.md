@@ -1,8 +1,8 @@
-## given info
+## Given Info
 
 10.10.11.189
 
-## steps
+## Steps
 
 1. nmap scan 1.1 http server on tcp/80 running nginx 1.18.0 1.2 domain name seems to be [](http://precious.htb/)[http://precious.htb](http://precious.htb) 1.3 ssh open on tcp/22 OpenSSH 8.4p1 Debian 5+deb11u1
 2. http server tech stack 2.1 nginx 1.18.0 2.2 phusion passenger 6.0.15
@@ -23,11 +23,11 @@
 17. then we change the code in the yaml file to copy out bash and give it executable permissions: `cp /bin/bash /tmp/shaco; chmod 6777 /tmp/shaco`
 18. from here, we run `sudo /tmp/shaco -p`, and it should give us a root shell with a new UID
 
-## creds
+## Creds
 
 1. /home/ruby/.bundle -> henry:Q3c1AqGHtoI0aXAYFH
 
-## flags
+## Flags
 
 1. user.txt -> 1bd9b813ea65b2a00dfcb379f72eceff
 2. root.txt -> 59632985bce147e85d5b684c27badb7c

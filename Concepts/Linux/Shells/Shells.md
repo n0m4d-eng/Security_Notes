@@ -1,7 +1,7 @@
 Reverse shell, bind shell and web shell for all the things!
 
-```table-of-contents
-```
+
+
 # Bash
 
 ```bash

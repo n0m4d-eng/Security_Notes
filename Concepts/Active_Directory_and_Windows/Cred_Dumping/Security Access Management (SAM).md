@@ -1,14 +1,6 @@
----
-date: 
-tags:
-  - ActiveDirectory
-  - SAM
----
 
-```table-of-contents
-```
 
-# description: 
+# Description:
 
 https://attack.mitre.org/techniques/T1003/002/
 

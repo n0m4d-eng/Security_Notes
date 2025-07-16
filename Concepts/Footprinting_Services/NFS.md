@@ -12,7 +12,7 @@ tags:
 
 # Cheat Sheet
 
-```
+```bash
 # Show available NFS Shares
 showmount -e [target ip]
 

@@ -1,12 +1,11 @@
----
 
----
+
 
 # SMTP
 
 # Cheat Sheet
 
-```
+```bash
 # Get default config
 cat /etc/postfix/main.cf | grep -v "#" | sed -r "/^\s*$/d"
 

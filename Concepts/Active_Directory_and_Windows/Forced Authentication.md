@@ -4,9 +4,6 @@ tags:
   - Windows
 ---
 
-```table-of-contents
-```
-
 # URL File Attack
 
 ## Description

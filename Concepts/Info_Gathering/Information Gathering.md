@@ -1,12 +1,4 @@
----
-date: 2025-06-08
-tags:
-  - Concept
-  - InformationGathering
----
 
-```table-of-contents
-```
 
 # Passive
 
@@ -94,7 +86,7 @@ Direct interaction with the target hosts/services.
 
 ## LLM for Active OSINT
 
-```
+```bash
 Using public data from MegacorpOne's website and any information that can be inferred about its organizational structure, products, or services, generate a comprehensive list of potential subdomain names.
 	•	Incorporate common patterns used for subdomains, such as:
 	•	Infrastructure-related terms (e.g., "api", "dev", "test", "staging").

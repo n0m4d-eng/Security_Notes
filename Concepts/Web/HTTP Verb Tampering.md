@@ -1,11 +1,4 @@
----
-date: 
-tags:
-  - Web
----
 
-```table-of-contents
-```
 
 # Intro
 

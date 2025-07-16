@@ -1,5 +1,5 @@
-```table-of-contents
-```
+
+
 
 Most [netcat](../Tools/netcat.md)-like tools provide a non-interactive shell, which means that programs that require user input such as many file transfer programs or `su` and `sudo` tend to work poorly, if at all. Non-interactive shells also lack useful features like tab completion and job control. It is always a good idea upgrade any non-interactive shell to an interactive one.
 

@@ -1,12 +1,4 @@
----
-date: 
-tags:
-  - Web
-  - Command_Injection
----
 
-```table-of-contents
-```
 
 # Command Injection
 

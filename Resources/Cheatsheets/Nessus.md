@@ -1,14 +1,7 @@
----
-date: 2025-06-08
-tags:
-  - Tool
-  - vulnerability_assessment
----
+
+
 
 # Nessus
-
-```table-of-contents
-```
 
 ### What is Nessus?
 

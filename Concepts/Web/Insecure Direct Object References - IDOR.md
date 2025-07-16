@@ -1,12 +1,4 @@
----
-date: 
-tags:
-  - IDOR
-  - Web
----
 
-```table-of-contents
-```
 
 # Intro
 

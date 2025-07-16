@@ -1,12 +1,4 @@
----
-date: 
-tags:
-  - Linux
-  - PrivEsc
----
 
-```table-of-contents
-```
 
 # System Information
 

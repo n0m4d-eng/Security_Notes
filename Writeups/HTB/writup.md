@@ -1,8 +1,8 @@
-## given info
+## Given Info
 
 10.10.10.138
 
-## steps
+## Steps
 
 1. nmap scan shows open ssh (tcp/22) and http (tcp/80)
 2. visiting the link on the browser gives some info about the site's DOS protection
@@ -22,11 +22,11 @@
 16. in order to hijack the path (path injection), we have to find a process that calls the path binaries using a relative path
 17. to do this, we have to use a process monitor, and then see what processes are run with a relative path that requires the system to access the $PATH variable
 
-## creds
+## Creds
 
 1. from sqli: un: jkr email: jkr@writeup.htb pass-hash: 62def4866937f08cc13bab43bb14e6f7 pass: raykayjay9
 
-## flags
+## Flags
 
 1. user.txt - 18f086fbfd2e455097675e0aeb66c95c
 2. root.txt - ye48a0b992edc9538b09c7d808bbf3d19

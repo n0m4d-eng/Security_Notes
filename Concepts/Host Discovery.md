@@ -1,10 +1,8 @@
----
-date: 
-tags:
----
 
-```table-of-contents
-```
+
+
+
+
 
 # Host Discovery
 
@@ -31,7 +29,7 @@ fping -asgq <CIDR>/<IP>
 nmap -n -sn <IP>/24 -oG - | awk '/Up$/{print $2}' >> nmapresults.txt
 ```
 
-### Ping and ARP scan (combined)
+### Ping and ARP Scan (combined)
 
 ```bash
 fping  -a -g <IP> 2> /dev/null | sudo nmap -n -sn <IP> -PR -oG - | awk '/Up$/{print $2}' | uniq -u > AliveHosts.txt
