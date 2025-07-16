@@ -1,8 +1,3 @@
----
-Started: 
-Ended:
----
-
 #CTF/HTB/Windows/Medium
 
 # Given
@@ -141,6 +136,7 @@ I used evil-winrm to test each one, and emily's worked. The user flag was on her
 ## Escalation to Root
 
 Now that I got into emily's account, I need to check if I can find a way to escalate my level of access either on her system, or by getting access to a user that does have admin access. I tried to run some powershell scripts in order to see if I could 
+
 enumerate this account, but I didn't get very far. Since this is an AD machine, I figured I'd move onto some other user accounts, that have access to the domain admin.
 
 I decided to go back to bloodhound, and look at emily's relationships. Emily has `GenericWrite` access over Ethan.
@@ -156,6 +152,7 @@ So I tried using both `targetedkerberoast.py` and `netexec`. Both worked but try
 ![](Assets/Pasted%20image%2020250715132037.png)
 
 The next step was to see if this hash is crackable using hashcat. It could work if the password was weak enough.
+
 And it did work, giving me ethan's password on administrator `limpbizkit`.
 
 Looking at the user ethan on bloodhound showed me that ethan had some permissions over the administrator user on the domain controller. The important ones are `GetChanges` and `GetChangesAll`. These two permissions give ethan the ability to execute a DCSync attack and dump the hashes for the users on the domain.
@@ -177,6 +174,7 @@ After that, it was back to evil-winrm to log in as the administrator. The root f
 ## Changed Creds
 
 michael : newpass2025
+
 benjamin : newpass2025x
 
 ## Backup File Master Password

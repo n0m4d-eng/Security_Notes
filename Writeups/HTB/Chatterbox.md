@@ -1,7 +1,4 @@
----
-Started: 11-07-25 | 20:02
-Ended: 11-07-25 |
----
+
 #CTF/HTB/Windows/Easy
 
 # Given
