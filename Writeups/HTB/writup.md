@@ -25,8 +25,3 @@
 ## Creds
 
 1. from sqli: un: jkr email: jkr@writeup.htb pass-hash: 62def4866937f08cc13bab43bb14e6f7 pass: raykayjay9
-
-## Flags
-
-1. user.txt - 18f086fbfd2e455097675e0aeb66c95c
-2. root.txt - ye48a0b992edc9538b09c7d808bbf3d19

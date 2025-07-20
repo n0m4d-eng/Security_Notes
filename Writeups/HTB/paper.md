@@ -56,8 +56,3 @@ export PORT=8000
 export BIND_ADDRESS=127.0.0.1
 
 <!=====End of file ../hubot/.env=====>
-
-## Flags
-
-1. user.txt - 59de8cb5bb39183a65cc3529690a0d4d
-2. root.txt - 7cf63d1c0f71aa564d96a5f75161e91b

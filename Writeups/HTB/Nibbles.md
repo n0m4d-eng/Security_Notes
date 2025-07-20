@@ -89,11 +89,6 @@ uid=0(root) gid=0(root) groups=0(root)
 
 - Default web admin creds are `admin:nibbles`
 
-# Flags
-
-- user.txt - 275fe786daa51e9d7231b202bee8d88d
-- root.txt - 49e2d3850b93b08c190ddc59995273a9
-
 # Proof
 
 ![image.png](../../Assets/nibbles1.png)
