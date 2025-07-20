@@ -10,7 +10,9 @@
 
 # What I Learnt
 
-The privesc portion of this box really helped me understand the importance of manual enumeration. I spent quite a bit of time with ADPeass, and trying to get it to run on this machine, and figuring out why it didn't initially. Then I started looking around the box for things that aren't meant to be there by default, and found my way to the escalation which also involved a ton of googling, and learning.
+The privesc portion of this box really helped me understand the importance of manual enumeration and not missing things. I spent quite a bit of time with ADPeass, and trying to get it to run on this machine, and figuring out why it didn't initially. Then I started looking around the box for things that aren't meant to be there by default, and found my way to the escalation which also involved a ton of googling, and learning.
+
+Also Alternate Data Streams. I learned something new today.
 
 # Writeup
 
