@@ -1,16 +1,11 @@
-
-
-
-
-
 # Given
+
 ip/scope: 10.10.11.28
-
-
 
 # Steps
 
 ## Initial Enum
+
 - nmap scan: `nmap -sCV -p- 10.10.11.28 -oN nmap.out`
 - manual enumeration of the website to see if there are any exploitable areas like forms, links, etc. Got domain name, and the fact that contact works through php.
 - add domain to `/etc/hosts`
@@ -21,17 +16,18 @@ ip/scope: 10.10.11.28
 - Googled a bit for the default login for wondercms, and got:
 	- `http://sea.htb/loginURL/index.php?page=loginURL`
 
-
 ## Vulnerability Found
+
 - Used exploit found here: `https://github.com/thefizzyfish/CVE-2023-41425-wonderCMS_RCE`
 - XSS can be used to have the victim download a file from you, and through that establish a reverse shell.
 
-
 ## Initial Foothold
+
 - exploit works by creating a python server on the attacking machine, and having the victim download a js file called `xss.js`.
 - Attacker run a `netcat listener`, which will be pinged when the victim's machine downloads the `xss.js` file.
 
 ### Upgrading the Shell
+
 ```bash
 # In reverse shell
 $ python3 -c 'import pty; pty.spawn("/bin/bash")'
@@ -48,8 +44,8 @@ $ export TERM=xterm-256color
 $ stty rows <num> columns <cols>
 ```
 
-
 ## Privilege Escalation Part 1
+
 - Looking around the files in the web server, there will be a file called `database.js` which contains a password hash for the CMS.
 	- The password hash encrypted with the BCRYPT algorithm
 	- There are escape characters in the hash which have to be taken out before decrypting it.
@@ -60,10 +56,10 @@ $ stty rows <num> columns <cols>
 	- amay's account can be accessed with the same password
 	- User flag is found in Amay's home directory.
 
-
 ## Privilege Escalation part 2
 
 ### Enumerating the Server
+
 - Tried using the following on the system, and there weren't much avenues to priv esc"
 	- `sudo -l`
 	- `find / -type f -perm -4000 -o -perm -6000 2>/dev/null`
@@ -79,8 +75,8 @@ $ stty rows <num> columns <cols>
 - Analyze the POST request made to the server using `burpsuite` and notice that it is trying to call a log file, where the path is given as part of the request's parameters.
 	- We can potentially change this to view whatever file we want to.
 
-
 ### Root Shell
+
 - We can also try to inject a command into the `log_file` property in order to perhaps elevate ourself (amay) to root.
 	- `chmod u+s /bin/bash`
 - We can url encode the spaces, and add this to the parameter:
@@ -91,9 +87,8 @@ $ stty rows <num> columns <cols>
 	- `/bin/bash -p`
 -
 
-
-
 # Findings
+
 - nmap scan: 
 	- open ports: ssh(22), http(80)
 	- OS: Linux
@@ -116,16 +111,15 @@ $ stty rows <num> columns <cols>
 - Found open port in web server on tcp 8080.
 - LFI on monitoringsite that's open on port 8080. Allows you to access binaries, and escalate privileges
 
-
-
 # Creds
+
 Creds for privesc/lateral movement
+
 - cms login hash: `$2y$10$iOrk210RQSAzNCx6Vyq2X.aJ\/D.GuE4jRIikYiWrD3TM\/PjDnXm4q`
 	- Note the escape characters in the hash above
 - `$2y$10$iOrk210RQSAzNCx6Vyq2X.aJ/D.GuE4jRIikYiWrD3TM/PjDnXm4q:mychemicalromance`
 
-
-
 # Flags
+
 - User: 5ef514189276ffb34d7c702441e763f8
 - Root: 2b877443cea9411a76939528ee117502

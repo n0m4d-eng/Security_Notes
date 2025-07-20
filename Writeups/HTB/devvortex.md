@@ -38,10 +38,15 @@
 # Creds
 
 DB/CMS
+
 DB: joomla
+
 DB type: mysql
+
 host: localhost
+
 user: lewis
+
 password: P4ntherg0t1n5r3c0n##
 
 1. creds from db

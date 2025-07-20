@@ -1,5 +1,3 @@
-
-
 #CTF/HTB/Windows/Easy
 
 # Given
@@ -86,7 +84,6 @@ PORT        SERVICE
 NSClient++, version: 0.5.2.35 2018-01-28, Platform: x64
 ```
 
- 
 - Using `searchsploit` got me a neat POC on how I could execute arbitrary code on as the local system admin through this application.
 	- ExploitDB has it [here](https://www.exploit-db.com/exploits/46802)
 - This required getting the default password for the web UI for starters. I got that from`txtc:\program files\nsclient++\nsclient.ini`

@@ -1,5 +1,3 @@
-
-
 #CTF/HTB/Linux/Easy
 
 # Given
@@ -20,6 +18,7 @@ I started with running Rustscan really quick to see what ports were open. I also
 - HTTP(80)
 
 I started looking at port 80. It seemed to be a Linux based web server running `Apache/2.4.41 (Ubuntu)`. There's a website on it called `Emergent Medical Idea`.
+
 There weren't any creds left behind in the source code, nor were there any working links. I started looking at the tech stack before going ahead with any sort of directory busting.
 
 ![](Assets/Pasted%20image%2020250711095943.png)

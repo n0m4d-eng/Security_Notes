@@ -2,7 +2,7 @@
 
 # Given Info
 
->Jeeves is not overly complicated, however it focuses on some interesting techniques and provides a great learning experience. As the use of alternate data streams is not very common, some users may have a hard time locating the correct escalation path.
+> Jeeves is not overly complicated, however it focuses on some interesting techniques and provides a great learning experience. As the use of alternate data streams is not very common, some users may have a hard time locating the correct escalation path.
 
 ## IP
 
@@ -309,7 +309,7 @@ I decided to use netexec to try and log into the administrator's smb shares usin
 
 Turns out this was an NTLM hash. The first part before the `:` being the LM part, and the second being the NT hash.
 
->LM is the much less secure hash format used in legacy Windows systems. It’s typically not used, but kept around for backwards compatibility. Many times, the LM hash for the blank password is stored, which is ignored by Windows but allows the field not to be empty. - 0xdf
+> LM is the much less secure hash format used in legacy Windows systems. It’s typically not used, but kept around for backwards compatibility. Many times, the LM hash for the blank password is stored, which is ignored by Windows but allows the field not to be empty. - 0xdf
 
 ![](Assets/Pasted%20image%2020250719180635.png)
 

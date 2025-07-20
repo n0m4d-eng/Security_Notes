@@ -1,14 +1,3 @@
----
-OS: 
-date: 
-Time Started: "22:18"
-Time Ended: 
-tags:
----
-
-
-
-
 # Given
 
 TwoMillion is an Easy difficulty Linux box that was released to celebrate reaching 2 million users on HackTheBox. The box features an old version of the HackTheBox platform that includes the old hackable invite code. After hacking the invite code an account can be created on the platform. The account can be used to enumerate various API endpoints, one of which can be used to elevate the user to an Administrator. With administrative access the user can perform a command injection in the admin VPN generation endpoint thus gaining a system shell. An .env file is found to contain database credentials and owed to password re-use the attackers can login as user admin on the box. The system kernel is found to be outdated and CVE-2023-0386 can be used to gain a root shell.
@@ -54,7 +43,7 @@ TwoMillion is an Easy difficulty Linux box that was released to celebrate reachi
     - That requires entering the username of the intended user, and a script on the backend that creates the `ovpn` file.
     - Creating a VPN file likely involves interaction with shell script given how the username is dynamically inserted inside, and how using CA cert validity is a year, and also dynamically generated.
 - Command injection would be a good test for low hanging fruit
-    
+
     ```scheme
     POST /api/v1/admin/vpn/generate HTTP/1.1
     Host: 2million.htb
@@ -73,7 +62,7 @@ TwoMillion is an Easy difficulty Linux box that was released to celebrate reachi
     "username":"0ni; whoami #"
     }
     ```
-    
+
     - Try adding a `;` after the username, and then a command. I added in a `#` to comment out any further code running after this.
     - This returns `www-data` meaning the endpoint is vulnerable to command injection.
 - We could run a bash script to establish a reverse shell and see how that goes. There’s no need to URL encode, since this goes in as a JSON string
@@ -92,11 +81,11 @@ TwoMillion is an Easy difficulty Linux box that was released to celebrate reachi
 - There’s a mention of a kernel cve at `OverlayFS / FUSE`
     
 - Check our machine’s kernel version to help us narrow down a CVE in case there are many
-    
+
     ```bash
     Linux 2million 5.15.70-051570-generic #202209231339 SMP Fri Sep 23 13:45:37 UTC 2022 x86_64 x86_64 x86_64 GNU/Linux
     ```
-    
+
     - The date on this kernel version means we’ve got to find a CVE that was patched later than `Fri Sep 23 2022`
 
 # Findings
@@ -177,7 +166,9 @@ DB_USERNAME=admin DB_PASSWORD=SuperDuperPass123
 # Proof
 
 ![](../../Assets/image.png)
+
 ![](../../Assets/image2.png)
+
 ![](../../Assets/image3.png)
 
 # Bonus

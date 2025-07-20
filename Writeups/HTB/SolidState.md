@@ -1,10 +1,3 @@
----
-OS: Linux
-date: 01-07-2025
-Time Started: 00:36
-Time Ended: 3:30
----
-
 #CTF/HTB/Linux/Medium
 
 # Given
@@ -236,4 +229,5 @@ Password for mindy reset
 # Proof
 
 ![](../../Assets/user_flag.png)
+
 ![](../../Assets/root_flag.png)

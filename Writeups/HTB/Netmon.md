@@ -1,10 +1,3 @@
----
-OS: Windows
-date: 02-07-2025
-Time Started: 12:23
-Time Ended: 16:00
----
-
 #CTF/HTB/Windows/Easy
 
 # Given
@@ -68,6 +61,7 @@ nxc ftp 10.10.10.152 -u 'anonymous' -p ''
 - Additionally, there's config files for the PRTG Network Monitor that contain login details for the old system administrator.
 - The old password for the admin ends in 2018, so perhaps the new one would be 2019? Turns out this works, and we get into the admin panel.
   
+
 ![](../../Assets/dashboard.png)
 
 ## Privesc

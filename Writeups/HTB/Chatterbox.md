@@ -1,4 +1,3 @@
-
 #CTF/HTB/Windows/Easy
 
 # Given

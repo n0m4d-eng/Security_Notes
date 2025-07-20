@@ -1,4 +1,5 @@
 Started: 04-07-25 | 09:27
+
 Ended: 05-07-25 | 11:54
 
 #CTF/HTB/Linux/Medium
@@ -133,6 +134,7 @@ proxychains vncviewer 10.10.10.84:5901 -passwd ./secret
 # Flags
 
 user: eaacdfb2d141b72a589233063604209c
+
 root: 716d04b188419cf2bb99d891272361f5
 
 # Proof

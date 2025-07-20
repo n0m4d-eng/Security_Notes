@@ -1,14 +1,3 @@
----
-OS: 
-date: 
-Time Started: "22:23"
-Time Ended: 
-tags:
----
-
-
-
-
 # Time: 11:55am - 2:10pm
 
 # Given

