@@ -8,8 +8,6 @@
 
 10.10.10.161
 
-# What I Learnt
-
 # Steps
 
 ## Enumeration
