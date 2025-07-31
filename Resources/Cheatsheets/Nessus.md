@@ -1,13 +1,8 @@
-
-
-
-# Nessus
-
-### What is Nessus?
+# What?
 
 Nessus is a widely-used vulnerability scanner developed by Tenable, designed to identify security weaknesses, misconfigurations, and compliance violations across networks, systems, and applications. It employs a plugin-based architecture to perform comprehensive security assessments and is trusted by enterprises for its accuracy and depth of detection.
 
-### Key Capabilities of Nessus
+## Key Capabilities of Nessus
 
 1. **Vulnerability Detection**:
    - Identifies CVEs, zero-days, and unpatched software.
@@ -24,17 +19,7 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
 6. **Integration**:
    - APIs for SIEMs (Splunk, ELK) and ticketing systems (Jira).
 
-### Installing Nessus
-
-1. Download Nessus package from Tenable's website (Professional or Essentials tier).
-2. Install using platform-specific methods:
-   - Windows: Run `.msi` installer as admin.
-   - Linux: `sudo dpkg -i Nessus-*.deb` (Debian) or `sudo rpm -ivh Nessus-*.rpm` (RHEL).
-3. Start the service: `sudo systemctl start nessusd`.
-4. Complete setup via `https://localhost:8834`.
-5. Activate with a license key and create an admin account.
-
-### Nessus Components
+## Nessus Components
 
 - **Scanner**: Core engine executing vulnerability checks.
 - **Web Interface**: Browser-based GUI (port 8834) for scan management.
@@ -91,3 +76,38 @@ Nessus is a widely-used vulnerability scanner developed by Tenable, designed to 
 4. **Troubleshooting**:
    - Logs: `/opt/nessus/var/nessus/logs`.
    - Reset: `nessuscli fix --reset`.
+
+# Installing
+
+Setup account on tenable's site: https://www.tenable.com/products/nessus/nessus-essentials
+
+This gives you an activation code.
+
+## Local Install
+
+1. Install using platform-specific methods:
+   - Windows: Run `.msi` installer as admin.
+   - Linux: `sudo dpkg -i Nessus-*.deb` (Debian) or `sudo rpm -ivh Nessus-*.rpm` (RHEL).
+2. Start the service: `sudo systemctl start nessusd`.
+3. Complete setup via `https://localhost:8834`.
+4. Activate with a license key and create an admin account.
+
+## Docker - Preferred
+
+1. Pull Images
+
+```shell
+docker pull tenable/nessus:latest-ubuntu
+```
+
+2. Copy out activation code and run the docker container as follows
+
+```bash
+docker run -d -p 8834:8834 -e USERNAME=admin -e PASSWORD=admin -e ACTIVATION_CODE=<CODE GOES HERE> tenable/nessus:latest-ubuntu
+
+docker run -d -p 8834:8834 -e USERNAME=admin -e PASSWORD=admin -e ACTIVATION_CODE=XS45-9WQX-GKD5-J9NJ-ML3J tenable/nessus:latest-ubuntu
+```
+
+### References
+
+https://jaycroos.com/how-to-install-nessus-on-docker/
