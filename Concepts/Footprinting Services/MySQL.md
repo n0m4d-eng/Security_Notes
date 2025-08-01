@@ -5,7 +5,7 @@ tags:
 - cybersecurity
 - info gathering
 ---
-
+New2Era4.!
 # Cheat Sheet
 
 ```bash
