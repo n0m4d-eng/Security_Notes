@@ -1,4 +1,4 @@
-#CTF/HTB/Linux/Medium
+
 
 # Given
 

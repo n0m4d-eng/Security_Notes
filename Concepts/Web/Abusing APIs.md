@@ -1,5 +1,3 @@
-
-
 # VULNERABILITY TYPES & EXPLOITATION
 
 ## IDOR (Insecure Direct Object Reference)
@@ -128,8 +126,11 @@ query GetEverything {
 # CRITICAL CHECKS
 
 ✓ Test all HTTP methods (GET/POST/PUT/PATCH/DELETE)
+
 ✓ Verify parameter pollution (param=1&param=2)
+
 ✓ Check .json/.xml alternatives (/api/users.json)
+
 ✓ Tamper with Content-Type headers
 
 # Exploit Chain Example
@@ -143,6 +144,9 @@ query GetEverything {
 # PRO TIPS
 
 • Always test API versions (v1 vs v2 auth)
+
 • Capture mobile app traffic with MITMproxy
+
 • Chain IDOR + JWT issues for account takeover
+
 • Check for debug endpoints (/api/test, /dev)

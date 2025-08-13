@@ -1,9 +1,3 @@
----
-tags:
-  - Footprinting
-  - Enumeration
-  - FTP
----
 
 # Cheat Sheet
 

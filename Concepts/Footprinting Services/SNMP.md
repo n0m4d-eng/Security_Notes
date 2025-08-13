@@ -1,12 +1,3 @@
----
-tags:
-- cpts
-- cybersecurity
-- info gathering
----
-
-# SNMP
-
 # Cheat Sheet
 
 ```bash

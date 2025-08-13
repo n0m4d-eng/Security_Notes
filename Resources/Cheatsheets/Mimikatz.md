@@ -72,7 +72,9 @@ reg query HKLM\SYSTEM\CurrentControlSet\Control\Lsa /v "RunAsPPL"
 This can be bypassed by utilizing the `mimidrv.sys` driver file which is included as a separate file with mimikatz.
 
 {% hint style="info" %}
+
 The mimidrv.sys driver file needs to exists in the same directory as mimikatz.exe.
+
 {% endhint %}
 
 The driver can be loaded by running the command `!+` in `Mimikatz`. After doing so the following command can be execute to protect the `mimikatz.exe` process.
@@ -92,3 +94,8 @@ From here we should be free to perform actions against LSASS and dump credential
 ```bash
 mimikatz.exe sekurlsa::logonpasswords
 ```
+
+
+# Resources
+
+https://www.wwt.com/api-new/attachments/66a7b8da13599902a3aa53a9/file

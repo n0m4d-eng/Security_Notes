@@ -1,12 +1,3 @@
----
-tags:
-  - ActiveDirectory
-  - tools
-date: 2025-06-08
----
-
-# Inveigh
-
 ```powershell
 ## INSTALLATION & SETUP
 # Install from GitHub

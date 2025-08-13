@@ -1,7 +1,7 @@
 
 
 
-#Concept/ActiveDirectory
+
 
 # What is AD?
 

@@ -2,7 +2,7 @@ Started: 04-07-25 | 09:27
 
 Ended: 05-07-25 | 11:54
 
-#CTF/HTB/Linux/Medium
+
 
 # Given
 
