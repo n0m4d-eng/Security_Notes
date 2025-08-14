@@ -1,5 +1,3 @@
-
-
 # System Information
 
 ## Kernel Information
@@ -200,4 +198,12 @@ post/linux/gather/enum_psk
 post/linux/gather/hashdump
 post/linux/gather/openvpn_credentials
 post/linux/gather/phpmyadmin_credsteal 
+```
+
+# Unsecured Files
+
+## Search by Filetype
+
+```bash
+find / -type f \( -iname \*.txt\* -o -iname \*.log\* -o -iname \*.ps1\* -o -iname \*.exe\* -o -iname \*.ini\* -o -iname \*.kdbx\* -o -iname \*.pdf\* -o -iname \*.xls\* -o -iname \*.xlsx\* -o -iname \*.doc\* -o -iname \*.docx\* \) 2> /dev/null
 ```
