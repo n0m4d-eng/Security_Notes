@@ -79,8 +79,6 @@ The next step was for me to list down all the open ports, and the services runni
 
 Next was checking for null authentication. There were two services I could attempt to get info from with null authentication. SMB and LDAP.
 
-[[Pasted image 20250722135618.png]]
-
 ![](Assets/Pasted%20image%2020250722135618.png)
 
 There weren't any shares that were accessible without credentials, so I tried to enumerate the users of this system.
