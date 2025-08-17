@@ -1,4 +1,3 @@
-
 # Given
 
 > Forest is an easy Windows machine that showcases a Domain Controller (DC) for a domain in which Exchange Server has been installed. The DC allows anonymous LDAP binds, which are used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes, compromising the system.
@@ -80,7 +79,7 @@ The next step was for me to list down all the open ports, and the services runni
 
 Next was checking for null authentication. There were two services I could attempt to get info from with null authentication. SMB and LDAP.
 
-![](Assets/Pasted%20image%2020250722135618.png)
+[[image.png]]![](Assets/Pasted%20image%2020250722135618.png)
 
 There weren't any shares that were accessible without credentials, so I tried to enumerate the users of this system.
 
