@@ -1,14 +1,14 @@
-
-
 # The Concept
 
 The idea here, as with any other target is to understand the following:
+
 - **Who** has access to this target, and who else does this target have a relationship with.
 - **What** services/processes this target is running, and what kind of architecture it has.
 - **When** do said services/process run.
 - **Where** on the network this target is.
 
 Start by looking for the Domain Controllers, Enumerate the running services and check them for anonymous access misconfigurations.
+
 A lot of information can be gotten out of LDAP queries as well. Most things on LDAP need authentication, but some things like DNS server names, etc can be obtained even without authentication.
 
 # Application

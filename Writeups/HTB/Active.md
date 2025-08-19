@@ -1,5 +1,3 @@
-
-
 # Given
 
 > Active is an easy to medium difficulty machine, which features two very prevalent techniques to gain privileges within an Active Directory environment.
