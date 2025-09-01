@@ -25,7 +25,7 @@ crackmapexec smb <IP> -u <User> -p <Password> --sam
 crackmapexec smb <IP> -u <User> -p <Password> --sam --local-auth
 ```
 
-![](../../../Assets/Pasted%20image%2020250619220402.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619220402.png)
 
 ### Secretsdump
 
@@ -34,7 +34,7 @@ crackmapexec smb <IP> -u <User> -p <Password> --sam --local-auth
 secretsdump.py -sam SAM -system SYSTEM LOCAL 
 ```
 
-![](../../../Assets/Pasted%20image%2020250619220419.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619220419.png)
 
 ## Windows Techniques
 
@@ -96,7 +96,7 @@ hashdump
 lsa_dump_s
 ```
 
-![](../../../Assets/Pasted%20image%2020250619220438.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619220438.png)
 
 ## Mitigation
 

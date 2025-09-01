@@ -14,21 +14,21 @@ Source: [https://owasp.org/www-community/attacks/Command\_Injection](https://owa
 
 As shown below the input field takes a value for an IP address in which it will ping. Below the value '127.0.0.1' was entered and the results has been shown below.
 
-![](../../Assets/Pasted%20image%2020250619213939.png)
+![](../../Writeups/HTB/Assets/Pasted%20image%2020250619213939.png)
 
 The semicolon in Linux / Unix is used to run a command directly after another. Command injection can potentially be abused to run the required input then a semicolon can be used to execute a trailing command.
 
 Below the IP was pinged then a semicolon used to execute two commands one after another.
 
-![](../../Assets/Pasted%20image%2020250619213955.png)
+![](../../Writeups/HTB/Assets/Pasted%20image%2020250619213955.png)
 
 ## Injeciton Fuzzing
 
 We can also fuzz for injection parameters. Taking the same example as above we capture the injection request in Burpsuite leaving the IP address first then fuzzing the posistion 'F' using a wordlist of commands.
 
-![](../../Assets/Pasted%20image%2020250619214005.png)
+![](../../Writeups/HTB/Assets/Pasted%20image%2020250619214005.png)
 
-The Command Injection fuzzing list: [Command Injection.txt](../../Assets/spaces_-MFlgUPYI8q83vG2IJpI_uploads_git-blob-726869b6bf07e532c53f9fcd8203f354ce656ffd_Command%20Injection.txt)
+The Command Injection fuzzing list: [Command Injection.txt](../../Writeups/HTB/Assets/spaces_-MFlgUPYI8q83vG2IJpI_uploads_git-blob-726869b6bf07e532c53f9fcd8203f354ce656ffd_Command%20Injection.txt)
 
 ```bash
 a);id
@@ -48,4 +48,4 @@ a;/usr/bin/id
 
 After running we can view the results in intruder to see which payloads have been successful.
 
-![](../../Assets/Pasted%20image%2020250619214637.png)
+![](../../Writeups/HTB/Assets/Pasted%20image%2020250619214637.png)

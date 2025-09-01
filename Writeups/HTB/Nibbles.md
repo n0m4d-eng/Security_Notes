@@ -91,4 +91,4 @@ uid=0(root) gid=0(root) groups=0(root)
 
 # Proof
 
-![image.png](../../Assets/nibbles1.png)
+![image.png](Assets/nibbles1.png)

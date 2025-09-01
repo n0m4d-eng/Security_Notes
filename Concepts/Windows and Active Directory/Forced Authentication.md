@@ -63,11 +63,11 @@ Invoke-URLFileAttack -WritableShares "C:\Users\StandardUser\Shares_Writable.txt"
 
 **Writing files to writeable shares**
 
-![](../../Assets/Pasted%20image%2020250619212529.png)
+![](../../Writeups/HTB/Assets/Pasted%20image%2020250619212529.png)
 
 **Later, a user browses to a share containing the crafted files and a NTLM hash is captured on the listener**
 
-![](../../Assets/Pasted%20image%2020250619212707.png)
+![](../../Writeups/HTB/Assets/Pasted%20image%2020250619212707.png)
 
 From this point, various opportunity exists to perform further compromise. The captured Hash may be cracked to reveal the underlying account password or the hash may be relayed using tools such as ntlmrelayx.;
 

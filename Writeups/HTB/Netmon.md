@@ -62,21 +62,21 @@ nxc ftp 10.10.10.152 -u 'anonymous' -p ''
 - The old password for the admin ends in 2018, so perhaps the new one would be 2019? Turns out this works, and we get into the admin panel.
   
 
-![](../../Assets/dashboard.png)
+![](Assets/dashboard.png)
 
 ## Privesc
 
 - Googling & using searchsploit for`PRTG Network Monitor 18.1.37.13946 exploit` shows us a bunch of exploits. The one that suits our use case is a code injection vulnerability that affects the notifications on the web admin panel.
 
-![](../../Assets/searchsploit.png)
+![](Assets/searchsploit.png)
 
 - To use the exploit, we have to login as the original admin, and then grab the cookies from the site. We then run the exploit code, which creates a new user called `pentest` and adds it to the administrators group.
 
-![](../../Assets/privesx_exploit.png)
+![](Assets/privesx_exploit.png)
 
 - To test our creds, we can login to the smb shares, and check our access.
 
-![](../../Assets/privesc_exploit_smb.png)
+![](Assets/privesc_exploit_smb.png)
 
 - This shows that we have read/write access to the Admin and C shares.
 - Since the port for `msrpc` is open, we can remote in with something like `evil-winrm`
@@ -87,7 +87,7 @@ evil-winrm -i 10.10.10.152 -u pentest -p P3nT3st!
 
 - With this login, we can access the Administrator account on the machine, and then look at the admin's desktop to find the root flag.
 
-![](../../Assets/root_rpc.png)
+![](Assets/root_rpc.png)
 
 # Findings
 
@@ -111,6 +111,6 @@ evil-winrm -i 10.10.10.152 -u pentest -p P3nT3st!
 
 # Proof
 
-![](../../Assets/User_flag%201.png)
+![](Assets/User_flag%201.png)
 
-![](../../Assets/root_flag%201.png)
+![](Assets/root_flag%201.png)

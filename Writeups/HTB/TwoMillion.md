@@ -165,11 +165,11 @@ DB_USERNAME=admin DB_PASSWORD=SuperDuperPass123
 
 # Proof
 
-![](../../Assets/image.png)
+![](Assets/image.png)
 
-![](../../Assets/image2.png)
+![](Assets/image2.png)
 
-![](../../Assets/image3.png)
+![](Assets/image3.png)
 
 # Bonus
 

