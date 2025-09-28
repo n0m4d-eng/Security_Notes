@@ -10,6 +10,8 @@ How do I get into the target?
 
 [[LDAP Injection]]
 
+[SSTI - Server Site Template Injection](../3%20-%20Initial%20Access/Web/SSTI%20-%20Server%20Site%20Template%20Injection.md)
+
 ## File-Based Attacks:
 
 [File Inclusion (Local,Remote)](../3%20-%20Initial%20Access/Web/File%20Inclusion%20(Local,Remote).md) (L/R FI to RCE)
