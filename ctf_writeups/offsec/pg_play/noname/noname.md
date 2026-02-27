@@ -283,11 +283,16 @@ Your flag is in another file...
 
 # Remediation
 
-## [Command Injection](https://owasp.org/www-community/attacks/Command_Injection)
+## Command Injection
+
+- [OWASP](https://owasp.org/www-community/attacks/Command_Injection)
+- [Portswigger](https://portswigger.net/web-security/os-command-injection)
 
 - This is basically an attack where the goal is to execute arbitrary commands on the host operating system via a vulnerable application/input.
 - In this case, the vulnerable part is the input on the webpage, and the php code behind it that runs the ping command on the system.
 - The OWASP top 10:2025 classifies this as [number 5](https://owasp.org/Top10/2025/A05_2025-Injection/)
+
+> The most effective way to prevent OS command injection vulnerabilities is to never call out to OS commands from application-layer code. In almost all cases, there are different ways to implement the required functionality using safer platform APIs.
 
 # Lessons Learnt
 
