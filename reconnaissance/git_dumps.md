@@ -56,6 +56,3 @@ cd [TARGET_IP]
 sudo git show
 ```
 
-# Related Notes
-
-[MOC - Reconnaissance](../0%20-%20MOCs/MOC%20-%20Reconnaissance.md)

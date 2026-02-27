@@ -34,8 +34,3 @@ Practical example from a lab machine or HTB.
 example-command -flag target
 ```
 
-# Related Notes
-
-[MOC - Reconnaissance](../0%20-%20MOCs/MOC%20-%20Reconnaissance.md)
-
-# References

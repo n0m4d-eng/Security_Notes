@@ -1,3 +1,71 @@
+# Pivoting and Port Forwarding Methodology
+
+This section outlines a structured approach to identifying pivot points, setting up tunnels, and effectively navigating internal networks during a penetration test. It transforms the various tool-specific commands below into an actionable strategy.
+
+## Phase 1: Identify Pivot Points
+
+1.  **Compromised Host Enumeration:**
+    *   **Network Interfaces:** `ipconfig /all` (Windows), `ip a` (Linux). Identify all connected networks/subnets.
+    *   **Routing Table:** `route print` (Windows), `ip r` (Linux). Understand how the compromised host routes traffic.
+    *   **ARP Cache/Neighbor Discovery:** `arp -a` (Windows), `ip n` (Linux). Discover directly connected hosts.
+    *   **Firewall Rules:** Identify what traffic is allowed in/out of the compromised host.
+2.  **Target Assessment:**
+    *   What are you trying to reach *from* the compromised host? (e.g., another subnet, a specific machine, a database server).
+    *   What services are running on the compromised host that could be leveraged (e.g., SSH, RDP, web server)?
+
+## Phase 2: Choose Your Tunneling Method
+
+The choice of tunneling method depends on the compromised host's capabilities, your goals, and the environment's restrictions.
+
+1.  **Local Port Forwarding (Client-Side):**
+    *   **Goal:** Access a service on a remote network (via the compromised host) as if it were running on your local machine.
+    *   **Use Case:** You can directly connect to the compromised host (e.g., via SSH or a reverse shell with listener) and want to reach an internal service *behind* it.
+    *   **Example:** `ssh -L 8080:192.168.1.100:80 user@pivot_host` (Attacker's port 8080 maps to internal IP's port 80).
+2.  **Remote Port Forwarding (Server-Side):**
+    *   **Goal:** Expose a service from the compromised host (or a host *behind* it) to your attacking machine.
+    *   **Use Case:** The compromised host can initiate an outbound connection to your machine, and you want to access a service on the internal network *from your attacking machine*.
+    *   **Example:** `ssh -R 8080:192.168.1.100:80 user@attacker_host` (Attacker's port 8080 maps to internal IP's port 80, initiated from pivot_host).
+3.  **Dynamic Port Forwarding (SOCKS Proxy):**
+    *   **Goal:** Create a SOCKS proxy through the compromised host, allowing your attacking machine to route *any* traffic through the pivot.
+    *   **Use Case:** Most flexible. Allows you to run scanners (Nmap), web browsers (Burp Suite), or other tools through the pivot. Ideal for exploring new subnets.
+    *   **Tools:** `SSH -D`, Chisel, Ligolo-ng.
+4.  **VPN-like Tunnels:**
+    *   **Goal:** Establish a full Layer 3 network tunnel, making it seem like your attacking machine is directly on the internal network.
+    *   **Use Case:** When you need full network access, transparent routing, and want to use all your tools without proxychains configuration. Often requires more setup on the compromised host.
+    *   **Tools:** Ligolo-ng, Shuttle (via SSH).
+
+## Phase 3: Select Your Tool(s)
+
+Based on your chosen method and the compromised host's environment:
+
+*   **SSH:** Available on most Linux/Unix-like systems, sometimes Windows (OpenSSH). Versatile for local, remote, and dynamic forwarding.
+*   **Chisel:** A fast TCP/UDP tunnel, written in Go. Excellent for SOCKS proxies or port forwarding when SSH isn't available or easy to use. Requires transferring a binary.
+*   **Ligolo-ng:** A powerful L3 VPN-like tunnel. Requires an agent on the compromised host and a proxy on your machine. Ideal for full network access.
+*   **Shuttle (SSHuttle):** Python tool to transparently proxy connections over SSH, creating a VPN-like experience. Requires Python on the attacking machine.
+*   **Metasploit (`portfwd`, `socks_proxy`):** If you have a Meterpreter session, these built-in capabilities are very convenient.
+
+## Phase 4: Setup the Tunnel
+
+1.  **Transfer Binaries (if needed):** For Chisel or Ligolo-ng, you'll need to get the agent/client binary onto the compromised host.
+2.  **Start Listener (Attacker):** For tools like Chisel (server mode), Ligolo-ng (proxy), or Metasploit's SOCKS proxy, start the listener on your attacking machine first.
+3.  **Execute Client (Compromised Host):** Run the corresponding client/agent on the compromised host, connecting back to your listener.
+4.  **Configure Routes (Ligolo-ng, Shuttle):** For L3 tunnels, you might need to add routes on your attacking machine to direct traffic for the internal subnet through the tunnel interface.
+5.  **Configure Proxychains (SOCKS Proxy):** If using a SOCKS proxy (e.g., `SSH -D`, Chisel, Metasploit socks_proxy), configure `/etc/proxychains4.conf` to point to your SOCKS server.
+
+## Phase 5: Test the Pivot
+
+1.  **Connectivity Check:**
+    *   **Ping:** Try pinging an IP on the internal network (if L3 tunnel).
+    *   **`proxychains nmap`:** Use Nmap with proxychains to scan a few internal IPs/ports (if SOCKS proxy).
+    *   **`curl`:** Test HTTP connectivity to an internal web server.
+2.  **Tool Integration:** Ensure your other tools (Burp Suite, `smbclient`, `crackmapexec`, etc.) can successfully use the pivot.
+
+## Phase 6: Clean Up
+
+*   Always remove any agents, binaries, or persistent changes made on the compromised host.
+*   Delete routes or tunnel interfaces created on your attacking machine.
+
+---
 # Ligolo-ng
 
 ## Prerequisites

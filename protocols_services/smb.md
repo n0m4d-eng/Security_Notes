@@ -10,6 +10,52 @@ tags:
 
 ---
 
+## Quick Wins & Methodology for SMB
+
+When you encounter SMB on a target, follow these steps for rapid enumeration and potential initial access/privilege escalation:
+
+1.  **Check for Anonymous/Null Sessions:**
+    *   This is the fastest way to get information. Many older or misconfigured systems allow anonymous access to shares or users lists.
+    *   `smbmap -H <TARGET_IP>`
+    *   `smbclient //TARGET_IP/IPC$ -N` (Try connecting to IPC$ with no password)
+    *   `rpcclient -U "" -N <TARGET_IP>` (Then `enumdomusers`, `netshareenumall`, `srvinfo`)
+    *   `enum4linux -a <TARGET_IP>` (Comprehensive enumeration including users, groups, shares, OS info via null session)
+
+2.  **Enumerate Shares & Content:**
+    *   If anonymous access is restricted, try listing shares. Look for interesting share names like `Users`, `Admin$`, `C$`, `backups`, `dev`, `profiles`.
+    *   `smbclient -L //<TARGET_IP> -N`
+    *   `smbmap -H <TARGET_IP>` (Even if null session fails, it might list shares)
+    *   **Access Shares:** Once identified, try to connect to them.
+        *   `smbclient //TARGET_IP/<share_name> -N` (for anonymous shares)
+        *   `smbclient //TARGET_IP/<share_name> -U <username>%<password>` (if you have credentials)
+    *   **Look for Sensitive Files:** Inside shares, search for documents, configuration files, password files, RDP connection files, or scripts.
+
+3.  **User & Group Enumeration (if no null session, but valid credentials):**
+    *   If you have a username and password (or a hash), use `crackmapexec` or `rpcclient` to enumerate users and groups. This is crucial for password spraying or identifying privileged accounts.
+    *   `crackmapexec smb <TARGET_IP> -u <username> -p <password> --users`
+    *   `crackmapexec smb <TARGET_IP> -u <username> -p <password> --groups`
+
+4.  **Password Spraying / Brute-Force (if you have a user list):**
+    *   If you have a list of usernames (from enumeration or OSINT) and common passwords.
+    *   `crackmapexec smb <TARGET_IP> -U <user_list.txt> -p <common_password>`
+    *   `nmap --script smb-brute --script-args userdb=<user_list.txt>,passdb=<pass_list.txt> <TARGET_IP>`
+
+5.  **Check for Known Vulnerabilities (MS-XX-XXX):**
+    *   Especially if the target is an older Windows system.
+    *   `nmap --script smb-vuln* -p139,445 <TARGET_IP>`
+    *   Specifically look for `MS17-010` (EternalBlue) if `445` is open and the system is not patched.
+
+6.  **Analyze `smb.conf` (Linux/Samba Targets):**
+    *   If it's a Linux system running Samba, try to find and analyze the `smb.conf` file (often `/etc/samba/smb.conf` or `/etc/smb.conf`). Look for dangerous settings like `writable = yes`, `guest ok = yes`, `logon script`, or `magic script`.
+
+7.  **Identify Sensitive Ports and Services:**
+    *   If SMB is open, consider if other related services are present that could be exploited:
+        *   **LDAP (389/636):** Often goes hand-in-hand with SMB in AD environments.
+        *   **Kerberos (88):** Also common in AD.
+        *   **MSSQL (1433):** If present, look for misconfigurations or weak credentials.
+
+---
+
 # Cheat Sheet
 
 ```Bash
