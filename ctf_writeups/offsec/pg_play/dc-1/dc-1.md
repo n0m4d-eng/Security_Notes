@@ -5,7 +5,7 @@ date completed
 platform: Offsec
 difficulty: easy
 os: linux
-tags: 
+tags: [offsec, webapp, SUID, drupal, drupalgeddon, metasploit]
 ---
 
 # Scope
