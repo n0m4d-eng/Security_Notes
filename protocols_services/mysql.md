@@ -1,3 +1,10 @@
+# MySQL
+
+### What brings you here
+Port 3306 is open. MySQL accessible without credentials or with weak creds (`root` / no password) can give RCE via `INTO OUTFILE` or UDF. See [../initial_access/network/database_rce.md](../initial_access/network/database_rce.md) for exploitation.
+
+---
+
 # Cheat Sheet
 
 ```bash
@@ -79,3 +86,11 @@ mysql -u {user} -p{password} -h {target ip}
 # References
 
 [3306 - Pentesting Mysql | HackTricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mysql)
+
+---
+
+## → Where to go next
+- Root with no password or have credentials → [../initial_access/network/database_rce.md](../initial_access/network/database_rce.md)
+- Found credentials in database tables → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Got RCE → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

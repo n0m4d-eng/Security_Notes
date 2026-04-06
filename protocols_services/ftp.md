@@ -1,3 +1,10 @@
+# FTP
+
+### What brings you here
+Port 21 is open on the target. Enumerate service version and test for anonymous access. If anonymous login works or you find credentials, go to [../initial_access/network/ftp_exploitation.md](../initial_access/network/ftp_exploitation.md).
+
+---
+
 # Cheat Sheet
 
 | **Code**                                                   | **Description**                                                                                                                                                   |
@@ -118,3 +125,11 @@ hydra -l [username] -P [path_to_wordlist] [IP] -t 4 ftp
 ```bash
 ftp -p [IP]
 ```
+
+---
+
+## → Where to go next
+- Anonymous access works or have credentials → [../initial_access/network/ftp_exploitation.md](../initial_access/network/ftp_exploitation.md)
+- Found credentials in FTP files → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Got a shell → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

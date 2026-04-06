@@ -1,3 +1,27 @@
+# Oracle TNS
+
+### What brings you here
+Port 1521 (or 1522–1529) is open. Oracle TNS requires SID enumeration before you can authenticate. If you get in as `sysdba`, file read/write and OS command execution become possible.
+
+### What did you find?
+
+| Finding | Next action |
+|---------|-------------|
+| SID enumerated | Log in with default creds (`scott/tiger`, `system/manager`) |
+| `sysdba` privilege | Read `/etc/shadow`, write webshell to web root |
+| File upload works | Write webshell → [../initial_access/web/index.md](../initial_access/web/index.md) |
+| Password hashes from `sys.user$` | Crack them → [../cheatsheets/credential_cracking.md](../cheatsheets/credential_cracking.md) |
+
+### Dead ends
+- Can't enumerate SID → try common SIDs: `XE`, `ORCL`, `DB`, `PROD`
+- No default creds work → need credentials from another source
+
+## → Where to go next
+- Got RCE → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Found creds → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)
+
+---
 
 # Cheat Sheet
 

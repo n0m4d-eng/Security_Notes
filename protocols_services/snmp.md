@@ -1,3 +1,10 @@
+# SNMP
+
+### What brings you here
+UDP port 161 is open. SNMP leaks usernames, running processes, software versions, and network topology. See [../initial_access/network/snmp_disclosure.md](../initial_access/network/snmp_disclosure.md) for full exploitation.
+
+---
+
 # Cheat Sheet
 
 ```bash
@@ -108,3 +115,10 @@ cat /etc/snmp/snmpd.conf | grep -v "#" | sed -r '/^\s*$/d'`
 - Snmpwalk is used to query the OIDs with their information
 
 - Onesixtyone can be used to brute-force the names of the community strings since they can be named arbitrarily by the administrator.
+
+---
+
+## → Where to go next
+- Found community string → [../initial_access/network/snmp_disclosure.md](../initial_access/network/snmp_disclosure.md)
+- Found usernames → test with password spray → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

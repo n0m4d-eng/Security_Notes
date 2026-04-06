@@ -1,5 +1,8 @@
 # SMB
 
+### What brings you here
+Ports 139 or 445 are open on the target. Use this page to enumerate; use [../initial_access/network/smb_exploitation.md](../initial_access/network/smb_exploitation.md) to exploit.
+
 ---
 
 tags:
@@ -235,4 +238,12 @@ crackmapexec smb 10.129.14.128 --shares -u '' -p ''
 
 - Remote Procedure Call (RPC)
 
-- You can create a for-loop using bash to send commands to the rpc service using `rpcclient` 
+- You can create a for-loop using bash to send commands to the rpc service using `rpcclient`
+
+---
+
+## → Where to go next
+- Found null session or shares → [../initial_access/network/smb_exploitation.md](../initial_access/network/smb_exploitation.md)
+- Found credentials → [../CRED_TRACKER.md](../CRED_TRACKER.md) then test for reuse
+- Got a shell via SMB → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

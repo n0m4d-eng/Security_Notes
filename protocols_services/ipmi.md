@@ -1,3 +1,27 @@
+# IPMI
+
+### What brings you here
+UDP port 623 is open. IPMI (Intelligent Platform Management Interface) often has default credentials and the RAKP protocol flaw in IPMI 2.0 allows hash dumping without authentication.
+
+### What did you find?
+
+| Finding | Next action |
+|---------|-------------|
+| IPMI 2.0 present | Dump hashes with MSF `ipmi_dumphashes` → crack → admin access |
+| Default credentials work | Web console access → full server control |
+| Hash cracked | Log in to BMC web console, potentially reset OS passwords |
+
+### Dead ends
+- IPMI v1 only — no hash dump possible → try default creds only
+- Hash uncrackable with rockyou → try targeted wordlist based on organisation name
+
+## → Where to go next
+- Cracked IPMI credentials → try against SSH/RDP/web admin → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Got BMC access → can potentially reset root/Administrator password
+- Nothing worked → [../STUCK.md](../STUCK.md)
+
+---
+
 ```yaml
 tags:
 

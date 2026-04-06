@@ -1,3 +1,10 @@
+# Shells
+
+### When to use this
+You have RCE (via exploit, SQLi, command injection, file upload, etc.) but no interactive shell yet. Use this to generate the payload that calls back to your listener.
+
+---
+
 Reverse shell, bind shell and web shell for all the things!
 
 

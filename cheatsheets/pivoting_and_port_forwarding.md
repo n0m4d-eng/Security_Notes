@@ -1,3 +1,10 @@
+# Pivoting and Port Forwarding
+
+### When to use this
+You found internal subnets or need to reach a non-routable host. Use pivoting when a compromised machine has access to a network your attack box cannot reach directly.
+
+---
+
 # Pivoting and Port Forwarding Methodology
 
 This section outlines a structured approach to identifying pivot points, setting up tunnels, and effectively navigating internal networks during a penetration test. It transforms the various tool-specific commands below into an actionable strategy.

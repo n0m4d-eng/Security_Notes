@@ -1,3 +1,10 @@
+# File Transfers
+
+### When to use this
+You need to move a file to or from a target — upload a tool, download loot, or transfer an exploit. Pick the method based on what's available on the target.
+
+---
+
 # 1. HTTP/HTTPS
 
 ```bash

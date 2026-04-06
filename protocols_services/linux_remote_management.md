@@ -1,3 +1,28 @@
+# Linux Remote Management (SSH / Rsync / R-Services)
+
+### What brings you here
+Port 22 (SSH), 873 (Rsync), or 512/513/514 (R-services) is open on a Linux target.
+
+### What did you find?
+
+| Finding | Next action |
+|---------|-------------|
+| SSH with credentials | Log in → [../post_exploitation/index.md](../post_exploitation/index.md) |
+| Rsync share accessible | `rsync -av --list-only rsync://<IP>/<share>` → download everything |
+| `.rhosts` or `hosts.equiv` with `+` | `rlogin <IP> -l root` — trust-based access |
+| SSH key found on target | `chmod 600 id_rsa; ssh -i id_rsa user@<IP>` |
+
+### Dead ends
+- All services need auth and no creds → focus on other services, return when creds are found
+
+## → Where to go next
+- Got access → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Found creds or keys → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Need SSH tunneling → [../cheatsheets/pivoting_and_port_forwarding.md](../cheatsheets/pivoting_and_port_forwarding.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)
+
+---
+
 ```yaml
 tags:
 

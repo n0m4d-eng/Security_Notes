@@ -1,5 +1,8 @@
 # NFS
 
+### What brings you here
+Ports 111 or 2049 are open. NFS exports may be mountable without authentication. If `no_root_squash` is set, this is a direct path to root. See [../initial_access/network/nfs_exploitation.md](../initial_access/network/nfs_exploitation.md) for exploitation.
+
 ---
 
 tags:
@@ -73,3 +76,11 @@ sudo umount ./target-NFS
 - ```shell-session
   sudo nmap --script nfs* 10.129.14.128 -sV -p111,2049- cpts
   ```
+
+---
+
+## → Where to go next
+- Full exploitation → [../initial_access/network/nfs_exploitation.md](../initial_access/network/nfs_exploitation.md)
+- Got root via no_root_squash → [../post_exploitation/loot_checklist.md](../post_exploitation/loot_checklist.md)
+- Found credentials → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

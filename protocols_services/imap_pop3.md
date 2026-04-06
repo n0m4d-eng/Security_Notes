@@ -1,5 +1,25 @@
 # IMAP / POP3
 
+### What brings you here
+Ports 110, 143, 993, or 995 are open. These email protocols are valuable once you have credentials — they may contain internal passwords, reset links, or sensitive business data.
+
+### What did you find?
+
+| Finding | Next action |
+|---------|-------------|
+| Valid credentials from elsewhere | Log in via curl/openssl, read all emails |
+| Credentials found in emails | [../CRED_TRACKER.md](../CRED_TRACKER.md) → test everywhere |
+| User list from SMTP | Brute force: `hydra -L users.txt -P rockyou.txt <IP> imap` |
+
+### Dead ends
+- No credentials and no way to enumerate users → move on; return when creds are found
+
+## → Where to go next
+- Found creds in emails → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)
+
+---
+
 ---
 
 tags:

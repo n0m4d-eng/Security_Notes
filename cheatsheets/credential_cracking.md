@@ -1,5 +1,10 @@
 # Credential Cracking
 
+### When to use this
+You have a hash (from /etc/shadow, Mimikatz, Responder, Kerberoasting, etc.) and need the plaintext. Identify the hash type first, then pick the right hashcat mode.
+
+---
+
 This cheatsheet provides a quick reference for cracking various types of password hashes using John the Ripper and Hashcat.
 
 ---

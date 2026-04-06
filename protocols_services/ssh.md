@@ -1,50 +1,24 @@
-**Nmap Scripting scan**
+# SSH
 
-```bash
-nmap --script ftp-anon,ftp-bounce,ftp-libopie,ftp-proftpd-backdoor,ftp-vsftpd-backdoor,ftp-vuln-cve2010-4221,tftp-enum -p 21 [IP]
-```
+### What brings you here
+Port 22 is open. SSH is usually the *destination* of credentials found elsewhere. If you have a username, brute force or check for key-based auth. If you already have a shell, SSH is used for port forwarding.
 
-**Enumeration**
+### What did you find?
 
-```bash
-ftp -A [IP]
-ftp [IP]
+| Finding | Next action |
+|---------|-------------|
+| SSH with valid credentials | Log in → [../post_exploitation/index.md](../post_exploitation/index.md) |
+| SSH key found on target | `chmod 600 id_rsa; ssh -i id_rsa user@IP` |
+| Username enumeration possible | Brute force: `hydra -l user -P rockyou.txt ssh://<IP>` |
+| Old OpenSSH version | Check for CVEs in searchsploit |
+| Rsync on 873 | See Rsync section below |
 
-# Login with anonymous credentials
-anonymous:anonymous
+### Dead ends
+- Strong SSH config with key-only auth and no found keys → focus on other services
+- Brute force too slow → check for default/weak creds on other services first
 
-# Upload a test file to check for reflection on an HTTP port
-put test.txt
-```
-
-**Upload binaries**
-
-```bash
-ftp> binary
-
-ftp> put [binary_file]
-```
-
-**Downloading files recursively**
-
-```bash
-wget -r ftp://[user]:[password]@[IP]/
-
-# Searching for specific file
-find / -name [filename_pattern] 2>/dev/null
-
-# Example of searching for files
-find / -name Settings.*  2>/dev/null
-```
-
-**Brute Force**
-
-```bash
-hydra -l [username] -P [path_to_wordlist] [IP] -t 4 ftp
-```
-
-**Passive Mode Syntax**
-
-```bash
-ftp -p [IP]
-```
+## → Where to go next
+- Got SSH access → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Found SSH key elsewhere → use it here
+- Need to tunnel through SSH → [../cheatsheets/pivoting_and_port_forwarding.md](../cheatsheets/pivoting_and_port_forwarding.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

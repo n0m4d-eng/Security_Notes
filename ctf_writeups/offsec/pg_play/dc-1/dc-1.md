@@ -187,7 +187,7 @@ Disallow: /?q=user/logout/
 - Use metasploit to search for `drupal 7`
 - Used `msf exploit(multi/http/drupal_drupageddon) > use exploit/multi/http/drupal_drupageddon` to create a meterpreter session, that had a shell.
 
-- Upgraded shell using [shell upgrades](../../../../cheatsheets/Shell Upgrading.md):
+- Upgraded shell using [shell upgrades](../../../../cheatsheets/shell_upgrading.md):
   - Used python to spawn a bash terminal
   - Set TERM variable
 

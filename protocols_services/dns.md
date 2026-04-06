@@ -1,4 +1,8 @@
----
+# DNS
+
+### What brings you here
+Port 53 (TCP/UDP) is open. DNS is rarely the direct path to a shell but always gives you hostnames, subdomains, and vhosts that open other attack paths.
+
 ---
 
 # Description
@@ -68,3 +72,10 @@ example-command -flag target
 # References
 
 https://secybr.com/posts/dns-pentesting-best-practicies/
+
+---
+
+## → Where to go next
+- Found subdomains / vhosts → add to `/etc/hosts`, scan with nmap, go to [../initial_access/web/index.md](../initial_access/web/index.md)
+- Zone transfer reveals internal hostnames → update target list in [../master_workflow.md](../master_workflow.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)

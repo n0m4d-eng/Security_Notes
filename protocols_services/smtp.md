@@ -3,6 +3,28 @@
 
 # SMTP
 
+### What brings you here
+Port 25 or 587 is open. SMTP rarely gives a direct shell but is valuable for user enumeration. Usernames found here feed into brute force on SSH/SMB/web logins.
+
+### What did you find?
+
+| Finding | Next action |
+|---------|-------------|
+| `VRFY` command enabled | Enumerate users: `smtp-user-enum -M VRFY -U users.txt -t <IP>` |
+| `EXPN` command enabled | Enumerate mailing lists for usernames |
+| Open relay configured | Can send spoofed email — useful in phishing scenarios |
+| Usernames found | Test against SSH / SMB / web with [../CRED_TRACKER.md](../CRED_TRACKER.md) |
+
+### Dead ends
+- SMTP without `VRFY` / `EXPN` and no relay → minimal attack surface alone; combine with other findings
+
+## → Where to go next
+- Found usernames → try on SSH/SMB → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Found user emails → try phishing or username/password pattern
+- Nothing worked → [../STUCK.md](../STUCK.md)
+
+---
+
 # Cheat Sheet
 
 ```bash

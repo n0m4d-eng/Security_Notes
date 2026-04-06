@@ -1,3 +1,10 @@
+# MSSQL
+
+### What brings you here
+Port 1433 is open. MSSQL with weak or default credentials (`sa` with empty password) can give direct RCE via `xp_cmdshell`. See [../initial_access/network/database_rce.md](../initial_access/network/database_rce.md) for exploitation.
+
+---
+
 # Cheat Sheet
 
 ```bash
@@ -115,3 +122,11 @@ select * from sys.database_principals;
 # References
 
 [1433 - Pentesting MSSQL - Microsoft SQL Server | HackTricks](https://book.hacktricks.xyz/network-services-pentesting/pentesting-mssql-microsoft-sql-server)
+
+---
+
+## → Where to go next
+- Have credentials or `sa` with empty password → [../initial_access/network/database_rce.md](../initial_access/network/database_rce.md)
+- Found credentials in DB → [../CRED_TRACKER.md](../CRED_TRACKER.md)
+- Got RCE → [../post_exploitation/index.md](../post_exploitation/index.md)
+- Nothing worked → [../STUCK.md](../STUCK.md)
